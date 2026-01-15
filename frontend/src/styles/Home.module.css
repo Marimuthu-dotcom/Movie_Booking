@@ -1,0 +1,11 @@
+.home{
+  width:100%;
+  display: flex;
+  justify-content: center;
+  background-color: blue;
+}
+.innerHome{
+  background-color: #fff;
+  width: 100%;
+  max-width: 1400px;
+}
