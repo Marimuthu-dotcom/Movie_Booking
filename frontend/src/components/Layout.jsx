@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import styles from "../styles/Layout.module.css"
 import SideBar from "./SideBar";
 function Layout(){
@@ -5,7 +6,7 @@ function Layout(){
     <div className={styles.app}>
     <div className={styles.appLayout}>
        <div className={styles.sideBar}><SideBar /></div>
-       <div className={styles.contentPage}>Muthu</div>
+       <div className={styles.contentPage}><Outlet /></div>
     </div>
     </div>
    );

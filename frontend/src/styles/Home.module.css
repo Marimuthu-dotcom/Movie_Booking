@@ -1,11 +1,243 @@
 .home{
   width:100%;
+  min-height: 100vh;
+}
+.home1{
+  padding:10px;
   display: flex;
-  justify-content: center;
-  background-color: blue;
+  justify-content: space-between;
+  padding: 8px 15px;
 }
-.innerHome{
-  background-color: #fff;
+.home1 .top{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.div2{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.search{
+  padding: 5px;
+  padding-left: 10px;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-family: "Roboto Slab", serif;
+  transition: border-color 0.4s ease;
+}
+.search:focus{
+  outline: none;
+  box-shadow: 0px 0px 6px rgb(255, 255, 4),0px 0px 6px rgb(255, 255, 4);
+}
+.search::placeholder{
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+.searchbtn{
+  width:37px;
+  height:37px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(45deg,rgb(255, 255, 4),rgb(243, 237, 160));
+  font-size: 1rem;
+}
+.top .date{
+  font-size: 1rem;
+  text-decoration: none;
+  font-family: "Roboto Slab", serif;
+  cursor: pointer;
+  color: rgb(159, 156, 156);
+  transition: all 0.8s ease;
+}
+.top .date:hover{
+  transform: scale(1.07);
+  color: white;
+}
+.home2{
+  background-color: rgb(58, 58, 58);
+  border-top-left-radius: 30px;
+  padding: 15px;
+  min-height: 600px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 10px;
+}
+.home2child1{
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap:15px;
+}
+.mainDetails{
+  background-color: white;
+  min-height: 140px;
+  border-radius: 20px;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mainDetails:nth-child(1){
+  background:linear-gradient(rgb(246, 9, 9),rgb(48, 43, 43));
+}
+.mainDetails:nth-child(2){
+  background:linear-gradient(rgb(0, 238, 255),rgb(48, 43, 43));
+}
+.mainDetails:nth-child(3){
+  background:linear-gradient(rgb(255, 157, 0),rgb(48, 43, 43));
+}
+.mainDetails:nth-child(4){
+  background:linear-gradient(rgb(0, 255, 0),rgb(48, 43, 43));
+}
+.mainDetails:nth-child(1) .count1,
+.mainDetails:nth-child(2) .count2,
+.mainDetails:nth-child(3) .count3,
+.mainDetails:nth-child(4) .count4{
+  color: white;
+  font-size: 1.2rem;
+  font-family: "Roboto Slab", serif;
+}
+.mainDetails:nth-child(1) h3:last-child,
+.mainDetails:nth-child(2) h3:last-child,
+.mainDetails:nth-child(3) h3:last-child,
+.mainDetails:nth-child(4) h3:last-child{
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 300;
+  font-family: "Roboto Slab", serif;
+}
+.home2child2{
+  min-height: 600px;
+  display: grid;
+  grid-template-columns: 500px 1fr;
+  padding: 3px;
+  gap:10px;
+}
+.leftHome2{
+  display: grid;
+  grid-template-rows: repeat(2,1fr);
+  gap:10px;
+}
+.child1{
+  background-color: rgb(77, 73, 73);
+  padding: 10px;
+  border-radius: 10px;
+  
+}
+.child2{
+ background-color: rgb(77, 73, 73);
+ padding: 10px;
+ border-radius: 10px;
+}
+.rightHome2{
+  background-color: rgb(77, 73, 73);
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap:5px
+}
+.showTime{
+ min-height: 50px;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 5px;
+}
+.showTime .name{
+  font-size: 1.1rem;
+  color: white;
+  font-family: "Roboto Slab", serif;
+  letter-spacing: 1px;
+}
+.showTime .option{
+  border-radius: 10px;
+  padding:5px;
+  border: 1px solid rgba(255, 255, 255, 0.585);
+  outline: none;
+  background-color:rgb(94, 94, 94) ;
+  color: white;
+  cursor: pointer;
+}
+.option option{
+  border-radius: 10px;
+  color: white;
+}
+.showList{
+ display: flex;
+ flex: 1;
+ flex-direction: column;
+ padding: 10px;
+ gap:8px;
+ max-height: 500px;       /* or whatever fits screen */
+ overflow-y: auto;
+}
+.showList .lists{
+  height: 90px;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  flex-shrink: 0; 
+}
+.div1{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.div1 .movieImage{
+  width: 90px;
+  height: 90px;
+  border-radius: 10px;
+}
+.movieImage img{
   width: 100%;
-  max-width: 1400px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 }
+.Movies{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.Movies h4:first-child{
+  font-family: "Roboto Slab", serif;
+  color: white;
+  letter-spacing: 1px;
+  font-weight: 300;
+}
+.Movies h4:last-child{
+  font-family: "Roboto Slab", serif;
+  color: rgb(176, 173, 173);
+  font-weight: 200;
+}
+.div2{
+  display: flex;
+  justify-content: space-evenly;
+}
+.screen, .language{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.screen h5,.language h5{
+  font-family: "Roboto Slab", serif;
+  width: 50px;
+  display: inline-block;
+  padding: 2px;
+  border-radius: 10px;
+  border: none;
+  text-align: center;
+  background-color:rgba(149, 149, 149, 0.613) ;
+  color: white;
+  font-weight: 300;
+  font-size: 0.75rem;
+}
+.language h5{
+  width: 60px;
+  padding: 2px 7px;
+}
+
+
