@@ -1,0 +1,26 @@
+.app{
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center; /* horizontal center */
+} 
+.appLayout{
+   width: 100%;
+   max-width: 1400px;
+   display:grid;
+   grid-template-columns: 200px 1fr;
+   min-height:100vh;
+   background-color: rgb(77, 73, 73);
+}
+.sideBar{
+    position: sticky;   /* 👈 fixed inside layout */
+    top: 0;
+    height: 100vh;
+    background-color: transparent;
+}
+.contentPage{
+    height: 100vh;
+    overflow-y: auto;
+    background-color: transparent;
+    position: relative;
+}

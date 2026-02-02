@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+SC:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,500;1,700;1,800;1,900&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Odibee+Sans&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+.watchlistTitle{
+    color: white;
+    font-family: "Roboto", serif;
+    font-weight: 400;
+    letter-spacing: 1px;
+    font-size: 20px;
+}
+.div1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.searchbtn{
+  width:37px;
+  height:37px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(45deg,rgb(255, 255, 4),rgb(243, 237, 160));
+  font-size: 1.250rem;
+}
+.movieHome2{
+  background-color: rgb(58, 58, 58);
+  border-top-left-radius: 30px;
+  padding: 25px;
+  min-height: 600px;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-template-rows: auto;
+  column-gap: 0px;
+  row-gap: 20px;
+}
+.moviesListBoxCustom{
+max-width: 530px;  /* required width */
+}
+.detail{
+    display: flex;
+    justify-content: center;
+    padding: 10px 3px;
+}
+.bookNowBtn{
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background: rgb(237, 192, 31);
+    cursor: pointer;
+    font-family: "Roboto", serif;
+    font-weight: 500;
+    letter-spacing: 1px;
+    font-size: 1rem;
+}
+.empty{
+    font-family: "Roboto", serif;
+    font-weight: 500;
+    letter-spacing: 1px;
+    font-size: 1.3rem;
+    color:rgb(128, 127, 127);
+}
+/* Watchlist.module.css */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.overlayContent {
+  display:flex;
+  background: white;
+  padding: 4px;
+  border-radius: 10px;
+  width:1000px ;
+  max-height: 90%;
+  overflow-y: auto;
+  gap:5px;
+  align-items: stretch;
+}
+
+.movieImg,.movieReviews{
+    flex:1;
+    border-radius: 10px;
+}
+.movieReviews{
+    flex:0.70;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.movieImg img{
+   width:100%;
+   height: auto;
+   object-fit: fill;
+   border-radius: 10px;
+}
+.movieReviews .movieTitle{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 5px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid rgb(237, 192, 31);
+}
+.movieTitle h2,.moviePreviews h3{
+  font-family: "Roboto", serif;
+  color:black;
+}
+.moviePreviews{
+    display:flex;
+    flex-direction: column;
+    padding: 0px 5px;
+}
+.moviePreviews p{
+  font-family: "Roboto", serif;
+  color: black;
+  font-size: 1.2rem;
+  margin-top: 7px;
+}
+.closeBtn{
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+}
