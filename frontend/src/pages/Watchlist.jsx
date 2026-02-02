@@ -4,6 +4,7 @@ import styles2 from "../styles/Watchlist.module.css";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { FaStar } from "react-icons/fa";
 
 function Watchlist() {
   const { scrolled } = useOutletContext();
@@ -61,11 +62,33 @@ function Watchlist() {
         <div key={i} className={`${styles.moviesListBox} ${styles2.moviesListBoxCustom}`}>
             <div className={styles.poster} role="button" tabIndex={0} onClick={()=>handleBookNow(m.movie_name)}><img src={m.img} alt="" /></div>
             <div className={styles2.detail}>
-                   <button className={styles2.bookNowBtn}>BookNow</button>
+                   <button
+  className={styles2.bookNowBtn}
+  onClick={async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/movies");
+      const allMovies = res.data;
+
+      const fullMovie = allMovies.find(movie => movie.movie_name === m.movie_name);
+      if (!fullMovie) 
+        return;
+
+      // Navigate with full movie object
+      navigate(`/booking/seat/${encodeURIComponent(fullMovie.movie_name)}`, {
+        state: { movieData: fullMovie }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }}
+>
+  BookNow
+</button>
+
             </div>
         </div>)))}
       </div>
-      {showOverlay && selectedMovie && (
+      { showOverlay && selectedMovie && (
   <div className={styles2.overlay}>
     <div className={styles2.overlayContent}>
       <div className={styles2.movieImg}><img src={selectedMovie.img} alt="" /></div>
@@ -76,10 +99,62 @@ function Watchlist() {
         </div>
         <div className={styles2.moviePreviews}>
              <div className={styles2.story}>
-              <h3 style={{display:"block"}}>Story</h3>
-              <p>{selectedMovie.story}</p>
+              <h3 className={styles2.heads}>Story</h3>
+              <p style={{lineHeight:"1.3"}}>{selectedMovie.story}</p>
               </div>
-              
+              <div className={styles2.story}>
+                <h3 className={styles2.heads}>Genre</h3>
+                <p>{selectedMovie.genre}</p>
+              </div>
+              <div className={styles2.story}>
+                 <h3 className={styles2.heads}>Duration</h3>
+                <p>{selectedMovie.duration}</p>
+              </div>
+             <div className={styles2.story}>
+  <h3 className={styles2.heads}>Rating</h3>
+
+  {/* Replace <p> */}
+  <div style={{ display: 'flex', alignItems: 'center'}}>
+    {[...Array(5)].map((_, i) => {
+      const rating = selectedMovie.rating; // rating 0-10
+      const fillPercentage = (rating / 10) * 100; // % for 5 stars
+
+      // Each star = 20% => calculate if full, half, empty
+      const starPercentage = Math.min(Math.max(fillPercentage - i*20, 0), 20);
+
+      return (
+        <div key={i} style={{ position: 'relative', width: '24px', height: '24px', marginRight: '4px' ,marginTop:'7px'}}>
+          {/* Background Star - gray */}
+          <FaStar style={{ color: 'gray', position: 'absolute', top:0, left:0 }} />
+          {/* Filled Star - gold */}
+          <FaStar style={{ 
+            color: 'yellow', 
+            position: 'absolute', 
+            top:0, 
+            left:0, 
+            width: `${starPercentage*5}%`, // 20% = full star
+            overflow: 'hidden', 
+            clipPath: `inset(0 ${100-starPercentage*5}% 0 0)` 
+          }} />
+        </div>
+      )
+    })}
+    <p style={{ marginLeft: 'auto', fontWeight: 'bold', color: '#333' }}>{selectedMovie.rating}</p>
+  </div>
+</div>
+<div style={{display:"flex",
+     flexDirection:"column",
+     gap:"5px"
+}}>
+      <h3 className={styles2.heads}>Total Seats</h3>
+      <p>{selectedMovie.total_seats}</p>
+      <h3 className={styles2.heads}>Available Seats</h3>
+      <p>{selectedMovie.remaining_seats}</p>
+</div>
+<div style={{marginTop:"5px"}}>
+    <h3 style={{textAlign:"center"}}>This movie is saved in your Favourites, Seats are available - <span style={{color:"red"}}>book your tickets now!</span></h3>
+</div>
+
         </div>
 
       </div>

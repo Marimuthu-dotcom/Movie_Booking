@@ -114,17 +114,27 @@ max-width: 530px;  /* required width */
 .moviePreviews{
     display:flex;
     flex-direction: column;
+    gap:18px;
     padding: 0px 5px;
 }
 .moviePreviews p{
   font-family: "Roboto", serif;
   color: black;
-  font-size: 1.2rem;
-  margin-top: 7px;
+  font-size: 1.050rem;
+  margin-top: 4px;
 }
 .closeBtn{
   cursor: pointer;
   background: transparent;
   border: none;
   font-size: 22px;
+}
+.moviePreviews .heads{
+  display: block;
+  color: rgb(237, 192, 31);
+  font-size: 1.2rem;
+  background-color: black;
+  padding: 3px 5px;
+  letter-spacing: 1px;
+  border-radius: 7px;
 }

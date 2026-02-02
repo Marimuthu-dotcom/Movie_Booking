@@ -31,23 +31,26 @@ function SeatSelection() {
   year: "numeric",
 });
 
-  useEffect(() => {
-  setOrderId(generateOrderId());
-}, []);
-  // If user refreshes page, fetch movie from JSON
  useEffect(() => {
   if (!movieData) {
-    axios
-      .get(`http://localhost:5000/api/movies/${decodedMovieName}`)
-      .then((res) => {
-        setMovieData(res.data);
+    // Fetch all movies and find the one we need
+    axios.get("http://localhost:5000/api/movies")
+      .then(res => {
+        const movie = res.data.find(m => m.movie_name === decodedMovieName);
+        if (movie) {
+          setMovieData(movie);
+        } else {
+          // If movie not found, go back to booking
+          navigate("/booking");
+        }
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
         navigate("/booking");
       });
   }
 }, [movieData, decodedMovieName, navigate]);
+
 
   const toggleSeat = (seatId) => {
   if (selectedSeats.includes(seatId)) {
