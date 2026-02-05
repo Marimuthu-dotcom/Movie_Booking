@@ -29,7 +29,7 @@ function Booking(){
 
     useEffect(() => {
   axios
-    .get("http://localhost:5000/api/movies")
+    .get(`${import.meta.env.VITE_API_URL}/api/movies`)
     .then(res => {
       setMovies(res.data);
       setFilteredMovies(res.data);
@@ -67,14 +67,14 @@ const toggleFav = async (movieName) => {
   try {
     if (!alreadyFav) {
       // ➕ ADD to DB
-      await axios.post("http://localhost:5000/api/favmovies", {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/favmovies`, {
         movie_name: movie.movie_name,
         img: movie.img,
       });
     } else {
       // ❌ REMOVE from DB
       await axios.delete(
-        `http://localhost:5000/api/favmovies/${movie.movie_name}`
+        `${import.meta.env.VITE_API_URL}/api/favmovies/${movie.movie_name}`
       );
     }
   } catch (err) {
@@ -84,7 +84,7 @@ const toggleFav = async (movieName) => {
 
 useEffect(() => {
   axios
-    .get("http://localhost:5000/api/favmovies")
+    .get(`${import.meta.env.VITE_API_URL}/api/favmovies`)
     .then((res) => {
       const favMap = {};
       res.data.forEach((m) => {

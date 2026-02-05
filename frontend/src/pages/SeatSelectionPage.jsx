@@ -34,7 +34,7 @@ function SeatSelection() {
  useEffect(() => {
   if (!movieData) {
     // Fetch all movies and find the one we need
-    axios.get("http://localhost:5000/api/movies")
+    axios.get(`${import.meta.env.VITE_API_URL}/api/movies`)
       .then(res => {
         const movie = res.data.find(m => m.movie_name === decodedMovieName);
         if (movie) {

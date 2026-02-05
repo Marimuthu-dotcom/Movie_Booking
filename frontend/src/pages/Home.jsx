@@ -87,7 +87,7 @@ function Home(){
      }, []);
 
     useEffect(() => {
-  axios.get("http://localhost:5000/api/movies")
+  axios.get(`${import.meta.env.VITE_API_URL}/api/movies`)
     .then((res) => {
       setShows(res.data);
     })

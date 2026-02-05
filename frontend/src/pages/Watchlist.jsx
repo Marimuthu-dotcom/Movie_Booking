@@ -15,14 +15,14 @@ function Watchlist() {
 
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/favmovies")
+    axios.get(`${import.meta.env.VITE_API_URL}/api/favmovies`)
       .then(res => setWatchlist(res.data))
       .catch(err => console.error(err));
   }, []);
 
  const handleBookNow = async (movieName) => {
   try {
-    const res = await axios.get("http://localhost:5000/api/movies");
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/movies`);
     const movies = res.data;
     const movie = movies.find((m) => m.movie_name === movieName);
 
@@ -66,7 +66,7 @@ function Watchlist() {
   className={styles2.bookNowBtn}
   onClick={async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/movies");
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/movies`);
       const allMovies = res.data;
 
       const fullMovie = allMovies.find(movie => movie.movie_name === m.movie_name);
