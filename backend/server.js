@@ -5,7 +5,7 @@ const app = express();
 const userRoutes = require("./Routes/moviesRoutes");
 const favRoutes = require("./Routes/favRoutes");
 
-app.use(cors());
+app.use(cors({origin:"*"}));
 app.use(express.json());
 app.use("/api", userRoutes);
 app.use("/api", favRoutes);
@@ -13,7 +13,7 @@ app.use("/api", favRoutes);
 app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
-
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+const PORT =process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log("Server running on port ${PORT}");
 })
