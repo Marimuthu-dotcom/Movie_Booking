@@ -21,6 +21,9 @@ function SeatSelection() {
   const total = (totalPrice - discount) + tax1 + tax2;
   const [orderId, setOrderId] = useState("");
   const [movieData, setMovieData] = useState(location.state?.movieData || null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
   
   const generateOrderId = () => {
   return Math.floor(100000 + Math.random() * 900000); // 6 digit
@@ -32,24 +35,37 @@ function SeatSelection() {
 });
 
  useEffect(() => {
-  if (!movieData) {
-    // Fetch all movies and find the one we need
-    axios.get(`${import.meta.env.VITE_API_URL}/api/movies`)
-      .then(res => {
-        const movie = res.data.find(m => m.movie_name === decodedMovieName);
-        if (movie) {
-          setMovieData(movie);
-        } else {
-          // If movie not found, go back to booking
-          navigate("/booking");
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        navigate("/booking");
-      });
+  if (movieData) {
+    setLoading(false);
+    return;
   }
-}, [movieData, decodedMovieName, navigate]);
+
+  setLoading(true);
+  setError(false);
+
+  axios
+    .get(`${import.meta.env.VITE_API_URL}/api/movies`)
+    .then((res) => {
+      const movie = res.data.find(
+        (m) => m.movie_name === decodedMovieName
+      );
+
+      if (movie) {
+        setMovieData(movie);
+      } else {
+        setError(true);   // 👈 movie not found
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      setError(true);
+    })
+    .finally(() => {
+      setLoading(false); // 👈 VERY IMPORTANT
+    });
+
+}, [movieData, decodedMovieName]);
+
 
 
   const toggleSeat = (seatId) => {
@@ -69,9 +85,21 @@ function SeatSelection() {
 
 
 
-  if (!movieData) 
-    return null; // wait until movie data is ready
+  if (loading) {
+    return (
+      <h2 style={{ textAlign: "center", marginTop: "120px", color: "white" ,fontFamily: "Roboto, serif"}}>
+        Loading… please wait
+      </h2>
+    );
+  }
 
+  if (error) {
+    return (
+      <h2 style={{ textAlign: "center", marginTop: "120px", color: "red" }}>
+        Movie not found
+      </h2>
+    );
+  }
   const billDetails = [
     { label: "Subtotal", amount: totalPrice.toFixed(2) },
     { label: "Discount", amount: discount.toFixed(2) },

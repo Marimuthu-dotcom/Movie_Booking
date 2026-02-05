@@ -3,9 +3,16 @@ import { useOutletContext } from "react-router-dom";
 
 
 function BookingMovies() {
-  const { filteredMovies, isFav, toggleFav, handleBookNow } =
+  const { filteredMovies, isFav, toggleFav, handleBookNow,loading } =
     useOutletContext();
 
+if (loading) {
+  return (
+    <h2 style={{ textAlign: "center", marginTop: "120px", color: "white" }}>
+      Loading movies… please wait
+    </h2>
+  );
+}
 
   return (
     <>

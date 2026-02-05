@@ -13,6 +13,7 @@ function Booking(){
     const [category, setCategory] = useState("All");
     const [activeCategory, setActiveCategory] = useState("All");
     const {scrolled}=useOutletContext();
+    const [loading, setLoading] = useState(true);
     const favCount = Object.values(isFav).filter(Boolean).length;
   const navigate = useNavigate();
   const handleBookNow = (movie) => {
@@ -34,7 +35,8 @@ function Booking(){
       setMovies(res.data);
       setFilteredMovies(res.data);
     })
-    .catch(err => console.error(err));
+    .catch(err => console.error(err))
+    .finally(() => setLoading(false));
 }, []);
 
    useEffect(() => {
@@ -130,7 +132,8 @@ useEffect(() => {
                 filteredMovies,
                 isFav,
                 toggleFav,
-                handleBookNow
+                handleBookNow,
+                 loading
                 }}
             />
         </div>
