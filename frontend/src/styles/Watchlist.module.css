@@ -74,7 +74,7 @@ max-width: 530px;  /* required width */
 
 .overlayContent {
   display:flex;
-  background: white;
+  background: rgb(128, 127, 127);
   padding: 4px;
   border-radius: 10px;
   width:1000px ;
@@ -119,7 +119,7 @@ max-width: 530px;  /* required width */
 }
 .moviePreviews p{
   font-family: "Roboto", serif;
-  color: black;
+  color: white;
   font-size: 1.050rem;
   margin-top: 4px;
 }
@@ -133,7 +133,6 @@ max-width: 530px;  /* required width */
   display: block;
   color: rgb(237, 192, 31);
   font-size: 1.2rem;
-  background-color: black;
   padding: 3px 5px;
   letter-spacing: 1px;
   border-radius: 7px;
