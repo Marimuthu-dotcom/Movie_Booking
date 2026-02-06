@@ -17,10 +17,9 @@ function Booking(){
     const favCount = Object.values(isFav).filter(Boolean).length;
   const navigate = useNavigate();
   const handleBookNow = (movie) => {
-  navigate(`/booking/seat/${encodeURIComponent(movie.movie_name)}`, {
-    state: { movieData: movie } // pass full movie object
-  });
+  navigate(`/booking/seat/${encodeURIComponent(movie.movie_name)}`);
 };
+
 
   const handleCategoryClick = (category) => {
   setActiveCategory(category); // UI highlight

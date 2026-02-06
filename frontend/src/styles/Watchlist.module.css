@@ -74,7 +74,7 @@ max-width: 530px;  /* required width */
 
 .overlayContent {
   display:flex;
-  background: rgb(128, 127, 127);
+  background: rgb(77, 73, 73);
   padding: 4px;
   border-radius: 10px;
   width:1000px ;

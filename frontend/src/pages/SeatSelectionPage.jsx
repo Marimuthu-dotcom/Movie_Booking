@@ -1,4 +1,4 @@
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams,  Navigate,useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import styles from "../styles/SeatSelectionPage.module.css";
 import { RiArmchairFill } from "react-icons/ri";
