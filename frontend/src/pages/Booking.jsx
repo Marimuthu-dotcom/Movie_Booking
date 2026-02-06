@@ -17,7 +17,7 @@ function Booking(){
     const favCount = Object.values(isFav).filter(Boolean).length;
   const navigate = useNavigate();
   const handleBookNow = (movie) => {
-  navigate(`seat/${encodeURIComponent(movie.movie_name)}`, {
+  navigate(`/booking/seat/${encodeURIComponent(movie.movie_name)}`, {
     state: { movieData: movie } // pass full movie object
   });
 };
