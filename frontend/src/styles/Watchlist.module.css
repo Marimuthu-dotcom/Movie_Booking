@@ -109,7 +109,7 @@ max-width: 530px;  /* required width */
 }
 .movieTitle h2,.moviePreviews h3{
   font-family: "Roboto", serif;
-  color:black;
+  color:white;
 }
 .moviePreviews{
     display:flex;
@@ -128,12 +128,13 @@ max-width: 530px;  /* required width */
   background: transparent;
   border: none;
   font-size: 22px;
+  color:white;
 }
 .moviePreviews .heads{
   display: block;
   color: rgb(237, 192, 31);
   font-size: 1.2rem;
-  padding: 3px 5px;
+  padding: 3px 0px;
   letter-spacing: 1px;
   border-radius: 7px;
 }

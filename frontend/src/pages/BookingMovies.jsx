@@ -8,7 +8,7 @@ function BookingMovies() {
 
 if (loading) {
   return (
-    <h2 style={{ textAlign: "center", marginTop: "120px", color: "white" }}>
+    <h2 style={{ textAlign: "center", marginTop: "120px", color: "white" ,fontFamily: "Roboto, serif"}}>
       Loading movies… please wait
     </h2>
   );

@@ -139,7 +139,7 @@ function Watchlist() {
         </div>
       )
     })}
-    <p style={{ marginLeft: 'auto', fontWeight: 'bold', color: '#333' }}>{selectedMovie.rating}</p>
+    <p style={{ marginLeft: 'auto', fontWeight: 'bold', color: 'white' }}>{selectedMovie.rating}</p>
   </div>
 </div>
 <div style={{display:"flex",
