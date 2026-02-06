@@ -20,9 +20,9 @@ function SeatSelection() {
   const tax2 = totalPrice * taxRate;
   const total = (totalPrice - discount) + tax1 + tax2;
   const [orderId, setOrderId] = useState("");
-  const [movieData, setMovieData] = useState(location.state?.movieData || null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [movieData, setMovieData] = useState(null);
 
   
   const generateOrderId = () => {
@@ -83,24 +83,7 @@ function SeatSelection() {
   }
 };
 
-
-
-  if (loading) {
-    return (
-      <h2 style={{ textAlign: "center", marginTop: "120px", color: "white" ,fontFamily: "Roboto, serif"}}>
-        Loading… please wait
-      </h2>
-    );
-  }
-
-  if (error) {
-    return (
-      <h2 style={{ textAlign: "center", marginTop: "120px", color: "red" }}>
-        Movie not found
-      </h2>
-    );
-  }
-  const billDetails = [
+ const billDetails = [
     { label: "Subtotal", amount: totalPrice.toFixed(2) },
     { label: "Discount", amount: discount.toFixed(2) },
     { label: "Tax 1", amount: tax1.toFixed(2) },
@@ -145,6 +128,23 @@ function SeatSelection() {
 
 
 
+
+  if (loading) {
+    return (
+      <h2 style={{ textAlign: "center", marginTop: "120px", color: "white" ,fontFamily: "Roboto, serif"}}>
+        Loading… please wait
+      </h2>
+    );
+  }
+
+  if (error) {
+    return (
+      <h2 style={{ textAlign: "center", marginTop: "120px", color: "red" }}>
+        Movie not found
+      </h2>
+    );
+  }
+ 
   return (
     <div className={styles.bookPage}>
       <div className={styles.seatInfo}>
