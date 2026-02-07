@@ -2,39 +2,34 @@ import styles from "../styles/Movie.module.css";
 import styles1 from "../styles/Home.module.css";
 import styles2 from "../styles/Watchlist.module.css";
 import { useOutletContext, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { FaStar } from "react-icons/fa";
+import { MoviesContext } from "../context/MoviesContent";
 
 function Watchlist() {
   const { scrolled } = useOutletContext();
   const navigate = useNavigate();
+  const { movies } = useContext(MoviesContext);
+
   const [watchlist, setWatchlist] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [showOverlay, setShowOverlay] = useState(false);
 
-
+  // Fetch favorite movies from DB
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_URL}/api/favmovies`)
       .then(res => setWatchlist(res.data))
       .catch(err => console.error(err));
   }, []);
 
- const handleBookNow = async (movieName) => {
-  try {
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/movies`);
-    const movies = res.data;
-    const movie = movies.find((m) => m.movie_name === movieName);
-
-    if (!movie) 
-      return;
+  // Open overlay with full movie details from context
+  const handleBookNow = (movieName) => {
+    const movie = movies.find(m => m.movie_name === movieName);
+    if (!movie) return;
     setSelectedMovie(movie);
     setShowOverlay(true);
-
-  } catch (err) {
-    console.error(err);
-  }
-};
+  };
 
   return (
     <div className={styles1.movieHome}>

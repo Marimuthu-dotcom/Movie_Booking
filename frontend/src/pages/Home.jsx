@@ -1,100 +1,57 @@
 import styles from "../styles/Home.module.css"
-import {useState,useEffect} from "react"
-import { NavLink } from "react-router-dom";
-import { useOutletContext } from "react-router-dom";
-import {useNavigate} from "react-router-dom"
-import axios from "axios";
- const showCycle = [
-                { openFrom: "00:00", openTo: "09:00", show: "09:00 - 12:00" },
-                { closedFrom: "09:00", closedTo: "12:00" },
+import { useState, useEffect, useContext } from "react";
+import { useOutletContext, useNavigate,NavLink } from "react-router-dom";
+import { MoviesContext } from "../context/MoviesContent";
 
-                { openFrom: "12:00", openTo: "12:30", show: "12:30 - 15:30" },
-                { closedFrom: "12:30", closedTo: "15:30" },
-
-                { openFrom: "15:30", openTo: "16:30", show: "16:30 - 19:30" },
-                { closedFrom: "16:30", closedTo: "19:30" },
-
-                { openFrom: "19:30", openTo: "21:00", show: "20:00 - 23:00" },
-                { closedFrom: "20:00", closedTo: "20:04" },
-            ];
+const showCycle = [
+  { openFrom: "00:00", openTo: "09:00", show: "09:00 - 12:00" },
+  { closedFrom: "09:00", closedTo: "12:00" },
+  { openFrom: "12:00", openTo: "12:30", show: "12:30 - 15:30" },
+  { closedFrom: "12:30", closedTo: "15:30" },
+  { openFrom: "15:30", openTo: "16:30", show: "16:30 - 19:30" },
+  { closedFrom: "16:30", closedTo: "19:30" },
+  { openFrom: "19:30", openTo: "21:00", show: "20:00 - 23:00" },
+  { closedFrom: "20:00", closedTo: "20:04" },
+];
 
 function getScreenStatus() {
   const now = new Date();
   const nowMin = now.getHours() * 60 + now.getMinutes();
-
-  const toMin = (time) => {
-    const [h, m] = time.split(":").map(Number);
-    return h * 60 + m;
-  };
-
+  const toMin = (time) => { const [h, m] = time.split(":").map(Number); return h*60 + m; };
   for (let slot of showCycle) {
-    if (slot.openFrom) {
-      if (nowMin >= toMin(slot.openFrom) && nowMin < toMin(slot.openTo)) {
-        return { status: "OPEN", show: slot.show };
-      }
-    }
-
-    if (slot.closedFrom) {
-      if (nowMin >= toMin(slot.closedFrom) && nowMin < toMin(slot.closedTo)) {
-        return { status: "CLOSED" };
-      }
-    }
+    if (slot.openFrom && nowMin >= toMin(slot.openFrom) && nowMin < toMin(slot.openTo)) return { status: "OPEN", show: slot.show };
+    if (slot.closedFrom && nowMin >= toMin(slot.closedFrom) && nowMin < toMin(slot.closedTo)) return { status: "CLOSED" };
   }
-
   return { status: "END" };
 }
 
-function Home(){
-    const[selectedType,setSelectedType]=useState("all");
-    const[shows,setShows]=useState([]);
-    const[searchText,setSearchText]=useState("");
-    const {scrolled}=useOutletContext();
-    const navigate=useNavigate();
-    const types=[
-        {value:"all",label:"All"},
-        {value:"adventure",label:"Adventure"},
-        {value:"comedy",label:"Comedy"},
-        {value:"action",label:"Action"},
-        {value:"drama",label:"Drama"},
-        {value:"romance",label:"Romance"},
-        {value:"love",label:"Love"},
-        {value:"horror",label:"Horror"}
-    ];
-    const [screenStatus, setScreenStatus] = useState(getScreenStatus());
-    const filteredShows = shows.filter((movie) => {
-  // 🔍 1. Search has first priority
-  if (searchText.trim() !== "") {
-    return movie.movie_name
-      .toLowerCase()
-      .includes(searchText.toLowerCase());
-  }
+function Home() {
+  const { scrolled } = useOutletContext();
+  const navigate = useNavigate();
+  const { movies: shows, loading } = useContext(MoviesContext);
+  const [searchText, setSearchText] = useState("");
+  const [selectedType, setSelectedType] = useState("all");
+  const [screenStatus, setScreenStatus] = useState(getScreenStatus());
 
-  // 🎭 2. Type filter (only if search empty)
-  if (selectedType !== "all") {
-    return movie.movie_type.includes(selectedType);
-  }
+  const types = [
+    {value:"all",label:"All"}, {value:"adventure",label:"Adventure"}, {value:"comedy",label:"Comedy"},
+    {value:"action",label:"Action"}, {value:"drama",label:"Drama"}, {value:"romance",label:"Romance"},
+    {value:"love",label:"Love"}, {value:"horror",label:"Horror"}
+  ];
 
-  // 📽️ 3. Default
-  return true;
-});
+  const filteredShows = shows.filter(movie => {
+    if (searchText.trim() !== "") return movie.movie_name.toLowerCase().includes(searchText.toLowerCase());
+    if (selectedType !== "all") return movie.movie_type.includes(selectedType);
+    return true;
+  });
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setScreenStatus(getScreenStatus());
-        }, 60000); // every 1 min
+  useEffect(() => {
+    const interval = setInterval(() => setScreenStatus(getScreenStatus()), 60000);
+    return () => clearInterval(interval);
+  }, []);
 
-        return () => clearInterval(interval);
-     }, []);
+  if (loading) return <h2 style={{ textAlign:"center", marginTop:"120px", color:"white" }}>Loading movies…</h2>;
 
-    useEffect(() => {
-  axios.get(`${import.meta.env.VITE_API_URL}/api/movies`)
-    .then((res) => {
-      setShows(res.data);
-    })
-    .catch((err) => {
-      console.error("API error:", err);
-    });
-}, []);
     return(
         <div className={styles.home}>
                 <div className={`${styles.home1} ${scrolled ? styles.scrolled : ""}`}>

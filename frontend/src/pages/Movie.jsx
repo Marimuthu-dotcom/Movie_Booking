@@ -1,45 +1,35 @@
-import styles from "../styles/Movie.module.css"
-import styles1 from "../styles/Home.module.css"
-import { useEffect,useState } from "react"
+import { useContext, useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
-import axios from "axios";
-function Movie() {
-    const[movies,setMovies]=useState([]);
-    const [filteredMovies, setFilteredMovies] = useState([]);
-    const {scrolled}=useOutletContext();
-    const [activeCategory, setActiveCategory] = useState("All");
-    const [searchTerm, setSearchTerm] = useState("");
+import { MoviesContext } from "../context/MoviesContent";
+import styles from "../styles/Movie.module.css";
+import styles1 from "../styles/Home.module.css";
 
-    const handleCategoryClick = (category) => {
-  setActiveCategory(category);  
-  setSearchTerm(""); // just highlight & filtering via useEffect
-};
-    useEffect(() => {
-  axios
-    .get(`${import.meta.env.VITE_API_URL}/api/movies`)
-    .then(res => {
-      setMovies(res.data);
-      setFilteredMovies(res.data);
-    })
-    .catch(err => console.error(err));
-}, []);
+function Movie() {
+  const { movies, loading } = useContext(MoviesContext); // ✅ use context
+  const { scrolled } = useOutletContext();
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+    setSearchTerm("");
+  };
 
   useEffect(() => {
-  let temp = movies;
+    let temp = movies;
 
-  if (searchTerm) {
-    temp = temp.filter(m =>
-      m.movie_name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setActiveCategory("All"); // no category highlight during search
-  } else if (activeCategory !== "All") {
-    temp = temp.filter(m => m.industry === activeCategory);
-  }
+    if (searchTerm) {
+      temp = temp.filter(m =>
+        m.movie_name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setActiveCategory("All");
+    } else if (activeCategory !== "All") {
+      temp = temp.filter(m => m.industry === activeCategory);
+    }
 
-  setFilteredMovies(temp);
-}, [activeCategory, movies, searchTerm]);
-
-
+    setFilteredMovies(temp);
+  }, [movies, activeCategory, searchTerm]);
   return (
     <div className={styles1.movieHome}>
         <div className={`${styles1.movieHome1} ${scrolled ? styles1.scrolled : ""}`}>
@@ -66,26 +56,34 @@ function Movie() {
             </div>
         </div>
         <div className={styles.movieHome2}>
-            {filteredMovies.length>0?(
-            filteredMovies.map((m,index)=>(
-            <div key={index} className={styles.moviesListBox}>
-                 <div className={styles.poster}><img src={m.img} alt="" /></div>
-                 <div className={styles.detail}>
-                    <span>
-                     <h4>{m.movie_name}</h4>
-                    <h4>{m.per_day}</h4>
-                    </span>
-                    <span>
-                      {m.screen.map((type, i) => (
-                        <h5 key={i}>{type}</h5>
-                    ))}
-                    </span>
-                 </div>
-            </div>))):
-            (<div className={styles.noResult}>
-              <h2>No Movies Found!</h2>
-              </div>)}
+  {loading ? (
+    <div className={styles.loading}>
+      <h2 style={{ color: "white" ,fontFamily: "Roboto, serif"}}>Loading Movies…</h2>
+    </div>
+  ) : filteredMovies.length > 0 ? (
+    filteredMovies.map((m,index) => (
+      <div key={index} className={styles.moviesListBox}>
+        <div className={styles.poster}><img src={m.img} alt="" /></div>
+        <div className={styles.detail}>
+          <span>
+            <h4>{m.movie_name}</h4>
+            <h4>{m.per_day}</h4>
+          </span>
+          <span>
+            {m.screen.map((type, i) => (
+              <h5 key={i}>{type}</h5>
+            ))}
+          </span>
         </div>
+      </div>
+    ))
+  ) : (
+    <div className={styles.noResult}>
+      <h2>No Movies Found!</h2>
+    </div>
+  )}
+</div>
+
     </div>
   );
 }

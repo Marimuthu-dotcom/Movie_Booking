@@ -1,149 +1,87 @@
-import { useNavigate, useParams,  Navigate,useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
 import styles from "../styles/SeatSelectionPage.module.css";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
 import { RiArmchairFill } from "react-icons/ri";
-import axios from "axios";
+import { MoviesContext } from "../context/MoviesContent";
 
 function SeatSelection() {
   const navigate = useNavigate();
   const { movieName } = useParams();
   const decodedMovieName = decodeURIComponent(movieName);
   const location = useLocation();
+  const { movies } = useContext(MoviesContext);
+
+  const [movieData, setMovieData] = useState(location.state?.movieData || null);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const MAX_SELECTION = 10;
   const SEAT_PRICE = 200;
+
   const totalPrice = selectedSeats.length * SEAT_PRICE;
-  const discountRate = 0.05; // 5%
+  const discountRate = 0.05;
   const taxRate = 0.025;
   const discount = selectedSeats.length >= 8 ? totalPrice * discountRate : 0;
   const tax1 = totalPrice * taxRate;
   const tax2 = totalPrice * taxRate;
   const total = (totalPrice - discount) + tax1 + tax2;
-  const [orderId, setOrderId] = useState("");
+
+  const [orderId, setOrderId] = useState(Math.floor(100000 + Math.random() * 900000));
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [movieData, setMovieData] = useState(null);
 
-  
-  const generateOrderId = () => {
-  return Math.floor(100000 + Math.random() * 900000); // 6 digit
-};
-  const date = new Date().toLocaleDateString("en-IN", {
-  day: "2-digit",
-  month: "short",
-  year: "numeric",
-});
+  const date = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 
- useEffect(() => {
-  if (movieData) {
+  useEffect(() => {
+    if (movieData) {
+      setLoading(false);
+      return;
+    }
+
+    const movie = movies.find(m => m.movie_name === decodedMovieName);
+    if (movie) setMovieData(movie);
+    else setError(true);
+
     setLoading(false);
-    return;
-  }
-
-  setLoading(true);
-  setError(false);
-
-  axios
-    .get(`${import.meta.env.VITE_API_URL}/api/movies`)
-    .then((res) => {
-      const movie = res.data.find(
-        (m) => m.movie_name === decodedMovieName
-      );
-
-      if (movie) {
-        setMovieData(movie);
-      } else {
-        setError(true);   // 👈 movie not found
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      setError(true);
-    })
-    .finally(() => {
-      setLoading(false); // 👈 VERY IMPORTANT
-    });
-
-}, [movieData, decodedMovieName]);
-
-
+  }, [movieData, decodedMovieName, movies]);
 
   const toggleSeat = (seatId) => {
-  if (selectedSeats.includes(seatId)) {
-    // already selected → deselect
-    setSelectedSeats(selectedSeats.filter(s => s !== seatId));
-  }
-   else {
-    // select only if less than MAX_SELECTION
-    if (selectedSeats.length < MAX_SELECTION) {
-      setSelectedSeats([...selectedSeats, seatId]);
-    } else {
-      alert("Maximum 10 seats only!");
-    }
-  }
-};
-
- const billDetails = [
+    if (selectedSeats.includes(seatId)) setSelectedSeats(selectedSeats.filter(s => s !== seatId));
+    else if (selectedSeats.length < MAX_SELECTION) setSelectedSeats([...selectedSeats, seatId]);
+    else alert("Maximum 10 seats only!");
+  };
+   const billDetails = [
     { label: "Subtotal", amount: totalPrice.toFixed(2) },
     { label: "Discount", amount: discount.toFixed(2) },
     { label: "Tax 1", amount: tax1.toFixed(2) },
     { label: "Tax 2", amount: tax2.toFixed(2) },
   ];
-
   const [payment, setPayment] = useState("");
-  const paymentOptions = ["Cash", "UPI", "Card"];
   const [customerName, setCustomerName] = useState("");
   const [customerNumber, setCustomerNumber] = useState("");
+  const paymentOptions = ["Cash", "UPI", "Card"];
   const isValidNumber = customerNumber.length >= 10;
-  const canProceed =
-  customerName.trim() !== "" &&
-  isValidNumber &&
-  selectedSeats.length > 0 &&
-  payment !== "";
+  const canProceed = customerName.trim() !== "" && isValidNumber && selectedSeats.length > 0 && payment !== "";
 
+  const handleProceed = () => {
+    if (!canProceed) return;
 
- const handleProceed = () => {
-  if (!canProceed) return;
+    const order = {
+      orderId,
+      screen: "04",
+      seats: selectedSeats,
+      showTime: "03:00 PM",
+      amount: total,
+      paymentMode: payment,
+      date: new Date().toISOString()
+    };
 
-  const order = {
-    orderId,
-    screen: "04",
-    seats: selectedSeats,
-    showTime: "03:00 PM",
-    amount: total,
-    paymentMode: payment,
-    date: new Date().toISOString()
+    const existingOrders = JSON.parse(localStorage.getItem("ticketOrders")) || [];
+    localStorage.setItem("ticketOrders", JSON.stringify([order, ...existingOrders]));
+    navigate("/history");
   };
 
-  const existingOrders =
-    JSON.parse(localStorage.getItem("ticketOrders")) || [];
+  if (loading) return <h2 style={{ textAlign: "center", marginTop: "120px", color: "white" }}>Loading… please wait</h2>;
+  if (error) return <h2 style={{ textAlign: "center", marginTop: "120px", color: "red" }}>Movie not found</h2>;
 
-  localStorage.setItem(
-    "ticketOrders",
-    JSON.stringify([order, ...existingOrders])
-  );
-
-  navigate("/history");
-};
-
-
-
-
-  if (loading) {
-    return (
-      <h2 style={{ textAlign: "center", marginTop: "120px", color: "white" ,fontFamily: "Roboto, serif"}}>
-        Loading… please wait
-      </h2>
-    );
-  }
-
-  if (error) {
-    return (
-      <h2 style={{ textAlign: "center", marginTop: "120px", color: "red" }}>
-        Movie not found
-      </h2>
-    );
-  }
  
   return (
     <div className={styles.bookPage}>

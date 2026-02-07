@@ -6,21 +6,30 @@
 } 
 .appLayout{
    width: 100%;
-   max-width: 1400px;
+   max-width: 1600px;
    display:grid;
    grid-template-columns: 200px 1fr;
    min-height:100vh;
    background-color: rgb(77, 73, 73);
 }
+/* contentPage animation */
+.contentPage {
+  height: 100vh;
+  overflow-y: auto;
+  background-color: transparent;
+  position: relative;
+  opacity: 0;
+  transition: opacity 2.3s ease;
+}
+
+.contentPageLoaded {
+  opacity: 1;
+}
+
 .sideBar{
     position: sticky;   /* 👈 fixed inside layout */
     top: 0;
     height: 100vh;
     background-color: transparent;
 }
-.contentPage{
-    height: 100vh;
-    overflow-y: auto;
-    background-color: transparent;
-    position: relative;
-}
+
