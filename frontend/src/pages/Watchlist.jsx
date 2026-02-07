@@ -5,7 +5,7 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { FaStar } from "react-icons/fa";
-import { MoviesContext } from "../context/MoviesProvider";
+import { MoviesContext } from "../context/MoviesContent";
 
 function Watchlist() {
   const { scrolled } = useOutletContext();

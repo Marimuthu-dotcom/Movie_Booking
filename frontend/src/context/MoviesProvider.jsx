@@ -1,7 +1,6 @@
-import { createContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-
-export const MoviesContext = createContext();
+import { MoviesContext } from "./MoviesContent";
 
 export function MoviesProvider({ children }) {
   const [movies, setMovies] = useState([]);
@@ -25,3 +24,5 @@ export function MoviesProvider({ children }) {
     </MoviesContext.Provider>
   );
 }
+
+

@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
-import { MoviesContext } from "../context/MoviesProvider";
+import { MoviesContext } from "../context/MoviesContent";
 import styles from "../styles/Movie.module.css";
 import styles1 from "../styles/Home.module.css";
 

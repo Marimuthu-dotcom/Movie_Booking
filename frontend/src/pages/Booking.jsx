@@ -3,7 +3,7 @@ import styles from "../styles/Booking.module.css"
 import { useState, useEffect, useContext } from "react"
 import { useNavigate, Outlet ,useOutletContext} from "react-router-dom";
 import axios from "axios";
-import { MoviesContext } from "../context/MoviesProvider";
+import { MoviesContext } from "../context/MoviesContent";
 
 function Booking() {
   const { movies, loading } = useContext(MoviesContext);

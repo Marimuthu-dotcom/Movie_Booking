@@ -1,7 +1,7 @@
 import styles from "../styles/Home.module.css"
 import { useState, useEffect, useContext } from "react";
 import { useOutletContext, useNavigate,NavLink } from "react-router-dom";
-import { MoviesContext } from "../context/MoviesProvider";
+import { MoviesContext } from "../context/MoviesContent";
 
 const showCycle = [
   { openFrom: "00:00", openTo: "09:00", show: "09:00 - 12:00" },
@@ -28,7 +28,7 @@ function getScreenStatus() {
 function Home() {
   const { scrolled } = useOutletContext();
   const navigate = useNavigate();
-  const { movies: shows, loading } = useContext(MoviesContext);
+  const { movies: shows } = useContext(MoviesContext);
   const [searchText, setSearchText] = useState("");
   const [selectedType, setSelectedType] = useState("all");
   const [screenStatus, setScreenStatus] = useState(getScreenStatus());
@@ -50,7 +50,6 @@ function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  if (loading) return <h2 style={{ textAlign:"center", marginTop:"120px", color:"white" }}>Loading movies…</h2>;
 
     return(
         <div className={styles.home}>
