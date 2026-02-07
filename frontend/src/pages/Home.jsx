@@ -1,7 +1,7 @@
 import styles from "../styles/Home.module.css"
 import { useState, useEffect, useContext } from "react";
 import { useOutletContext, useNavigate,NavLink } from "react-router-dom";
-import { MoviesContext } from "../context/MoviesContent";
+import { MoviesContext } from "../context/MoviesProvider";
 
 const showCycle = [
   { openFrom: "00:00", openTo: "09:00", show: "09:00 - 12:00" },
