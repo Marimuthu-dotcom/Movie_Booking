@@ -10,7 +10,6 @@ function SeatSelection() {
   const decodedMovieName = decodeURIComponent(movieName);
   const location = useLocation();
   const { movies } = useContext(MoviesContext);
-
   const [movieData, setMovieData] = useState(location.state?.movieData || null);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const MAX_SELECTION = 10;
@@ -104,10 +103,10 @@ function SeatSelection() {
             </div>
             <div className={styles.movieDescription}>
               <div className={styles.MovieName}>
-                <h3>{movieData.movie_name}</h3>
+                <h3 style={{ color: "rgb(237, 192, 31)" ,fontWeight:"800"}}>{movieData.movie_name}</h3>
                 <p style={{backgroundColor: "rgb(237, 192, 31)"}}>2D</p>
               </div>
-              <div className={styles.story}>{movieData.story}</div>
+              <div className={styles.story} style={{ color: "white" }}>{movieData.story}</div>
             </div>
           </div>
         </div>
@@ -186,17 +185,17 @@ function SeatSelection() {
 <div className={styles.legend}>
   <div className={styles.legendItem}>
     <span className={`${styles.legendSeat} ${styles.available}`}></span>
-    <p>Available</p>
+    <p style={{fontWeight:"600",fontFamily:"Roboto, serif"}}>Available</p>
   </div>
 
   <div className={styles.legendItem}>
     <span className={`${styles.legendSeat} ${styles.selected}`}></span>
-    <p>Selected</p>
+    <p style={{fontWeight:"600",fontFamily:"Roboto, serif"}}>Selected</p>
   </div>
 
   <div className={styles.legendItem}>
     <span className={`${styles.legendSeat} ${styles.booked}`}></span>
-    <p>Booked</p>
+    <p style={{fontWeight:"600",fontFamily:"Roboto, serif"}}>Booked</p>
   </div>
 </div>
 
@@ -219,8 +218,8 @@ function SeatSelection() {
               <h3 style={{ fontSize: "0.950rem" }}>Selected Seats</h3>
             </span>
             <span className={styles.calculateAmount}>
-              <p style={{ color: "rgb(167, 166, 166)" }}>Recliner</p>
-              <p style={{ color: "white" }}>{SEAT_PRICE}</p>
+              <p style={{color: "white"}}>Recliner</p>
+              <p style={{ color: "rgb(237, 192, 31)" }}>{SEAT_PRICE}</p>
             </span>
             <span className={styles.allocatedSeat}>
               {selectedSeats.map((seat)=><p key={seat}>{seat}</p>)}
@@ -231,15 +230,15 @@ function SeatSelection() {
         <div className={styles.Div3}>
           {billDetails.map((item, index) => (
             <div key={index} className={styles.cost}>
-              <p>{item.label}</p>
-              <p>{item.amount}</p>
+              <p style={{color: "white"}}>{item.label}</p>
+              <p style={{color: "rgb(237, 192, 31)"}}>{item.amount}</p>
             </div>
           ))}
         </div>
 
         <div className={styles.Total}>
           <p>Grand Total</p>
-          <p>${total}</p>
+          <p style={{color:"rgb(38, 215, 18)"}}>${total}</p>
         </div>
 
         <div className={styles.Div4}>

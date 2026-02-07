@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import screen from "../assets/Screen.jpg"
 import styles from "../styles/SideBar.module.css"
-function SideBar(){
+function SideBar({openLogin}){
    return(
     <div className={styles.sidebar}>
         <div className={styles.first}>
@@ -29,7 +29,7 @@ function SideBar(){
            </span>
         </div>
         <div className={styles.second}>
-           <button type="button">Log Out</button>
+           <button type="button" onClick={openLogin}>LOG IN</button>
         </div>
     </div>
    );

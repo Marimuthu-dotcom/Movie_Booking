@@ -28,7 +28,7 @@ function getScreenStatus() {
 function Home() {
   const { scrolled } = useOutletContext();
   const navigate = useNavigate();
-  const { movies: shows } = useContext(MoviesContext);
+  const { movies: shows,loading } = useContext(MoviesContext);
   const [searchText, setSearchText] = useState("");
   const [selectedType, setSelectedType] = useState("all");
   const [screenStatus, setScreenStatus] = useState(getScreenStatus());
@@ -148,38 +148,36 @@ function Home() {
                                 </span>
                         </div>
                         <div className={styles.showList}>
-                            {filteredShows.length===0?
-                            (
-                              <p className={styles.notFound}>Movies Not Found!</p>
-                            ):
-                            (
-                            filteredShows.map((s,index)=>(
+                        {loading ? (
+                            <p className={styles.notFound}>Loading movies…</p>
+                        ) : filteredShows.length === 0 ? (
+                            <p className={styles.notFound}>Movies Not Found!</p>
+                        ) : (
+                            filteredShows.map((s, index) => (
                             <div key={index} className={styles.lists}>
-                               <div className={styles.div1}>
-                               <div className={styles.movieImage}><img src={s.img} alt="" /></div>
-                               <div className={styles.Movies}>
-                                <h4>{s.movie_name}</h4>
-                                <h4>{s.per_day}</h4>
+                                <div className={styles.div1}>
+                                <div className={styles.movieImage}><img src={s.img} alt="" /></div>
+                                <div className={styles.Movies}>
+                                    <h4>{s.movie_name}</h4>
+                                    <h4>{s.per_day}</h4>
                                 </div>
-                               </div>
-                               <div className={styles.div2}>
+                                </div>
+                                <div className={styles.div2}>
                                 {/* Screen types */}
                                 <span className={styles.screen}>
-                                    {s.screen.map((type, i) => (
-                                    <h5 key={i}>{type}</h5>
-                                    ))}
+                                    {s.screen.map((type, i) => <h5 key={i}>{type}</h5>)}
                                 </span>
 
                                 {/* Languages */}
                                 <span className={styles.language}>
-                                    {s.lang.map((l, i) => (
-                                    <h5 key={i}>{l}</h5>
-                                    ))}
+                                    {s.lang.map((l, i) => <h5 key={i}>{l}</h5>)}
                                 </span>
                                 </div>
-                            </div>))
-                           )}
+                            </div>
+                            ))
+                        )}
                         </div>
+
                     </div>
                 </div>
                 </div>

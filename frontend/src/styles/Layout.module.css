@@ -6,7 +6,7 @@
 } 
 .appLayout{
    width: 100%;
-   max-width: 1600px;
+   max-width: 1500px;
    display:grid;
    grid-template-columns: 200px 1fr;
    min-height:100vh;

@@ -75,6 +75,12 @@
 .Div4,.customerDetail{
     padding: 8px 0px;
 }
+.story{
+  text-align: justify;
+  text-justify: inter-word;
+  word-spacing: normal;
+  hyphens: auto;
+}
 .movieDescription .story,.Total p,.cashWay .head h3{
     font-family: "Roboto", serif;
     color:rgb(136, 133, 133);

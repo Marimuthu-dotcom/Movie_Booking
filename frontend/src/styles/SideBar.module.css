@@ -66,20 +66,20 @@
     justify-content: center;
 }
 .second button{
-    color:rgb(157, 156, 156);
-    background-color: transparent;
     padding: 5px;
     border: none;
+    outline: none;
     border-radius: 10px;
     font-size: 1rem;
     font-family: "Roboto", serif;
     cursor: pointer;
-    transition: all 0.5 ease;
+    font-weight: 600;
+    width: 100px;
+    background-color: rgb(0, 0, 255);
+    color:white;
+    transition: all 0.5 ease;   
 }
 .menu .link:hover,.menu .link.active{
   background: linear-gradient(45deg,rgb(255, 255, 4),rgb(243, 237, 160));
   color: black;
-}
-.second button:hover{
-    color: yellow;
 }

@@ -10,8 +10,8 @@ import { MoviesContext } from "../context/MoviesContent";
 function Watchlist() {
   const { scrolled } = useOutletContext();
   const navigate = useNavigate();
-  const { movies } = useContext(MoviesContext);
-
+  const { movies} = useContext(MoviesContext);
+  const [loading, setLoading] = useState(true);
   const [watchlist, setWatchlist] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [showOverlay, setShowOverlay] = useState(false);
@@ -20,7 +20,8 @@ function Watchlist() {
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_URL}/api/favmovies`)
       .then(res => setWatchlist(res.data))
-      .catch(err => console.error(err));
+      .catch(err => console.error(err))
+      .finally(()=>setLoading(false))
   }, []);
 
   // Open overlay with full movie details from context
@@ -50,38 +51,48 @@ function Watchlist() {
 
       {/* CONTENT */}
       <div className={styles2.movieHome2}>
-        {watchlist.length===0?
-        (<h2 className={styles2.empty}>Your Watchlist is Empty!</h2>
-       ) : 
-      (watchlist.map((m,i)=>(
-        <div key={i} className={`${styles.moviesListBox} ${styles2.moviesListBoxCustom}`}>
-            <div className={styles.poster} role="button" tabIndex={0} onClick={()=>handleBookNow(m.movie_name)}><img src={m.img} alt="" /></div>
-            <div className={styles2.detail}>
-                   <button
-  className={styles2.bookNowBtn}
-  onClick={async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/movies`);
-      const allMovies = res.data;
+          {loading ? (
+            <h2 className={styles2.empty}>Loading Watchlist…</h2>
+          ) : watchlist.length === 0 ? (
+            <h2 className={styles2.empty}>Your Watchlist is Empty!</h2>
+          ) : (
+            watchlist.map((m, i) => (
+              <div key={i} className={`${styles.moviesListBox} ${styles2.moviesListBoxCustom}`}>
+                <div
+                  className={styles.poster}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => handleBookNow(m.movie_name)}
+                >
+                  <img src={m.img} alt="" />
+                </div>
+                <div className={styles2.detail}>
+                  <button
+                    className={styles2.bookNowBtn}
+                    onClick={async () => {
+                      try {
+                        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/movies`);
+                        const allMovies = res.data;
 
-      const fullMovie = allMovies.find(movie => movie.movie_name === m.movie_name);
-      if (!fullMovie) 
-        return;
+                        const fullMovie = allMovies.find(movie => movie.movie_name === m.movie_name);
+                        if (!fullMovie) return;
 
-      // Navigate with full movie object
-      navigate(`/booking/seat/${encodeURIComponent(fullMovie.movie_name)}`, {
-        state: { movieData: fullMovie }
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  }}
->
-  BookNow
-</button>
+                        // Navigate with full movie object
+                        navigate(`/booking/seat/${encodeURIComponent(fullMovie.movie_name)}`, {
+                          state: { movieData: fullMovie }
+                        });
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    }}
+                  >
+                    BookNow
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
 
-            </div>
-        </div>)))}
       </div>
       { showOverlay && selectedMovie && (
   <div className={styles2.overlay}>
@@ -95,7 +106,7 @@ function Watchlist() {
         <div className={styles2.moviePreviews}>
              <div className={styles2.story}>
               <h3 className={styles2.heads}>Story</h3>
-              <p style={{lineHeight:"1.3"}}>{selectedMovie.story}</p>
+              <p style={{lineHeight:"1.5"}}>{selectedMovie.story}</p>
               </div>
               <div className={styles2.story}>
                 <h3 className={styles2.heads}>Genre</h3>

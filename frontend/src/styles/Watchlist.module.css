@@ -44,7 +44,8 @@ max-width: 530px;  /* required width */
     padding: 8px;
     border: none;
     border-radius: 5px;
-    background: rgb(237, 192, 31);
+    color: black;
+    background-color: #de960f;
     cursor: pointer;
     font-family: "Roboto", serif;
     font-weight: 500;
@@ -137,4 +138,10 @@ max-width: 530px;  /* required width */
   padding: 3px 0px;
   letter-spacing: 1px;
   border-radius: 7px;
+}
+.story p{
+  text-align: justify;
+  text-justify: inter-word;
+  word-spacing: normal;
+  hyphens: auto;
 }

@@ -146,6 +146,13 @@
   letter-spacing: 1px;
   font-family: "Roboto", serif;
 }
+.story p{
+  text-align: justify;
+  text-justify: inter-word;
+  word-spacing: normal;
+  hyphens: auto;
+  color: white;
+}
 .duration p,.price p,.total p,.remaining p{
   font-family: "Roboto", serif;
 }
@@ -158,13 +165,14 @@
   align-items: center;
 }
 .bookShow .bookBtn{
-  background-color: #de0f0f;
-  color: white;
+  background-color: #de960f;
+  color: black;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.9rem;
+  font-weight: 600;
 }
 .noResult{
   display: flex;
@@ -175,7 +183,7 @@
 .noResult h2{
   color: rgb(106, 103, 103);
   font-family: "Roboto", serif;
-  font-weight: 400;
+  font-weight: 800;
   letter-spacing: 1px;
   font-size: 2rem;
 }
