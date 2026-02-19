@@ -37,6 +37,6 @@ exports.signup = async (req, res) => {
 
   } catch (error) {
     console.log("Signup error:", error);
-    res.status(500).json({ error: "Otp is not sent successfully" });
+    res.status(500).json({ error: "Otp is not sending successfully" });
   }
 };
