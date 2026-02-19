@@ -12,6 +12,7 @@ async function sendOtpMail(email, otp) {
   };
 
   await sgMail.send(msg);
+  console.log("API Key:", process.env.SENDGRID_API_KEY);
   console.log("OTP sent successfully");
 }
 
