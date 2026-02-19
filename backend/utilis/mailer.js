@@ -8,16 +8,12 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-  family: 4
+  }
 });
 
 async function sendOtpMail(email, otp) {
   const mailOptions = {
-    from: process.env.SMTP_USER,
+    from: "maripavin7@gmail.com",
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP is ${otp}. It is valid for 5 minutes.`,
