@@ -1,4 +1,6 @@
 const db = require("../config/db");
+const { sendOtpMail } = require("../utilis/mailer"); // use mailer function
+require("dotenv").config();
 
 exports.signup = (req, res) => {
   const { name, email } = req.body;
@@ -23,16 +25,24 @@ exports.signup = (req, res) => {
     db.query(
       "INSERT INTO users (name, email, otp, otp_expiry) VALUES (?,?,?,?)",
       [name, email, otp, otp_expiry],
-      (err) => {
+      async (err) => {
         if (err) {
           console.log(err);
           return res.status(500).json({ error: "Insert error" });
         }
 
-        res.json({
-          message: "User registered and OTP generated",
-          otp: otp   // (Testing purpose only – later remove this)
-        });
+        try {
+          await sendOtpMail(email, otp);
+          res.json({
+            message: "User registered successfully. OTP sent to your email."
+          });
+        } 
+        catch (mailErr) {
+          console.log(mailErr);
+          res.status(500).json({
+            error: "User registered but failed to send OTP"
+          });
+        }
       }
     );
   });

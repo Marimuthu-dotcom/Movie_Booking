@@ -49,8 +49,10 @@ function Watchlist() {
       {/* CONTENT */}
       <div className={styles2.movieHome2}>
           {loading ? (
-            <h2 className={styles2.empty}>Loading Watchlist…</h2>
-          ) : watchlist.length === 0 ? (
+             <div className={styles1.loadingWrapper}>
+                 <div className={styles1.SpinSkeleton}></div>
+             </div>
+                              ) : watchlist.length === 0 ? (
             <h2 className={styles2.empty}>Your Watchlist is Empty!</h2>
           ) : (
             watchlist.map((m, i) => (

@@ -196,7 +196,12 @@ function Home() {
                             </div>
                         </div>
                         <div className={styles.child2}>
-                            {screenMovies.map((movie,index)=>(
+                           {loading ? (
+                            <div className={styles.loadingWrapper}>
+                                <div className={styles.SpinSkeleton}></div>
+                            </div>
+                            ):
+                            (screenMovies.map((movie,index)=>(
                             <div className={styles.screenList} key={index} style={{animationDelay:`${index*0.3}s`}}>
                                <span><h4 className={styles.screenTitle} style={{fontWeight:"500",letterSpacing:"1px"}}>Screen {index+1}</h4></span>
                                 <span>
@@ -204,7 +209,7 @@ function Home() {
                                         <button className={styles.bookBtn} onClick={()=>setSelectedMovie(movie)}>Booking</button>
                                 </span>
                             </div>
-                            ))}
+                            )))}
                         </div>
                     </div>
                     <div className={styles.rightHome2}>

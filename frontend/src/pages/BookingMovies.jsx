@@ -101,10 +101,10 @@ function BookingMovies() {
     <>
      <div className={styles.title}><h2>Movies of the Day</h2></div>
                 {loading ? (
-                  <div className={styles.noResult}>
-                    <h2>Loading movies…</h2>
-                  </div>
-                ) : (
+                    <div className={styles.loadingWrapper}>
+                       <div className={styles.SpinSkeleton}></div>
+                    </div>
+                    ) : (
                   filteredMovies.map((m, index) => (
                     <div key={index} className={styles.movieBox} style={{animationDelay:`${index*0.3}s`}}>
                       <div className={styles.moviePoster}>

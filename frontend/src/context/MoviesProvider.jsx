@@ -3,8 +3,8 @@ import axios from "axios";
 import { MoviesContext } from "./MoviesContent";
 
 export function MoviesProvider({ children }) {
-  const [movies, setMovies] = useState([]);          // All Movies
-  const [currentMovies, setCurrentMovies] = useState([]); // Running / Current Movies
+  const [movies, setMovies] = useState([]);    
+  const [currentMovies, setCurrentMovies] = useState([]); 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
