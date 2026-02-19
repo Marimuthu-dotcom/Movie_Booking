@@ -1,0 +1,384 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+SC:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,500;1,700;1,800;1,900&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Odibee+Sans&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+.bookPage{
+    min-height: 600px;
+    display: grid;
+    grid-template-columns:minmax(300px,750px) 1fr;
+    gap:10px;
+}
+.seatInfo{
+    display: grid;
+    grid-template-rows: 400px 1fr;
+    row-gap: 30px;
+}
+.seatInfo .movieDetails,.Div4 .cashWay{
+    display: flex;
+    flex-direction: column;
+    gap: 13px;    
+}
+.movieDetails{
+  opacity: 0;
+  animation: slideUpFade 0.8s ease forwards;
+  animation-delay: 0.3s;
+}
+.seats{
+  opacity: 0;
+  animation: slideUpFade 0.8s ease forwards;
+  animation-delay: 0.6s;
+}
+.Div4 .cashWay{
+    gap:8px;
+    background-color: black;
+    padding:10px;
+    border-radius: 10px;
+}
+.movieDetails .firstDiv,.Div2,.Div2 .selectedSeats,.Div3{
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+}
+.Div2 .selectedSeats{
+    gap:10px;
+    padding: 10px 0px;
+}
+.firstDiv h2,
+.firstDiv p,
+.MovieName h3,
+.paymentInfo .Div1 h3,
+.Div2 .selectedSeats .head h3,
+.Div3 .cost p{
+  font-family: "Roboto", serif;
+  font-weight: 400;
+  color: rgb(255, 255, 255);
+}
+.backIcon{
+   cursor: pointer;
+   margin-right: 10px; 
+   font-size: 25px ;
+   color:rgb(237, 192, 31);
+}
+.backIcon:hover{
+  color:white;
+}
+.firstDiv p{
+  color: rgb(106, 103, 103);
+}
+.Div3 .cost p{
+    font-size: 0.9rem;
+    color:rgb(167, 166, 166)
+}
+.cost p:last-child{
+  color:white
+}
+.movieDetails .secondDiv{
+   flex:1;
+   display: grid;
+   grid-template-columns: repeat(2,1fr);
+   gap:3px; 
+}
+.secondDiv .movieImg{
+    width: 400px;
+    height: 325px;
+}
+.movieImg img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.movieDescription,.Div4,.customerDetail{
+    padding:8px;
+    display: flex;
+    flex-direction: column;
+    gap:14px;
+}
+.Div4,.customerDetail{
+    padding: 8px 0px;
+}
+.story{
+  text-align: justify;
+  text-justify: inter-word;
+  word-spacing: normal;
+  hyphens: auto;
+  line-height:1.4;
+}
+.movieDescription .story,.Total p,.cashWay .head h3{
+    font-family: "Roboto", serif;
+    color:rgb(136, 133, 133);
+}
+.Total p{
+    font-size: 1rem;
+    color: rgb(237, 192, 31);
+}
+.movieDescription .MovieName,.paymentInfo .Div1,.paymentInfo .Div2 .selectedSeats .calculateAmount,.Div3 .cost,.Total{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.MovieName p,.allocatedSeat p{
+  font-family:"Roboto", serif;
+  font-weight: 400;
+  padding: 0px 5px;
+  display:inline-block;
+  background-color:rgb(131, 130, 130);
+  text-align:center;
+  border-radius:10px;
+  color:rgb(68, 67, 67);
+}
+.allocatedSeat p{
+  background-color: rgb(237, 192, 31);
+}
+.allocatedSeat{
+     display: grid;
+  grid-template-columns: repeat(5, 1fr);
+    gap:6px;
+}
+.allocatedSeat p{
+    font-size: 0.8rem;
+}
+.seatInfo .seats{
+    background-color: transparent;
+}
+.paymentInfo{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding:10px 7px;
+    border-radius: 10px;
+    background-color:rgb(77, 73, 73) ;
+    position: sticky;
+    top: 10px;              /* top-la irundhu gap */
+    height: fit-content;    /* content size-ku */
+    align-self: start;
+}
+.Div2,.Div3{
+    gap:10px;
+    padding: 10px 0px;
+}
+.Div1{
+  opacity: 0;
+  animation: slideUpFade 0.9s ease forwards;
+  animation-delay: 0.1s;
+}
+.Div2{
+  opacity: 0;
+  animation: slideUpFade 0.9s ease forwards;
+  animation-delay: 0.3s;
+}
+.Div3{
+  opacity: 0;
+  animation: slideUpFade 0.9s ease forwards;
+  animation-delay: 0.5s;
+  gap:5px;
+}
+.Total{
+  opacity: 0;
+  animation: slideUpFade 0.9s ease forwards;
+  animation-delay: 0.7s;
+}
+.Div4{
+  opacity: 0;
+  animation: slideUpFade 0.9s ease forwards;
+  animation-delay: 0.9s;
+}
+.paymentInfo .Div1,.paymentInfo .Div2,.paymentInfo .Div3{
+    border-bottom: 1px solid rgb(150, 147, 147);
+    padding-bottom: 10px;
+}
+.paymentInfo .Div1 p,.Div2 .selectedSeats .calculateAmount p{
+    font-family: "Roboto", serif;
+    font-size: 0.8rem;
+    color: rgb(237, 192, 31);
+}
+.Div2 .orderId,.Div4 .cashWay .head h3,.customerDetail h3{
+    font-family: "Roboto", serif;
+    color: rgb(255, 252, 252);
+    font-size: 0.950rem;
+}
+.orderId small{
+    color:rgb(237, 192, 31) ;
+}
+.Div4 .cashMethod{
+  display: flex;
+  gap: 8px;
+}
+
+.cashMethod label {
+  flex: 1;                 /* 🔥 equal width */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* center text */
+  border: 1px solid #555;
+  padding: 10px;;
+  color:rgb(167, 166, 166);
+  cursor: pointer;
+  border-radius: 6px;
+  gap:5px
+}
+.Form{
+    display: flex ;
+    flex-direction: column;
+    gap:14px;
+}
+.Form input{
+    padding:13px 8px;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    background-color: black;
+    color:white;
+    outline:none;
+}
+.Form input:focus{
+  border-color: rgb(237, 192, 31);
+}
+.Form .buttonContainer{
+    display: flex;
+    gap:6px;
+}
+.buttonContainer button{
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: "Roboto", serif;
+    font-weight: 500;
+}
+.buttonContainer .btnDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: rgb(237, 192, 31);
+}
+
+.buttonContainer  .btnActive {
+  cursor: pointer;
+  background-color: rgb(237, 192, 31);
+  color:black;
+}
+.seats {
+  overflow-x: auto;
+  max-width: 100%;
+  min-height: 450px;
+}
+.seats{
+  animation-delay: 0.6s;
+}
+.seatWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  min-width: max-content;   /* auto width */
+  padding-bottom: 12px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.rowGap {
+  margin-bottom: 28px;     /* group gap */
+}
+
+.rowLabel {
+  width: 26px;
+  font-weight: 600;
+  color: rgb(255, 179, 0);
+  position: sticky;
+  left: 0;
+  background: transparent;
+  z-index: 2;
+}
+
+.column {
+  display: flex;
+  gap: 8px;
+}
+
+.middleColumn {
+  margin: 0 22px;          /* aisle */
+}
+.seat {
+  width: 18px;
+  height: 18px;
+  background-color: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.seat:hover .seatIcon {
+  transform: scale(1.2);
+  color: #ff9800;  /* hover color */
+}
+.seatIcon{
+  font-size: 22px;
+  color: #9ca3af;   /* available */
+  cursor: pointer;
+}
+.screenContainer {
+  margin-top: 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+.curvedScreen {
+  width: 70%;
+  height: 30px;
+  border-bottom: 20px solid yellow;
+  border-radius: 0 0 200px 200px; /* SMILE SHAPE */
+  box-shadow: 0px -15px 20px -8px yellow;
+}
+
+.screenText {
+  margin-top: 17px;
+  font-size: 12px;
+  color: #cbd5f5;
+  letter-spacing: 2px;
+}
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 10px;
+  padding: 20px 0px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: white;
+}
+
+.legendSeat {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+/* legend colors */
+.available {
+  background-color: #c7c7c7;
+}
+
+.selected {
+  background-color: rgb(20, 208, 20);
+}
+
+.booked {
+  background-color: red;
+}
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}

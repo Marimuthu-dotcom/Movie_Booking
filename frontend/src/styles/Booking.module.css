@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+SC:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,500;1,700;1,800;1,900&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Odibee+Sans&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+.movieHome2{
+  background-color: rgb(58, 58, 58);
+  border-top-left-radius: 30px;
+  padding: 20px;
+  min-height: 600px;
+  display:flex;
+  flex-direction: column;
+  gap:30px;
+}
+.title h2{
+  color: white;
+  font-family: "Roboto", serif;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  animation:FadeIn 0.8s ease forwards;
+}
+.movieBox{
+  display: grid;
+  grid-template-columns: minmax(300px,740px) 1fr;
+  background-color: rgb(77, 73, 73);
+  border-radius: 10px;
+  padding: 10px;
+  opacity: 0;
+  animation: slideUpFade 0.8s ease forwards;
+}
+.moviePoster{
+  height: 480px;
+  border-radius: 10px;
+  position: relative;
+}
+.moviePoster::after{
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 35%;   /* adjust height */
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.8),
+    rgba(1, 1, 1, 0)
+  );
+  pointer-events: none;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  z-index: 1;
+}
+.movieBox:hover{
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transform: scale(1.013);
+    transition: all 0.3s ease;
+} 
+.moviePoster .category{
+  position:absolute;
+  bottom:20px;
+  left:10px;    
+  padding:5px 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap:5px;
+  z-index: 2;
+}
+.fav,.FavList {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position:relative;
+}
+.FavList span{
+  position: absolute;
+  top: -5px;
+  right: -3px;
+  color: white;
+  background-color: red;
+  color: white;
+  width: 15px;          /* circle size */
+  height: 15px;
+  font-size: 12px;
+  border-radius: 50%;   /* circle */
+  display: flex;        /* center number */
+  align-items: center;  /* vertical center */
+  justify-content: center; /* horizontal center */
+  font-weight: bold;
+}
+.fav i {
+  font-size: 22px;
+  color: rgb(158, 156, 156);
+  transition: all 0.1s ease;
+}
+.active i {
+  color: red;
+}
+
+.category .movieTitle,.based{
+  color: white;
+  font-family: "Roboto", serif;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+.category .based{
+  font-size: 13px;
+  font-weight: 300;
+  color: rgb(255, 252, 252);
+}
+.moviePoster img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.description{
+  display: flex;
+  flex-direction: column;
+  gap:15px;
+  padding:10px;
+}
+.movieName{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed rgb(155,154,154);
+}
+.movieName h4{
+  color: white;
+  font-family: "Roboto", serif;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+.movieName .fav{
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+.story{
+  display: flex;
+  flex-direction: column;
+  gap:9px;
+  border-bottom: 1px dashed rgb(155, 154, 154);
+  padding-bottom: 10px;
+}
+.story h4,.movieType h4,.duration h4,.price h4,.total h4,.remaining h4{
+  color: white;
+  font-family: "Roboto", serif;
+  font-weight: 400;
+  letter-spacing: 1px;
+  font-size: 0.850rem;
+}
+.movieType,.seatsInfo,.bookShow{
+  display: flex;
+  flex-direction: column;
+  gap:5px;
+}
+.seatsInfo{
+  gap:20px;
+  font-family: "Roboto", serif;
+  color: white;
+}
+.story p,.duration p,.price p,.total p,.remaining p{
+  font-size: 14px;
+  color: rgb(192, 188, 188);
+  font-weight: 200;
+  letter-spacing: 1px;
+  font-family: "Roboto", serif;
+}
+.story p{
+  text-align: justify;
+  text-justify: inter-word;
+  word-spacing: normal;
+  hyphens: auto;
+  color: white;
+}
+.duration p,.price p,.total p,.remaining p{
+  font-family: "Roboto", serif;
+}
+.bookShow{
+  gap: 20px;
+}
+.duration,.price,.total,.remaining{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bookShow .bookBtn{
+  background-color: #646262;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 35px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.6s ease;
+}
+.bookBtn:hover{
+ background-color: rgb(12, 197, 12);
+ border: none;
+}
+.noResult{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.noResult h2{
+  color: rgb(106, 103, 103);
+  font-family: "Roboto", serif;
+  font-weight: 800;
+  letter-spacing: 1px;
+  font-size: 2rem;
+}
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@keyframes FadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
