@@ -15,8 +15,7 @@ function SignUpPage({ switchToLogin, OpenOtp }) {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, {
         name,
         email,
-      });
-      console.log(import.meta.env.VITE_API_URL);    
+      });    
       OpenOtp();              
     } catch (err) {
       console.log(err);
