@@ -10,6 +10,11 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  tls: {
+    rejectUnauthorized: false,
+  },
+  // Force IPv4 to avoid ENETUNREACH
+  family: 4
 });
 
 // Function to send OTP

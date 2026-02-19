@@ -16,8 +16,9 @@ exports.signup = (req, res) => {
       console.log(err);
       return res.status(500).json({ error: "DB error" });
     }
-
+    console.log("SELECT results:", results);
     if (results.length > 0) {
+      console.log("Email already exists:", cleanEmail);
       return res.status(400).json({ error: "Email already registered.So Login" });
     }
 
@@ -33,7 +34,8 @@ exports.signup = (req, res) => {
           console.log(err);
           return res.status(500).json({ error: "Insert error" });
         }
-
+        
+        console.log("INSERT success:", { name, email, otp, otp_expiry });
         try {
           await sendOtpMail(email, otp);
           res.json({
