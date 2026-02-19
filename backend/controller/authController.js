@@ -8,22 +8,25 @@ exports.signup = (req, res) => {
   if (!name || !email) {
     return res.status(400).json({ error: "All fields required" });
   }
+  const cleanEmail = email.trim().toLowerCase();
+  const sql="SELECT * FROM users WHERE LOWER(email)=?";
 
-  db.query("SELECT * FROM users WHERE email=?", [email], (err, results) => {
+  db.query(sql, [cleanEmail], (err, results) => {
     if (err) {
       console.log(err);
       return res.status(500).json({ error: "DB error" });
     }
 
     if (results.length > 0) {
-      return res.status(400).json({ error: "Email already registered" });
+      return res.status(400).json({ error: "Email already registered.So Login" });
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otp_expiry = new Date(Date.now() + 5 * 60 * 1000);
+    const insertSQL = "INSERT INTO users (name, email, otp, otp_expiry) VALUES (?,?,?,?)";
 
     db.query(
-      "INSERT INTO users (name, email, otp, otp_expiry) VALUES (?,?,?,?)",
+      insertSQL,
       [name, email, otp, otp_expiry],
       async (err) => {
         if (err) {
@@ -38,7 +41,7 @@ exports.signup = (req, res) => {
           });
         } 
         catch (mailErr) {
-          console.log(mailErr);
+          console.log("OTP send error:", mailErr);
           res.status(500).json({
             error: "User registered but failed to send OTP"
           });
