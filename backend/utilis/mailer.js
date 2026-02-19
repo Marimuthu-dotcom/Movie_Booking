@@ -11,9 +11,12 @@ async function sendOtpMail(email, otp) {
     text: `Your OTP is ${otp}. It is valid for 5 minutes.`,
   };
 
+ try {
   await sgMail.send(msg);
-  console.log("API Key:", process.env.SENDGRID_API_KEY);
   console.log("OTP sent successfully");
+} catch (error) {
+  console.error("SendGrid error:", error.response?.body || error.message);
+}
 }
 
 module.exports = { sendOtpMail };
