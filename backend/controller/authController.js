@@ -50,17 +50,23 @@ exports.verifyOtp = async (req, res) => {
       "SELECT * FROM users WHERE LOWER(email)=?",
       [cleanEmail]
     );
-
+    console.log("Verifying OTP for:", cleanEmail);
     if (results.length === 0)
       return res.status(400).json({ error: "User not found" });
 
     const user = results[0];
 
-    if (user.otp !== otp)
+    console.log("Stored OTP:", user.otp, "Expiry:", user.otp_expiry);
+    if (String(user.otp) !== String(otp))
       return res.status(400).json({ error: "Invalid OTP" });
 
-    if (new Date() > user.otp_expiry)
+    if (new Date(user.otp_expiry).getTime() < Date.now())
       return res.status(400).json({ error: "OTP expired" });
+
+    await db.promise().query(
+      "UPDATE users SET otp=NULL, otp_expiry=NULL WHERE email=?",
+      [cleanEmail]
+    );
 
     res.json({ message: "OTP verified successfully" });
 
