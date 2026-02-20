@@ -30,7 +30,6 @@ exports.signup = async (req, res) => {
     console.log("Sending OTP to:", cleanEmail);
 
     await sendOtpMail(cleanEmail, otp);
-
     console.log("Mail sent successfully");
 
     res.json({ message: "User registered & OTP sent" });
@@ -38,5 +37,34 @@ exports.signup = async (req, res) => {
   } catch (error) {
     console.log("Signup error:", error);
     res.status(500).json({ error: "Otp is not sending successfully" });
+  }
+};
+
+exports.verifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    const cleanEmail = email.trim().toLowerCase();
+
+    const [results] = await db.promise().query(
+      "SELECT * FROM users WHERE LOWER(email)=?",
+      [cleanEmail]
+    );
+
+    if (results.length === 0)
+      return res.status(400).json({ error: "User not found" });
+
+    const user = results[0];
+
+    if (user.otp !== otp)
+      return res.status(400).json({ error: "Invalid OTP" });
+
+    if (new Date() > user.otp_expiry)
+      return res.status(400).json({ error: "OTP expired" });
+
+    res.json({ message: "OTP verified successfully" });
+
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
   }
 };

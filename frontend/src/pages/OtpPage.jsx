@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
 import styles from "../styles/OtpPage.module.css";
+import axios from "axios";
 
-function OtpPage({ onClose,onVerified }) {
+function OtpPage({userEmail, onClose,onVerified }) {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [verified, setVerified] = useState(false);
   const inputsRef = useRef([]);
@@ -24,7 +25,7 @@ function OtpPage({ onClose,onVerified }) {
     }
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     const enteredOtp = otp.join("");
     if (enteredOtp.length !== 6) {
       alert("Enter full OTP");
@@ -33,10 +34,19 @@ function OtpPage({ onClose,onVerified }) {
 
     console.log("OTP entered:", enteredOtp);
 
-    // ✅ Frontend-only verification (just simulate success)
+    try {
+    await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/verify-otp`, {
+      email: userEmail, 
+      otp: enteredOtp
+    });
+
+    alert("OTP Verified Successfully");
     setVerified(true);
-    alert("OTP verified (frontend-only)");
-    onVerified();
+    onVerified();   
+
+  } catch (err) {
+    alert(err.response?.data.error || "Invalid OTP");
+  }
   };
 
   return (

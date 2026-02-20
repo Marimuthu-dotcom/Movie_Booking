@@ -7,8 +7,7 @@ const userRoutes = require("./Routes/moviesRoutes");
 const favRoutes = require("./Routes/favRoutes");
 const authRoute = require("./Routes/authRoutes");
 app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
+   origin: "*"
 }));
 app.use(express.json());
 app.use(bodyParser.json());

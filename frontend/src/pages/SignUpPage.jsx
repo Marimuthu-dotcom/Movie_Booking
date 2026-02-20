@@ -16,7 +16,9 @@ function SignUpPage({ switchToLogin, OpenOtp }) {
         name,
         email,
       });    
-      OpenOtp();              
+      OpenOtp(email); 
+      alert(`We have sent an OTP to your email.
+          If you do not see it in your Inbox, please check your Spam / Junk folder.`);             
     } catch (err) {
       console.log(err);
       alert(err.response?.data.error || "Server error");

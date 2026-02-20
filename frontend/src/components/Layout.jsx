@@ -10,6 +10,7 @@ function Layout() {
   const [scrolled, setScrolled] = useState(false);
   const [modal, setModal] = useState(null); 
   const [closing, setClosing] = useState(false);
+  const [userEmail,setUserEmail] = useState("");
 
   return (
     <div className={styles.app}>
@@ -40,16 +41,18 @@ function Layout() {
         {modal === "signup" && (
           <SignUpPage
             switchToLogin={() => setModal("login")}
-            OpenOtp={() => {
-              setModal("otp");         // open OTP
+            OpenOtp={(email) => {
+              setUserEmail(email);
+              setModal("otp"); 
             }}
           />
         )}
         {modal==="otp" && (
-          <OtpPage      // ✅ VERY IMPORTANT
+          <OtpPage 
           onClose={() => setModal(null)}
+          userEmail={userEmail}
           onVerified={() =>{
-            alert("OTP verified. Please login")
+            alert("OTP verified.")
             setModal("login")}
           }/>
         )
