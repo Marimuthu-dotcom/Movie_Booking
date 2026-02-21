@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const bcrypt = require("bcrypt");
 const { sendOtpMail } = require("../utilis/mailer"); // use mailer function
 require("dotenv").config();
 
@@ -57,6 +58,7 @@ exports.verifyOtp = async (req, res) => {
     const user = results[0];
 
     console.log("Stored OTP:", user.otp, "Expiry:", user.otp_expiry);
+    
     if (String(user.otp) !== String(otp))
       return res.status(400).json({ error: "Invalid OTP" });
 
@@ -71,6 +73,41 @@ exports.verifyOtp = async (req, res) => {
     res.json({ message: "OTP verified successfully" });
 
   } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+exports.setPassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Password rules validation
+    if (password.length < 8)
+      return res.status(400).json({ error: "Password must be at least 8 characters" });
+
+    const numCount = (password.match(/\d/g) || []).length;
+    const alphaCount = (password.match(/[a-zA-Z]/g) || []).length;
+    const specialCount = (password.match(/[@$!%*?&]/g) || []).length;
+
+    if (numCount < 2) 
+      return res.status(400).json({ error: "Password must contain at least two numbers" });
+    if (alphaCount < 5) 
+      return res.status(400).json({ error: "Password must contain at least five letters" });
+    if (specialCount < 1) 
+      return res.status(400).json({ error: "Password must contain at least one special character" });
+
+    //Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    //Update DB
+    await db.promise().query(
+      "UPDATE users SET password=?, is_verified=1 WHERE email=?",
+      [hashedPassword, email]
+    );
+
+    res.json({ message: "Password set successfully" });
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Server error" });
   }
 };

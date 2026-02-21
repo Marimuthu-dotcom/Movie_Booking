@@ -39,10 +39,10 @@ function OtpPage({userEmail, onClose,onVerified }) {
       email: userEmail, 
       otp: enteredOtp
     });
-
-    alert("OTP Verified Successfully");
+     
+    alert("OTP verified.")
     setVerified(true);
-    onVerified();   
+    onVerified(userEmail);   
 
   } catch (err) {
     alert(err.response?.data.error || "Invalid OTP");

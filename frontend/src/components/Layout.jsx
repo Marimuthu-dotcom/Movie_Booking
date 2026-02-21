@@ -5,6 +5,7 @@ import LoginPage from "../pages/LoginPage"
 import { useState } from "react";
 import SignUpPage from "../pages/SignUpPage";
 import OtpPage from "../pages/OtpPage";
+import PasswordPage from "../pages/PasswordPage";
 
 function Layout() {
   const [scrolled, setScrolled] = useState(false);
@@ -51,10 +52,17 @@ function Layout() {
           <OtpPage 
           onClose={() => setModal(null)}
           userEmail={userEmail}
-          onVerified={() =>{
-            alert("OTP verified.")
-            setModal("login")}
+          onVerified={(userEmail) =>{
+            setUserEmail(userEmail);
+            setModal("password")}
           }/>
+        )
+        }
+         {modal==="password" && (
+          <PasswordPage 
+           userEmail={userEmail}
+           onClose={() => setModal(null)}
+          />
         )
         }
         </div>)}
