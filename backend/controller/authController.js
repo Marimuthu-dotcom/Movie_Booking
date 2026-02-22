@@ -95,7 +95,6 @@ exports.setPassword = async (req, res) => {
       return res.status(400).json({ error: "Password must contain at least five letters" });
     if (specialCount < 1) 
       return res.status(400).json({ error: "Password must contain at least one special character" });
-d
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await db.promise().query(
