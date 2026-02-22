@@ -2,6 +2,7 @@ const db = require("../config/db");
 const bcrypt = require("bcrypt");
 const { sendOtpMail } = require("../utilis/mailer"); // use mailer function
 require("dotenv").config();
+const jwt=require("jsonwebtoken");
 
 exports.signup = async (req, res) => {
   try {
@@ -81,7 +82,6 @@ exports.setPassword = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Password rules validation
     if (password.length < 8)
       return res.status(400).json({ error: "Password must be at least 8 characters" });
 
@@ -95,17 +95,28 @@ exports.setPassword = async (req, res) => {
       return res.status(400).json({ error: "Password must contain at least five letters" });
     if (specialCount < 1) 
       return res.status(400).json({ error: "Password must contain at least one special character" });
-
-    //Hash password
+d
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    //Update DB
     await db.promise().query(
       "UPDATE users SET password=?, is_verified=1 WHERE email=?",
       [hashedPassword, email]
     );
 
-    res.json({ message: "Password set successfully" });
+    const [users] = await db.promise().query(
+    "SELECT id FROM users WHERE email=?",
+    [email]
+  );
+
+   const user = users[0];
+
+   const token = jwt.sign(
+      { userId: user.id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "7d" }
+    );
+
+   res.json({ message: "Password set", token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
