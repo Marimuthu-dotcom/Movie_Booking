@@ -102,20 +102,7 @@ exports.setPassword = async (req, res) => {
       [hashedPassword, email]
     );
 
-    const [users] = await db.promise().query(
-    "SELECT id FROM users WHERE email=?",
-    [email]
-  );
-
-   const user = users[0];
-
-   const token = jwt.sign(
-      { userId: user.id },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "7d" }
-    );
-
-   res.json({ message: "Password set", token });
+    res.json({ message: "Password set successfully" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });

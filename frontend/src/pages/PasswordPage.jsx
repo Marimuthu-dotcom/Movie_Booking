@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles1 from "../styles/LoginPage.module.css";
 import axios from "axios";
 
-function PasswordPage({ userEmail,onClose,setUser }) {
+function PasswordPage({ userEmail,onClose }) {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [icon, setIcon] = useState(true);
@@ -34,20 +34,10 @@ function PasswordPage({ userEmail,onClose,setUser }) {
     }
     
     try{
-        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/set-password`, {
-          email: userEmail,
-          password
-        });
-
-        const token = res.data.token;
-        localStorage.setItem("token", token);
-
-        // Optional: decode token to get userId or call /profile
-        const profileRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/profile`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-
-        setUser(profileRes.data.user);
+    await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/set-password`,{
+        email:userEmail,
+        password
+    });
    }catch(err){
     alert(err.response?.data.error || "Error setting password");
     return;

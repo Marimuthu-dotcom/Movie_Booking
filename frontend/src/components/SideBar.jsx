@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import logo from "../assets/LOGO.png"
 import styles from "../styles/SideBar.module.css"
-function SideBar({openLogin ,user, setUser }){
+function SideBar({openLogin}){
    return(
     <div className={styles.sidebar}>
         <div className={styles.first}>
@@ -28,23 +28,9 @@ function SideBar({openLogin ,user, setUser }){
            </nav>
            </span>
         </div>
-       <div className={styles.second}>
-  {!user ? (
-    <button type="button" onClick={openLogin}>
-      LOG IN
-    </button>
-  ) : (
-    <div
-      className={styles.profileIcon}
-      onClick={() => {
-        localStorage.removeItem("token");
-        setUser(null);
-      }}
-    >
-      {user.name.charAt(0).toUpperCase()}
-    </div>
-  )}
-</div>
+        <div className={styles.second}>
+           <button type="button" onClick={openLogin}>LOG IN</button>
+        </div>
     </div>
    );
 }

@@ -2,7 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import styles from "../styles/Layout.module.css";
 import SideBar from "./SideBar";
 import LoginPage from "../pages/LoginPage"
-import { useState ,useEffect} from "react";
+import { useState } from "react";
 import SignUpPage from "../pages/SignUpPage";
 import OtpPage from "../pages/OtpPage";
 import PasswordPage from "../pages/PasswordPage";
@@ -12,21 +12,6 @@ function Layout() {
   const [modal, setModal] = useState(null); 
   const [closing, setClosing] = useState(false);
   const [userEmail,setUserEmail] = useState("");
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      axios.get(`${import.meta.env.VITE_API_URL}/api/auth/profile`, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      .then(res => setUser(res.data))
-      .catch(() => {
-        localStorage.removeItem("token");
-        setUser(null);
-      });
-    }
-  }, []);
 
   return (
     <div className={styles.app}>
@@ -77,7 +62,6 @@ function Layout() {
           <PasswordPage 
            userEmail={userEmail}
            onClose={() => setModal(null)}
-           setUser={setUser}
           />
         )
         }
