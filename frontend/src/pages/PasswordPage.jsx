@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles1 from "../styles/LoginPage.module.css";
 import axios from "axios";
 
-function PasswordPage({ userEmail,onClose }) {
+function PasswordPage({ userEmail,onClose,setUser }) {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [icon, setIcon] = useState(true);

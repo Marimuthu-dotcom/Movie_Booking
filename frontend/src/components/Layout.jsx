@@ -77,6 +77,7 @@ function Layout() {
           <PasswordPage 
            userEmail={userEmail}
            onClose={() => setModal(null)}
+           setUser={setUser}
           />
         )
         }
