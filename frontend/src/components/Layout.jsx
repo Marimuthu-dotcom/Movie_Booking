@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet} from "react-router-dom";
 import styles from "../styles/Layout.module.css";
 import SideBar from "./SideBar";
 import LoginPage from "../pages/LoginPage"
@@ -17,7 +17,7 @@ function Layout() {
     <div className={styles.app}>
       <div className={styles.appLayout}>
         <div className={styles.sideBar}>
-          <SideBar openLogin={()=>setModal("login")} user={user} setUser={setUser}/>
+          <SideBar openLogin={()=>setModal("login")}/>
         </div>
         <div
           className={styles.contentPage}
