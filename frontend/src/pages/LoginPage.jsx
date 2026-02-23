@@ -14,21 +14,17 @@ function LoginPage({ onClose, switchToSignUp ,closing}) {
     return;
   }
 
-  try {
-    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-      email,
-      password,
-    });
-
-    alert("Login Successful");
-
-    console.log(res.data.user); // User data
-
-    onClose();
-
-  } catch (err) {
-    alert(err.response?.data?.message || "Login failed");
-  }
+  try{
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`,{
+          email,
+          password
+      });
+     }catch(err){
+      alert(err.response?.data.message || "Login failed");
+      return;
+     }
+      alert("Login successful ✅");
+      onClose();
 };
 
   return (
