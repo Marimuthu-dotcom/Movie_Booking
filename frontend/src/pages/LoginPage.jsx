@@ -1,27 +1,35 @@
 import { useState } from "react";
 import styles from "../styles/LoginPage.module.css";
+import axios from "axios";
 
 function LoginPage({ onClose, switchToSignUp ,closing}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!email || !password) {
-      alert("All fields are required");
-      return;
-    }
+  if (!email || !password) {
+    alert("All fields are required");
+    return;
+  }
 
-    if (password.length < 6) {
-      alert("Password must be at least 6 characters");
-      return;
-    }
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+      email,
+      password,
+    });
 
-    // ✅ Frontend-only login simulation
-    alert(`Logged in successfully (frontend-only)\nEmail: ${email}`);
-    onClose(); // close login modal after "login"
-  };
+    alert("Login Successful");
+
+    console.log(res.data.user); // User data
+
+    onClose();
+
+  } catch (err) {
+    alert(err.response?.data?.message || "Login failed");
+  }
+};
 
   return (
       <div className={`${styles.modal} ${closing?styles.closeModel:""}`}>
