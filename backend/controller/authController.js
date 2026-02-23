@@ -113,9 +113,11 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const [rows] = await db.execute(
-      "SELECT * FROM users WHERE email = ?",
-      [email]
+    const cleanEmail = email.trim().toLowerCase();
+
+    const [rows] = await db.promise().query(
+      "SELECT * FROM users WHERE LOWER(email)=?",
+      [cleanEmail]
     );
 
     if (rows.length === 0) {
@@ -123,6 +125,10 @@ exports.login = async (req, res) => {
     }
 
     const user = rows[0];
+
+    if (!user.password) {
+      return res.status(400).json({ message: "Password not set yet" });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
@@ -140,6 +146,7 @@ exports.login = async (req, res) => {
     });
 
   } catch (err) {
+    console.error("Login error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
