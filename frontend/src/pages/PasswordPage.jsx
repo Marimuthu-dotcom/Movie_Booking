@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles1 from "../styles/LoginPage.module.css";
 import axios from "axios";
 
-function PasswordPage({ userEmail,onClose }) {
+function PasswordPage({ userEmail,onClose ,setIsLogged }) {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [icon, setIcon] = useState(true);
@@ -34,10 +34,12 @@ function PasswordPage({ userEmail,onClose }) {
     }
     
     try{
-    await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/set-password`,{
+    const res=await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/set-password`,{
         email:userEmail,
         password
     });
+    localStorage.setItem("token",res.data.token);
+    setIsLogged(true);
    }catch(err){
     alert(err.response?.data.error || "Error setting password");
     return;

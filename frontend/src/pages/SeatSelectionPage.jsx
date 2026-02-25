@@ -9,6 +9,7 @@ function SeatSelection() {
   const { movieName } = useParams();
   const decodedMovieName = decodeURIComponent(movieName);
   const location = useLocation();
+  
   const { movies } = useContext(MoviesContext);
   const [movieData, setMovieData] = useState(location.state?.movieData || null);
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -65,7 +66,7 @@ function SeatSelection() {
 
     const order = {
       orderId,
-      screen: "04",
+      screen: movieData.screenNo,
       seats: selectedSeats,
       showTime: "03:00 PM",
       amount: total,
@@ -78,7 +79,7 @@ function SeatSelection() {
     navigate("/history");
   };
 
-  if (loading) return <h2 style={{ textAlign: "center", marginTop: "120px", color: "white" }}>Loading… please wait</h2>;
+  if (loading) return <h2 style={{ textAlign: "center", marginTop: "120px", color: "white" ,fontFamily:"Roboto,sans-serif"}}>Loading… please wait</h2>;
   if (error) return <h2 style={{ textAlign: "center", marginTop: "120px", color: "red" }}>Movie not found</h2>;
 
  
@@ -94,7 +95,6 @@ function SeatSelection() {
               ></i>
               Book a show
             </h2>
-            <p style={{color: "rgb(237, 192, 31)"}}>screen 4 2:00 PM {date}</p>
           </div>
           <div className={styles.secondDiv}>
             <div className={styles.movieImg}>

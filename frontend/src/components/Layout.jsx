@@ -2,7 +2,7 @@ import { Outlet} from "react-router-dom";
 import styles from "../styles/Layout.module.css";
 import SideBar from "./SideBar";
 import LoginPage from "../pages/LoginPage"
-import { useState } from "react";
+import { useState,useEffect} from "react";
 import SignUpPage from "../pages/SignUpPage";
 import OtpPage from "../pages/OtpPage";
 import PasswordPage from "../pages/PasswordPage";
@@ -12,12 +12,20 @@ function Layout() {
   const [modal, setModal] = useState(null); 
   const [closing, setClosing] = useState(false);
   const [userEmail,setUserEmail] = useState("");
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    setIsLogged(true);
+  }
+}, []);
 
   return (
     <div className={styles.app}>
       <div className={styles.appLayout}>
         <div className={styles.sideBar}>
-          <SideBar openLogin={()=>setModal("login")}/>
+          <SideBar openLogin={()=>setModal("login")} isLogged={isLogged} setIsLogged={setIsLogged}/>
         </div>
         <div
           className={styles.contentPage}
@@ -62,6 +70,7 @@ function Layout() {
           <PasswordPage 
            userEmail={userEmail}
            onClose={() => setModal(null)}
+           setIsLogged={setIsLogged}
           />
         )
         }

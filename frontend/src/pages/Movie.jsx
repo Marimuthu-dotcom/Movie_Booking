@@ -162,11 +162,9 @@ function Movie() {
         <div className={styles.movieHome2}>
   {loading ? (
     <>
-    {Array.from({ length: filteredMovies.length }).map((_, index) => (
-      <div key={index} className={`${styles.emptyBox} ${loading?"":styles.fadeOut}`}>
-        
-      </div>
-    ))}
+    <div className={styles.loadingWrapper}>
+       <div className={styles.SpinSkeleton}></div>
+     </div>
     </>
   ) : (
     filteredMovies.map((m,index) => (

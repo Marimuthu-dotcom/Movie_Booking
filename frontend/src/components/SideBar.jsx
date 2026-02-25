@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import logo from "../assets/LOGO.png"
 import styles from "../styles/SideBar.module.css"
-function SideBar({openLogin}){
+function SideBar({openLogin,isLogged,setIsLogged}){
    return(
     <div className={styles.sidebar}>
         <div className={styles.first}>
@@ -29,7 +29,9 @@ function SideBar({openLogin}){
            </span>
         </div>
         <div className={styles.second}>
-           <button type="button" onClick={openLogin}>LOG IN</button>
+           {isLogged?(<button type="button" onClick={()=>{setIsLogged(false);
+           localStorage.removeItem("token");
+           }}>LOG OUT</button>):(<button type="button" onClick={openLogin}>LOG IN</button>)}
         </div>
     </div>
    );

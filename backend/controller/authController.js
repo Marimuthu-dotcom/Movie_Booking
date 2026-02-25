@@ -102,7 +102,12 @@ exports.setPassword = async (req, res) => {
       [hashedPassword, email]
     );
 
-    res.json({ message: "Password set successfully" });
+    const token=jwt.sign(
+      {email},
+      process.env.JWT_SECRET_KEY,
+      {expiresIn:"7d"});
+
+    res.json({ message: "Password set successfully", token:token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
