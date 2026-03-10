@@ -29,7 +29,7 @@ function SideBar({openLogin,isLogged,setIsLogged}){
            </span>
         </div>
         <div className={styles.second}>
-           {isLogged?(<button type="button" onClick={()=>{setIsLogged(false);
+           {isLogged?(<button type="button" style={{backgroundColor:"red"}} onClick={()=>{setIsLogged(false);
            localStorage.removeItem("token");
            }}>LOG OUT</button>):(<button type="button" onClick={openLogin}>LOG IN</button>)}
         </div>
