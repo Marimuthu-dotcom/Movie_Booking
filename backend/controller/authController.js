@@ -103,7 +103,7 @@ exports.setPassword = async (req, res) => {
       {expiresIn:"7d"});
 
       await db.promise().query(
-      "UPDATE users SET password=?, is_verified=1 current_token=? WHERE email=?",
+      "UPDATE users SET password=?, is_verified=1, current_token=? WHERE email=?",
       [hashedPassword,token,email]
     );
 
