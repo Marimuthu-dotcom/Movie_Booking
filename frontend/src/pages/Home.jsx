@@ -173,10 +173,10 @@ function Home() {
                               ))
                             ) : 
                                 (screenMovies.map((show, index) => (
-                                    <div key={index} className={styles.barRow}>
+                                    <div key={index} className={styles.barRow} >
                                     <div
                                         className={styles.barFill}
-                                        style={{ width: show.percent ,background:show.gradient,color:show.text}}
+                                        style={{ width: show.percent ,background:show.gradient,color:show.text ,borderRadius: "8px"}}
                                     >{show.percent}
                                     </div>
                                     </div>
