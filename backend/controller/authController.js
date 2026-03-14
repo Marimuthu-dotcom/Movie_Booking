@@ -107,7 +107,7 @@ exports.setPassword = async (req, res) => {
       [hashedPassword,token,email]
     );
 
-
+  console.log("Token set for:", token);
     res.json({ message: "Password set successfully", token:token });
   } catch (err) {
     console.error(err);
