@@ -19,7 +19,7 @@ exports.signup = async (req, res) => {
     );
 
     if (results.length > 0)
-      return res.status(400).json({ error: "Email is already registered" });
+      return res.status(409).json({ error: "Email is already registered" });
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otp_expiry = new Date(Date.now() + 5 * 60 * 1000);
