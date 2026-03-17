@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "../styles/LoginPage.module.css";
 import axios from "axios";
 
-function LoginPage({ onClose, switchToSignUp ,closing}) {
+function LoginPage({ onClose, switchToSignUp ,closing,setIsLogged}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,7 +19,10 @@ function LoginPage({ onClose, switchToSignUp ,closing}) {
           email,
           password
       });
-     }catch(err){
+      sessionStorage.setItem("token", res.data.token);
+      setIsLogged(true);
+     }
+     catch(err){
       alert(err.response?.data.message || "Login failed");
       return;
      }

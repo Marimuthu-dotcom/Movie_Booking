@@ -120,7 +120,6 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     const cleanEmail = email.trim().toLowerCase();
-
     const [rows] = await db.promise().query(
       "SELECT * FROM users WHERE LOWER(email)=?",
       [cleanEmail]
@@ -131,6 +130,10 @@ exports.login = async (req, res) => {
     }
 
     const user = rows[0];
+
+    if (!user.is_verified) {
+      return res.status(400).json({ message: "Account not verified" });
+    }
 
     if (!user.password) {
       return res.status(400).json({ message: "Password not set yet" });
@@ -144,6 +147,7 @@ exports.login = async (req, res) => {
 
     res.json({
       message: "Login successful",
+      token: user.current_token,
       user: {
         id: user.id,
         name: user.name,

@@ -45,6 +45,7 @@ function Layout() {
             }, 600);}}
             closing={closing}
             switchToSignUp={() => setModal("signup")}
+            setIsLogged={setIsLogged}
           />
         )}
         {modal === "signup" && (
