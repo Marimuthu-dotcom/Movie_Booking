@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { useOutletContext,NavLink } from "react-router-dom";
 import { MoviesContext } from "../context/MoviesContent";
 import DateBooking from "./DateBooking";
-import jwtDecode from "jwt-decode";
+import axios from "axios";
 
 function convertToMinutes(duration) {
   const parts = duration.match(/\d+/g); //It split the hour and min ["2","30"]
@@ -130,7 +130,7 @@ function Home() {
         }
       );
 
-      setScreenMovies(res.data.data);
+      alert("Admin verified successfully");
 
     } catch (err) {
       console.log("Error:", err);

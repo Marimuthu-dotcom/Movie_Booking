@@ -161,10 +161,10 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.getPreviousdata = async (req, res) => {
+exports.getPreviousData = async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader) {
+    if (!authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
         message: "No token provided"
       });
@@ -175,7 +175,7 @@ exports.getPreviousdata = async (req, res) => {
     let decoded;
 
     try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET);
+      decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     } catch (err) {
       return res.status(401).json({
         message: "Invalid or expired token"
@@ -187,9 +187,9 @@ exports.getPreviousdata = async (req, res) => {
       });
     }
 
-    // ✅ Send response
     res.status(200).json({
-      success: true
+      success: true,
+      message: "Admin verified"
     });
 
   } catch (err) {
