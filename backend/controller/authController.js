@@ -163,7 +163,7 @@ exports.login = async (req, res) => {
 
 exports.getPreviousData = async (req, res) => {
   try {
-    const authHeader = req.headers.Authorization;
+    const authHeader = req.headers.authorization;
 
     if (!authHeader) {
       return res.status(401).json({
