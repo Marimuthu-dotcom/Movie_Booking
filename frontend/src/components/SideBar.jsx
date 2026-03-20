@@ -20,28 +20,7 @@ function SideBar({openLogin,isLogged,setIsLogged}){
       `${styles.link} ${isActive ? styles.active : ""}`
     }><i className="bi bi-plus-circle-fill"></i>Book a Show</NavLink>
                <NavLink to="/history"
-               onClick={async (e) => {
-               e.preventDefault(); 
-              const token = sessionStorage.getItem("token");
-              if (!token) 
-                return alert("Please login first");
-
-              try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/previous-data`, {
-                  headers: { Authorization: `Bearer ${token}` },
-                });
-
-                if (res.status === 200) {
-                  window.location.href = "/history"; 
-                } 
-                else {
-                  alert(res.data.message || "Only admin can access this page");
-                }
-              } 
-              catch (err) {
-                alert("Something went wrong");
-              }
-            }}
+               
                className={({ isActive }) =>
       `${styles.link} ${isActive ? styles.active : ""}`
     }
@@ -61,3 +40,5 @@ function SideBar({openLogin,isLogged,setIsLogged}){
    );
 }
 export default SideBar;
+
+ 
