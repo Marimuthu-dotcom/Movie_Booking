@@ -190,7 +190,8 @@ exports.getPreviousData = async (req, res) => {
     }
 
     res.status(200).json({
-      success: true
+      success: true,
+      message: "Admin accessed successfully"
     });
 
   } catch (err) {
