@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { useOutletContext,NavLink } from "react-router-dom";
 import { MoviesContext } from "../context/MoviesContent";
 import DateBooking from "./DateBooking";
+import jwtDecode from "jwt-decode";
 
 function convertToMinutes(duration) {
   const parts = duration.match(/\d+/g); //It split the hour and min ["2","30"]
@@ -100,6 +101,7 @@ function Home() {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState(null);
   const[lastCount,setLastCount]=useState(6);
+  const [activeCategory, setActiveCategory] = useState("today");
 
   const types = [
     {value:"all",label:"All"}, {value:"adventure",label:"Adventure"}, {value:"comedy",label:"Comedy"},
@@ -107,6 +109,45 @@ function Home() {
     {value:"love",label:"Love"}, {value:"horror",label:"Horror"},{value:"crime",label:"Crime"},{value:"thriller",label:"Thriller"}
   ];
 
+   const handleCategoryClick = async (category) => {
+  setActiveCategory(category);
+
+  if (category === "previous") {
+    const token = sessionStorage.getItem("token");
+
+    if (!token) {
+      alert("Please login first");
+      return;
+    }
+
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/auth/previous-data`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      setScreenMovies(res.data.data);
+
+    } catch (err) {
+      console.log("Error:", err);
+      if (err.response?.status === 403) {
+        alert("Only admin can view previous data");
+      } else if (err.response?.status === 401) {
+        alert("Invalid or expired token");
+      } else {
+        alert("Failed to fetch data");
+      }
+    }
+  }
+
+  if (category === "today") {
+    setScreenMovies(currentMovies);
+  }
+};
   const totalShows = currentMovies.reduce((total, movie) => {
   const number = movie.per_day.split(" ")[0];
   return total + Number(number);
@@ -135,8 +176,12 @@ function Home() {
                 <div className={`${styles.home1} ${scrolled ? styles.scrolled : ""}`}>
                     <div className={styles.div1}>
                     <nav className={styles.top}>
-                        <NavLink className={styles.date}>Today</NavLink>
-                        <NavLink className={styles.date}>View Previous Data</NavLink>
+                        <NavLink className={`${styles.date} ${
+                              activeCategory === "today" ? styles.activeNow : ""
+                            }`} onClick={()=>handleCategoryClick("today")}>Today</NavLink>
+                        <NavLink  className={`${styles.date} ${
+                              activeCategory === "previous" ? styles.activeNow : ""
+                            }`} onClick={()=>handleCategoryClick("previous")}>View Previous Data</NavLink>
                     </nav>
                     </div>
                     <div className={styles.div2}>

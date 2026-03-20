@@ -5,6 +5,7 @@ import axios from "axios";
 function LoginPage({ onClose, switchToSignUp ,closing,setIsLogged}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+   const [icon, setIcon] = useState(true);
 
  const handleSubmit = async (e) => {
   e.preventDefault();
@@ -15,7 +16,7 @@ function LoginPage({ onClose, switchToSignUp ,closing,setIsLogged}) {
   }
 
   try{
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`,{
+      const res=await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`,{
           email,
           password
       });
@@ -56,14 +57,19 @@ function LoginPage({ onClose, switchToSignUp ,closing,setIsLogged}) {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              autoComplete="new-password"
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div style={{ position: "relative", width: "100%" }}>
+            <input type={icon?"password":"text"} placeholder="Password" value={password} autoComplete="new-password" onChange={e => setPassword(e.target.value)} required/>
+            <span 
+            onClick={()=>setIcon(!icon)}
+            style={{
+                position: "absolute",
+                right: "10px",
+                top:"10px",
+                cursor: "pointer",
+                fontSize: "1.1rem",
+                color: "gray"
+            }}>{icon?<i className="bi bi-eye-slash-fill"></i>:<i className="bi bi-eye-fill"></i>}</span>
+          </div>
             <button type="submit">LOG IN</button>
           </form>
         </div>

@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { signup,verifyOtp,setPassword,login} = require("../controller/authController");
+const { signup,verifyOtp,setPassword,login,getPreviousData} = require("../controller/authController");
 
 router.post("/signup", signup);
 router.post("/verify-otp", verifyOtp);
 router.post("/set-password", setPassword);
 router.post("/login", login);
+router.get("/previous-data", getPreviousData);
 
 module.exports = router;

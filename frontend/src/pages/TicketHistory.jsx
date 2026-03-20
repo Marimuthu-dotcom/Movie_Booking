@@ -8,7 +8,7 @@ function TicketHistory() {
 
   useEffect(() => {
   const storedOrders =
-    JSON.parse(localStorage.getItem("ticketOrders")) || [];
+    JSON.parse(sessionStorage.getItem("ticketOrders")) || [];
   setOrders(storedOrders);
 }, []);
 

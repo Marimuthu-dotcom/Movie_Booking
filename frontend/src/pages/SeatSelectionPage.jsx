@@ -74,8 +74,8 @@ function SeatSelection() {
       date: new Date().toISOString()
     };
 
-    const existingOrders = JSON.parse(localStorage.getItem("ticketOrders")) || [];
-    localStorage.setItem("ticketOrders", JSON.stringify([order, ...existingOrders]));
+    const existingOrders = JSON.parse(sessionStorage.getItem("ticketOrders")) || [];
+    sessionStorage.setItem("ticketOrders", JSON.stringify([order, ...existingOrders]));
     navigate("/history");
   };
 
