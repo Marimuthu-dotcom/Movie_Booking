@@ -181,7 +181,7 @@ exports.getPreviousdata = async (req, res) => {
         message: "Invalid or expired token"
       });
     }
-    if (decoded.role !== "admin") {
+    if (decoded.email !== "maripavin7@gmail.com") {
       return res.status(403).json({
         message: "Only admin can access this data"
       });
