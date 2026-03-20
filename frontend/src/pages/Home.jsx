@@ -129,9 +129,7 @@ function Home() {
           }
         }
       );
-
-      alert("Admin verified successfully");
-
+      alert(res.data.message);
     } catch (err) {
       console.log("Error:", err);
       if (err.response?.status === 403) {
