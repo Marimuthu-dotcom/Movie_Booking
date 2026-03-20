@@ -165,7 +165,7 @@ exports.getPreviousData = async (req, res) => {
   try {
     const authHeader = req.headers.Authorization;
 
-    if (!authHeader.startsWith("Bearer ")) {
+    if (!authHeader) {
       return res.status(401).json({
         message: "No token provided"
       });
@@ -177,7 +177,8 @@ exports.getPreviousData = async (req, res) => {
 
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    } catch (err) {
+    } 
+    catch (err) {
       return res.status(401).json({
         message: "Invalid or expired token"
       });
