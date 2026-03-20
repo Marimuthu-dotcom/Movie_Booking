@@ -110,7 +110,6 @@ function Home() {
   ];
 
    const handleCategoryClick = async (category) => {
-  setActiveCategory(category);
 
   if (category === "previous") {
     const token = sessionStorage.getItem("token");
@@ -130,6 +129,7 @@ function Home() {
         }
       );
       alert(res.data.message);
+      setActiveCategory(category);
     } catch (err) {
       console.log("Error:", err);
       if (err.response?.status === 403) {
@@ -143,6 +143,7 @@ function Home() {
   }
 
   if (category === "today") {
+    setActiveCategory(category);
     setScreenMovies(currentMovies);
   }
 };
@@ -222,6 +223,7 @@ function Home() {
                                         style={{ width: show.percent ,background:show.gradient,color:show.text ,borderRadius: "8px"}}
                                     >{show.percent}
                                     </div>
+                                    <span className={styles.tooltip}>{show.movie_name}</span>
                                     </div>
                                 )))
                               }</div>

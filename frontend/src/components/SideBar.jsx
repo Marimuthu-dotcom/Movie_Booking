@@ -19,9 +19,33 @@ function SideBar({openLogin,isLogged,setIsLogged}){
                <NavLink to="/booking" className={({ isActive }) =>
       `${styles.link} ${isActive ? styles.active : ""}`
     }><i className="bi bi-plus-circle-fill"></i>Book a Show</NavLink>
-               <NavLink to="/history" className={({ isActive }) =>
+               <NavLink to="/history"
+               onClick={async (e) => {
+               e.preventDefault(); 
+              const token = sessionStorage.getItem("token");
+              if (!token) 
+                return alert("Please login first");
+
+              try {
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/previous-data`, {
+                  headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (res.status === 200) {
+                  window.location.href = "/history"; 
+                } 
+                else {
+                  alert(res.data.message || "Only admin can access this page");
+                }
+              } 
+              catch (err) {
+                alert("Something went wrong");
+              }
+            }}
+               className={({ isActive }) =>
       `${styles.link} ${isActive ? styles.active : ""}`
-    }><i className="bi bi-stack"></i>Ticket History</NavLink>
+    }
+    ><i className="bi bi-stack"></i>Ticket History</NavLink>
                <NavLink to="/movie" className={({ isActive }) =>
       `${styles.link} ${isActive ? styles.active : ""}`
     }><i className="bi bi-camera-reels-fill"></i>Movie</NavLink>

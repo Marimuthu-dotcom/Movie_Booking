@@ -66,7 +66,7 @@ function SeatSelection() {
 
     const order = {
       orderId,
-      screen: movieData.screenNo,
+      movie: movieData.movie_name,
       seats: selectedSeats,
       showTime: "03:00 PM",
       amount: total,

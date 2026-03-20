@@ -44,7 +44,7 @@ function TicketHistory() {
       <thead>
         <tr>
           <th>Order ID</th>
-          <th>Screen</th>
+          <th>Movie</th>
           <th>Seats</th>
           <th>Show Time</th>
           <th>Payment</th>
@@ -64,13 +64,13 @@ function TicketHistory() {
     orders.map((order, index) => (
       <tr key={index}>
         <td>#{order.orderId}</td>
-        <td>{order.screen}</td>
+        <td>{order.movie}</td>
         <td>{order.seats.join(", ")}</td>
         <td>{order.showTime}</td>
         <td>${order.amount}</td>
         <td>{order.paymentMode}</td>
         <td>
-          <i className="bi bi-eye-fill"></i>
+          <button style={{padding:"0px 4px",borderRadius:"10px",border:"none"}}><i className="bi bi-eye-fill"></i></button>
         </td>
       </tr>
     ))

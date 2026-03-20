@@ -100,7 +100,7 @@ exports.setPassword = async (req, res) => {
     const token=jwt.sign(
       {email},
       process.env.JWT_SECRET_KEY,
-      {expiresIn:"7d"});
+      {expiresIn:"365d"});
 
       await db.promise().query(
       "UPDATE users SET password=?, is_verified=1, current_token=? WHERE email=?",
@@ -190,8 +190,7 @@ exports.getPreviousData = async (req, res) => {
     }
 
     res.status(200).json({
-      success: true,
-      message: "Admin verified"
+      success: true
     });
 
   } catch (err) {
