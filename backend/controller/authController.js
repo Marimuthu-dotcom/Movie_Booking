@@ -163,7 +163,8 @@ exports.login = async (req, res) => {
 
 exports.getPreviousData = async (req, res) => {
   try {
-    const authHeader = req.headers.authorization;
+    const authHeader = req.headers.Authorization;
+
     if (!authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
         message: "No token provided"
