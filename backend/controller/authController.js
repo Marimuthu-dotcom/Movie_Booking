@@ -201,3 +201,24 @@ exports.getPreviousData = async (req, res) => {
     });
   }
 };
+
+exports.postBooking = async(req,res) => {
+ try {
+    const userEmail = req.user.email;
+
+    const { movie, seats, showTime, amount, paymentMode, date, customerName, customerNumber } = req.body;
+
+    await db.promise().query(
+      `INSERT INTO bookings
+        (user_email, movie_name, date, timing, seats, name, mobile_no, payment_mode, total_amount )
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [userEmail, movie, date, showTime, seats.join(","),customerName, customerNumber, paymentMode, amount]
+    );
+
+    res.status(200).json({ message: "Booking successful" });
+
+  } catch (err) {
+    console.error("Booking error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};

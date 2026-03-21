@@ -1,7 +1,12 @@
 import { NavLink } from "react-router-dom";
 import logo from "../assets/LOGO.png"
 import styles from "../styles/SideBar.module.css"
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 function SideBar({openLogin,isLogged,setIsLogged}){
+
+  const navigate = useNavigate();
    return(
     <div className={styles.sidebar}>
         <div className={styles.first}>
@@ -28,19 +33,32 @@ function SideBar({openLogin,isLogged,setIsLogged}){
 
               try {
                 const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/previous-data`, {
-                  headers: { Authorization: `Bearer ${token}` },
+                  headers: { Authorization: `Bearer ${token}` }
                 });
 
                 if (res.status === 200) {
-                  window.location.href = "/history"; // or use useNavigate()
+                  navigate("/history");
                 } 
                 else {
                   alert(res.data.message || "Only admin can access this page");
                 }
               } 
               catch (err) {
+              console.log("Axios Error Object:", err); // ✅ see full error in console
+              console.log("Response:", err.response);   // ✅ see server response (status, data)
+              console.log("Request:", err.request);     // ✅ see request sent
+              console.log("Message:", err.message);     // ✅ error message string
+
+              if (err.response?.status === 403) {
+                alert("Only admin can access this page");
+              } 
+              else if (err.response?.status === 401) {
+                alert("Invalid or expired token");
+              } 
+              else {
                 alert("Something went wrong");
               }
+            }
             }}
                className={({ isActive }) =>
       `${styles.link} ${isActive ? styles.active : ""}`

@@ -12,9 +12,11 @@ function SeatSelection() {
   
   const { movies } = useContext(MoviesContext);
   const [movieData, setMovieData] = useState(location.state?.movieData || null);
+  const { selectedDate, selectedTime } = location.state;
   const [selectedSeats, setSelectedSeats] = useState([]);
   const MAX_SELECTION = 10;
   const SEAT_PRICE = 200;
+ const timing=`${selectedTime.start} - ${selectedTime.end}`;
 
   const totalPrice = selectedSeats.length * SEAT_PRICE;
   const discountRate = 0.05;
@@ -61,22 +63,47 @@ function SeatSelection() {
   const isValidNumber = customerNumber.length >= 10;
   const canProceed = customerName.trim() !== "" && isValidNumber && selectedSeats.length > 0 && payment !== "";
 
-  const handleProceed = () => {
-    if (!canProceed) return;
+  const handleProceed = async() => {
+    if (!canProceed) 
+      return;
 
     const order = {
-      orderId,
-      movie: movieData.movie_name,
-      seats: selectedSeats,
-      showTime: "03:00 PM",
-      amount: total,
-      paymentMode: payment,
-      date: new Date().toISOString()
-    };
+    orderId,
+    movie: movieData.movie_name,
+    date: selectedDate,
+    showTime: timing,
+    seats: selectedSeats,
+    customerName:customerName,
+    customerNumber:customerNumber,
+    paymentMode: payment, 
+    amount: total
+  };
 
-    const existingOrders = JSON.parse(sessionStorage.getItem("ticketOrders")) || [];
-    sessionStorage.setItem("ticketOrders", JSON.stringify([order, ...existingOrders]));
-    navigate("/history");
+   try {
+     const token = localStorage.getItem("token"); 
+    const res = await axios.post("/api/auth/bookings", order, {
+    headers: {
+      Authorization: `Bearer ${token}` 
+    }
+  });
+
+    if (res.status === 200) {
+      const existingOrders = JSON.parse(sessionStorage.getItem("ticketOrders")) || [];
+      sessionStorage.setItem(
+        "ticketOrders",
+        JSON.stringify([order, ...existingOrders])
+      );
+
+      navigate("/history");
+    } 
+    else {
+      alert("Booking failed. Please try again.");
+    }
+  } 
+  catch (err) {
+    console.error(err);
+    alert("Something went wrong while booking!");
+  }
   };
 
   if (loading) return <h2 style={{ textAlign: "center", marginTop: "120px", color: "white" ,fontFamily:"Roboto,sans-serif"}}>Loading… please wait</h2>;
@@ -103,6 +130,7 @@ function SeatSelection() {
             <div className={styles.movieDescription}>
               <div className={styles.MovieName}>
                 <h3 style={{ color: "rgb(237, 192, 31)" ,fontWeight:"800"}}>{movieData.movie_name}</h3>
+                <p>Time: {timing}</p>
                 <p style={{backgroundColor: "rgb(237, 192, 31)"}}>2D</p>
               </div>
               <div className={styles.story} style={{ color: "white" }}>{movieData.story}</div>

@@ -1,0 +1,118 @@
+.overlay {
+  position: absolute;
+  top: 0; 
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}   
+.DateContainer{
+   position:absolute;
+   top:1%;
+   left:1%;
+   background: #111;
+   padding: 10px;
+   border-radius: 10px;
+   width: 320px;
+   height:170px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   gap:20px;
+   text-align: center;
+}
+
+.inputContainer{
+    display: flex;
+    gap: 10px;
+    font-family:"Roboto", serif;
+}
+.dateInput{
+    font-family:"Roboto", serif;
+    width: 25%;
+    padding: 5px;
+    text-align: center; 
+    border-radius: 10px;
+    border: 1px solid transparent;
+    outline: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 15px;
+}
+.dateInput:focus{
+    border: 2px solid orange;
+}
+.dateInput::placeholder {
+  font-size: 15px;
+}
+.buttonContainer{
+  display: flex;
+  gap: 10px;
+  font-family:"Roboto", serif;
+}
+.buttonContainer button{
+  padding: 5px 10px;
+  border: none;
+  width: 80px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: green;
+  font-weight: 600;
+  color: white;
+  font-family:"Roboto", serif;
+  font-size: 15px;
+}
+
+.buttonContainer button:active {
+  background-color: orange;
+  color: black;
+}
+
+.slideUp {
+  animation: slideUp 0.3s ease forwards;
+}
+
+.slideDown {
+  animation: slideDown 0.3s ease forwards;
+}
+
+/* overlay fade */
+.fadeOut {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

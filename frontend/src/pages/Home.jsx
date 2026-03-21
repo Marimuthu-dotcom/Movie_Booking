@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { useOutletContext,NavLink } from "react-router-dom";
 import { MoviesContext } from "../context/MoviesContent";
 import DateBooking from "./DateBooking";
+import PreviousDateSelector from "./PreviousDateSelector";
 import axios from "axios";
 
 function convertToMinutes(duration) {
@@ -102,6 +103,7 @@ function Home() {
   const [selectedTime, setSelectedTime] = useState(null);
   const[lastCount,setLastCount]=useState(6);
   const [activeCategory, setActiveCategory] = useState("today");
+  const [dateSelectorOpen, setDateSelectorOpen] = useState(false);
 
   const types = [
     {value:"all",label:"All"}, {value:"adventure",label:"Adventure"}, {value:"comedy",label:"Comedy"},
@@ -130,6 +132,7 @@ function Home() {
       );
       alert(res.data.message);
       setActiveCategory(category);
+      setDateSelectorOpen(true);
     } catch (err) {
       console.log("Error:", err);
       if (err.response?.status === 403) {
@@ -312,6 +315,11 @@ function Home() {
 
                     </div>
                 </div>
+                {dateSelectorOpen && (
+                  <PreviousDateSelector
+                    onClose={() => {setDateSelectorOpen(false)
+                      }
+                    }/>)}
                 </div>
                 {selectedMovie && (
                    <DateBooking

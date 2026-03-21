@@ -77,12 +77,15 @@ return (
                     disabled={!available}
                     className={`${styles.timeBox}`}
                     style={{
-                      background: selectedTime===i ? "green" : "#333",
+                      background: selectedTime?.start === formatTime(show.start)? "green" : "#333",
                       color:"#fff",
                       cursor: available ? "pointer" : "not-allowed",
                       opacity: available ? 1 : 0.5,fontFamily: "Roboto, serif"
                     }}
-                    onClick={() => setSelectedTime(i)}
+                    onClick={() => setSelectedTime({
+                      start: formatTime(show.start),
+                      end: formatTime(show.end)
+                    })}
                   >
                     {formatTime(show.start)} - {formatTime(show.end)}
                   </button>
