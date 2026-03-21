@@ -3,6 +3,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { RiArmchairFill } from "react-icons/ri";
 import { MoviesContext } from "../context/MoviesContent";
+import axios from "axios";
 
 function SeatSelection() {
   const navigate = useNavigate();
@@ -81,11 +82,12 @@ function SeatSelection() {
 
    try {
      const token = localStorage.getItem("token"); 
-    const res = await axios.post("/api/auth/bookings", order, {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/booking`, order, {
     headers: {
       Authorization: `Bearer ${token}` 
     }
   });
+
 
     if (res.status === 200) {
       const existingOrders = JSON.parse(sessionStorage.getItem("ticketOrders")) || [];
@@ -101,7 +103,18 @@ function SeatSelection() {
     }
   } 
   catch (err) {
-    console.error(err);
+    console.error("Full error:", err);
+    if (err.response) {
+      console.error("Response data:", err.response.data);  // Backend error message
+      console.error("Response status:", err.response.status); // HTTP status
+      console.error("Response headers:", err.response.headers);
+    } 
+    else if (err.request) {
+      console.error("Request sent but no response received", err.request);
+    } 
+    else {
+      console.error("Error setting up request", err.message);
+    }
     alert("Something went wrong while booking!");
   }
   };
