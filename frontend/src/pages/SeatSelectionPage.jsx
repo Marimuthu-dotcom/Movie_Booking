@@ -69,7 +69,7 @@ function SeatSelection() {
       return;
 
     const order = {
-    orderId,
+    orderNo:orderId,
     movie: movieData.movie_name,
     date: selectedDate,
     showTime: timing,

@@ -71,12 +71,12 @@ function TicketHistory() {
   ) : (
     orders.map((order, index) => (
       <tr key={index}>
-        <td>#{order.orderId}</td>
-        <td>{order.movie}</td>
+        <td>#{order.orderNo}</td>
+        <td>{order.movie_name}</td>
         <td>{order.seats.join(", ")}</td>
-        <td>{order.showTime}</td>
-        <td>${order.amount}</td>
-        <td>{order.paymentMode}</td>
+        <td>{order.timing}</td>
+        <td>${order.total_amount}</td>
+        <td>{order.payment_mode}</td>
         <td>
           <button style={{padding:"0px 4px",borderRadius:"10px",border:"none"}}><i className="bi bi-eye-fill"></i></button>
         </td>
