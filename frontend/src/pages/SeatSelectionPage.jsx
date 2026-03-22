@@ -26,14 +26,16 @@ function SeatSelection() {
   const tax1 = totalPrice * taxRate;
   const tax2 = totalPrice * taxRate;
   const total = (totalPrice - discount) + tax1 + tax2;
+  const [orderId, setOrderId] = useState("");
 
-  const [orderId, setOrderId] = useState(Math.floor(100000 + Math.random() * 900000));
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   const date = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 
   useEffect(() => {
+    const newId=Math.floor(100000 + Math.random() * 900000);
+    setOrderId(newId);
     if (movieData) {
       setLoading(false);
       return;

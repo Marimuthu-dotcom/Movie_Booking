@@ -71,9 +71,9 @@ function TicketHistory() {
   ) : (
     orders.map((order, index) => (
       <tr key={index}>
-        <td>#{order.orderNo}</td>
+        <td>#{order.OrderNo}</td>
         <td>{order.movie_name}</td>
-        <td>{order.seats.join(", ")}</td>
+        <td>{order.seats}</td>
         <td>{order.timing}</td>
         <td>${order.total_amount}</td>
         <td>{order.payment_mode}</td>
