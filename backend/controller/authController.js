@@ -211,7 +211,7 @@ exports.postBooking = async(req,res) => {
 
     await db.promise().query(
       `INSERT INTO bookings
-        (user_email, OrderNo, movie_name, date, timing, seats, name, mobile_no, payment_mode, total_amount )
+        (user_email, orderNo, movie_name, date, timing, seats, name, mobile_no, payment_mode, total_amount )
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [userEmail, orderId ,movie, date, showTime, seats.join(","),customerName, customerNumber, paymentMode, amount]
     );
@@ -227,7 +227,7 @@ exports.postBooking = async(req,res) => {
 exports.Orders = async(req,res) =>{
   try{
     const [row]= await db.promise().query(
-      `SELECT movie_name, orderNo,  seats, timing, total_amount, payment_mode FROM bookings`
+      `SELECT orderNo, movie_name, seats, timing, total_amount, payment_mode FROM bookings`
     );
     res.json(row);
   }
