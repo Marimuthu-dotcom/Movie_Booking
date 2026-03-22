@@ -27,31 +27,58 @@ function SeatSelection() {
   const tax2 = totalPrice * taxRate;
   const total = (totalPrice - discount) + tax1 + tax2;
   const [orderId, setOrderId] = useState("");
-
+  const [bookedSeats, setBookedSeats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   const date = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 
   useEffect(() => {
-    const newId=Math.floor(100000 + Math.random() * 900000);
-    setOrderId(newId);
-    if (movieData) {
+  const fetchData = async () => {
+    try {
+      const newId = Math.floor(100000 + Math.random() * 900000);
+      setOrderId(newId);
+
+      let movie = movies.find(m => m.movie_name === decodedMovieName);
+      if (movie) 
+        setMovieData(movie);
+      else 
+        setError(true);
+
+      if (selectedDate && selectedTime)
+         {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/booked-seats`, {
+          params: {
+            movie: decodedMovieName,
+            date: selectedDate,
+            showTime: `${selectedTime.start} - ${selectedTime.end}`
+          }
+        });
+
+        setBookedSeats(res.data.bookedSeats);
+      }
+
       setLoading(false);
-      return;
+    } 
+    catch (err) {
+      console.error("Error fetching booked seats:", err);
+      setError(true);
+      setLoading(false);
     }
+  };
 
-    const movie = movies.find(m => m.movie_name === decodedMovieName);
-    if (movie) setMovieData(movie);
-    else setError(true);
-
-    setLoading(false);
-  }, [movieData, decodedMovieName, movies]);
+  fetchData();
+}, [decodedMovieName, movies, selectedDate, selectedTime, movieData]);
 
   const toggleSeat = (seatId) => {
-    if (selectedSeats.includes(seatId)) setSelectedSeats(selectedSeats.filter(s => s !== seatId));
-    else if (selectedSeats.length < MAX_SELECTION) setSelectedSeats([...selectedSeats, seatId]);
-    else alert("Maximum 10 seats only!");
+    if (bookedSeats.includes(seatId)) 
+      return;
+    if (selectedSeats.includes(seatId)) 
+      setSelectedSeats(selectedSeats.filter(s => s !== seatId));
+    else if (selectedSeats.length < MAX_SELECTION) 
+      setSelectedSeats([...selectedSeats, seatId]);
+    else 
+      alert("Maximum 10 seats only!");
   };
    const billDetails = [
     { label: "Subtotal", amount: totalPrice.toFixed(2) },
@@ -173,7 +200,8 @@ function SeatSelection() {
                   title={seatId}
                   className={styles.seat}
                   onClick={() => toggleSeat(seatId)}>
-                    <RiArmchairFill className={styles.seatIcon} style={{ color: selectedSeats.includes(seatId) ? "rgb(20, 208, 20)" : "" }}/>
+                    <RiArmchairFill className={styles.seatIcon} style={{ color: bookedSeats.includes(seatId) ? "red" : selectedSeats.includes(seatId) ? "rgb(20, 208, 20)" : "" ,
+                    cursor: bookedSeats.includes(seatId) ? "disabled" : selectedSeats.includes(seatId) ? "cursor" : ""}}/>
                   </span>
               );
             })}
@@ -189,7 +217,7 @@ function SeatSelection() {
                   title={seatId}
                   className={styles.seat}
                   onClick={() => toggleSeat(seatId)}>
-                    <RiArmchairFill className={styles.seatIcon} style={{ color: selectedSeats.includes(seatId) ? "rgb(20, 208, 20)" : "" }}/>
+                    <RiArmchairFill className={styles.seatIcon} style={{ color: bookedSeats.includes(seatId) ? "red" : selectedSeats.includes(seatId) ? "rgb(20, 208, 20)" : "" }}/>
                   </span>
               );
             })}
@@ -205,7 +233,7 @@ function SeatSelection() {
                   title={seatId}
                   className={styles.seat}
                   onClick={() => toggleSeat(seatId)}>
-                    <RiArmchairFill className={styles.seatIcon} style={{ color: selectedSeats.includes(seatId) ? "rgb(20, 208, 20)" : "" }}/>
+                    <RiArmchairFill className={styles.seatIcon} style={{ color: bookedSeats.includes(seatId) ? "red" : selectedSeats.includes(seatId) ? "rgb(20, 208, 20)" : "" }}/>
                   </span>
               );
             })}

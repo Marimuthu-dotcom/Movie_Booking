@@ -262,3 +262,24 @@ exports.getDashboardData = async (req, res) => {
     res.status(500).json({ msg: "Error fetching dashboard data" });
   }
 };
+
+exports.getBookedSeats =async (req,res)=>{
+
+  const {movie,date,showTime}=req.body;
+
+  try {
+    const [rows] = await db.promise().query(
+      `SELECT seats FROM bookings WHERE movie_name = ? AND date = ? AND timing = ?`,
+      [movie, date, showTime]
+    );
+
+    const bookedSeats = rows.flatMap(row => row.seats.split(",")); 
+
+    res.json({ bookedSeats });
+  } 
+  catch (err) {
+    console.error("Error fetching booked seats:", err);
+    console.log("Error fetching booked seats:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+}

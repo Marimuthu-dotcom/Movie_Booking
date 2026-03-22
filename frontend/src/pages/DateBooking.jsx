@@ -95,8 +95,6 @@ return (
             </div>
           </div>
 
-
-                {/* Book Button */}
                 <div className={styles.bottomSection}>
                   <button
                     className={styles.bookBtn}

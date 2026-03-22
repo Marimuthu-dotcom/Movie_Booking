@@ -6,17 +6,20 @@ export function MoviesProvider({ children }) {
   const [movies, setMovies] = useState([]);    
   const [currentMovies, setCurrentMovies] = useState([]); 
   const [loading, setLoading] = useState(true);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const [allRes, currentRes] = await Promise.all([
+        const [allRes, currentRes, ordersRes] = await Promise.all([
           axios.get(`${import.meta.env.VITE_API_URL}/api/movies`),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/current-movie`)
+          axios.get(`${import.meta.env.VITE_API_URL}/api/current-movie`),
+          axios.get(`${import.meta.env.VITE_API_URL}/api/auth/orders`)
         ]);
 
         setMovies(allRes.data);
         setCurrentMovies(currentRes.data);
+        setOrders(ordersRes.data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -27,7 +30,7 @@ export function MoviesProvider({ children }) {
   }, []);
 
   return (
-    <MoviesContext.Provider value={{ movies, currentMovies, loading }}>
+    <MoviesContext.Provider value={{ movies, currentMovies, loading ,orders}}>
       {children}
     </MoviesContext.Provider>
   );

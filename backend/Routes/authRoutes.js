@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { signup,verifyOtp,setPassword,login,getPreviousData,postBooking,Orders,getDashboardData } = require("../controller/authController");
+const { signup,verifyOtp,setPassword,login,getPreviousData,postBooking,Orders,getDashboardData,getBookedSeats} = require("../controller/authController");
 const { verifyToken } = require("../middleware/verifyMiddleware");
 
 router.post("/signup", signup);
@@ -10,6 +10,7 @@ router.post("/login", login);
 router.get("/previous-data", getPreviousData);
 router.post("/booking", verifyToken, postBooking);
 router.get("/orders", Orders);
-router.get("/dashboard",getDashboardData)
+router.get("/dashboard",getDashboardData);
+router.get("/booked-seats",getBookedSeats);
 
 module.exports = router;
