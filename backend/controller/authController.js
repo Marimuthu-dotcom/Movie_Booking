@@ -222,3 +222,16 @@ exports.postBooking = async(req,res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.orders = async(req,res) =>{
+  try{
+    const [res]= await db.promise().query(
+      `SELECT movie_name, seats, timing, total_amount, payment_mode FROM bookings`
+    );
+    res.status(200).json(res);
+  }
+  catch(err){
+    console.error("Orders error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+}

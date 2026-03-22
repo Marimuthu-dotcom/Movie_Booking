@@ -2,14 +2,22 @@ import styles1 from "../styles/Home.module.css"
 import styles2 from "../styles/TicketHistory.module.css"
 import { useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 function TicketHistory() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-  const storedOrders =
-    JSON.parse(sessionStorage.getItem("ticketOrders")) || [];
-  setOrders(storedOrders);
+  const fetchOrders =async()=>{
+    try{
+      const res=await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/orders`); 
+      setOrders(res.data);
+    }
+    catch(err){
+     console.error(err);
+    }
+  } 
+  fetchOrders();
 }, []);
 
   

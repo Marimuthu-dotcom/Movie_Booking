@@ -101,6 +101,7 @@ function SeatSelection() {
     else {
       alert("Booking failed. Please try again.");
     }
+    alert(res.data.message);
   } 
   catch (err) {
     console.error("Full error:", err);

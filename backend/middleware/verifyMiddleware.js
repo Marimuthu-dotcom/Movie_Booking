@@ -14,7 +14,8 @@ exports.verifyToken = (req, res, next) => {
     console.log("Decoded token:", decoded);
     req.user = decoded; 
     next();
-  } catch (err) {
+  } 
+  catch (err) {
     if (err.name === "TokenExpiredError") {
     return res.status(401).json({ msg: "Token expired" });
   }
