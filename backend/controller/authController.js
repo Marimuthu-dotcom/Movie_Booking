@@ -206,13 +206,14 @@ exports.postBooking = async(req,res) => {
  try {
     const userEmail = req.user.email;
 
-    const { OrderNo, movie, seats, showTime, amount, paymentMode, date, customerName, customerNumber } = req.body;
+    const { orderId, movie, seats, showTime, amount, paymentMode, date, customerName, customerNumber } = req.body;
+    console.log("Booking request received:", { userEmail, orderId, movie, seats, showTime, amount, paymentMode, date, customerName, customerNumber });
 
     await db.promise().query(
       `INSERT INTO bookings
         (user_email, OrderNo, movie_name, date, timing, seats, name, mobile_no, payment_mode, total_amount )
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [userEmail, OrderNo ,movie, date, showTime, seats.join(","),customerName, customerNumber, paymentMode, amount]
+      [userEmail, orderId ,movie, date, showTime, seats.join(","),customerName, customerNumber, paymentMode, amount]
     );
 
     res.status(200).json({ message: "Booking successful" });
