@@ -265,7 +265,7 @@ exports.getDashboardData = async (req, res) => {
 
 exports.getBookedSeats =async (req,res)=>{
 
-  const {movie,date,showTime}=req.body;
+  const {movie,date,showTime}=req.query;
 
   try {
     const [rows] = await db.promise().query(

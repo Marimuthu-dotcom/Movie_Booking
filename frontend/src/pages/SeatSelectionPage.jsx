@@ -68,7 +68,7 @@ function SeatSelection() {
   };
 
   fetchData();
-}, [decodedMovieName, movies, selectedDate, selectedTime, movieData]);
+}, [decodedMovieName, movies, selectedDate, selectedTime]);
 
   const toggleSeat = (seatId) => {
     if (bookedSeats.includes(seatId)) 
