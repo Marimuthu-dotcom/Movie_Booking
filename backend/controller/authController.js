@@ -227,7 +227,7 @@ exports.postBooking = async(req,res) => {
 exports.Orders = async(req,res) =>{
   try{
     const [row]= await db.promise().query(
-      `SELECT movie_name, seats, timing, total_amount, payment_mode FROM bookings`
+      `SELECT movie_name, orderNo,  seats, timing, total_amount, payment_mode FROM bookings`
     );
     res.json(row);
   }
@@ -236,3 +236,29 @@ exports.Orders = async(req,res) =>{
     res.status(500).json({ message: "Server error" });
   }
 }
+
+exports.getDashboardData = async (req, res) => {
+  try {
+    const [rows] = await db.promise().query("SELECT seats, total_amount FROM bookings");
+
+    let totalOrders = rows.length;
+    let totalSeats = 0;
+    let totalRevenue = 0;
+
+    rows.forEach(row => {
+      const seatCount = row.seats ? row.seats.split(",").length : 0;
+      totalSeats += seatCount;
+
+      totalRevenue += Number(row.total_amount);
+    });
+
+    res.json({
+      totalOrders,
+      totalSeats,
+      totalRevenue
+    });
+
+  } catch (err) {
+    res.status(500).json({ msg: "Error fetching dashboard data" });
+  }
+};

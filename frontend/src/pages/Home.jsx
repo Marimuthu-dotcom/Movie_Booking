@@ -104,6 +104,26 @@ function Home() {
   const[lastCount,setLastCount]=useState(6);
   const [activeCategory, setActiveCategory] = useState("today");
   const [dateSelectorOpen, setDateSelectorOpen] = useState(false);
+  const [dashboard, setDashboard] = useState({
+    totalOrders: 0,
+    totalSeats: 0,
+    totalRevenue: 0
+  });
+
+  useEffect(()=>{
+    const fetchDashboard=async()=>{
+  try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/auth/dashboard`);
+
+      setDashboard(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  fetchDashboard();
+}, []);
 
   const types = [
     {value:"all",label:"All"}, {value:"adventure",label:"Adventure"}, {value:"comedy",label:"Comedy"},
@@ -198,15 +218,15 @@ function Home() {
                         <h3>Today's Total Show</h3>
                     </div>
                     <div className={styles.mainDetails}>
-                        <h3 className={styles.count2}>0</h3>
+                        <h3 className={styles.count2}>{dashboard.totalOrders}</h3>
                         <h3>Total Orders</h3>
                     </div>
                     <div className={styles.mainDetails}>
-                        <h3 className={styles.count3}>0</h3>
+                        <h3 className={styles.count3}>{dashboard.totalSeats}</h3>
                         <h3>Total Seats Booked</h3>
                     </div>
                     <div className={styles.mainDetails}>
-                        <h3 className={styles.count4}>${Number(100000).toLocaleString("en-IN")}</h3>
+                        <h3 className={styles.count4}>${Number(dashboard.totalRevenue).toLocaleString("en-IN")}</h3>
                         <h3>Total Revenue</h3>
                     </div>
                 </div>
