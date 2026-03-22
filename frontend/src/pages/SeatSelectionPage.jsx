@@ -90,12 +90,6 @@ function SeatSelection() {
 
 
     if (res.status === 200) {
-      const existingOrders = JSON.parse(sessionStorage.getItem("ticketOrders")) || [];
-      sessionStorage.setItem(
-        "ticketOrders",
-        JSON.stringify([order, ...existingOrders])
-      );
-
       navigate("/history");
     } 
     else {

@@ -223,7 +223,7 @@ exports.postBooking = async(req,res) => {
   }
 };
 
-exports.orders = async(req,res) =>{
+exports.Orders = async(req,res) =>{
   try{
     const [res]= await db.promise().query(
       `SELECT movie_name, seats, timing, total_amount, payment_mode FROM bookings`
