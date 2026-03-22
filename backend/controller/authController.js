@@ -100,7 +100,7 @@ exports.setPassword = async (req, res) => {
     const token=jwt.sign(
       {email},
       process.env.JWT_SECRET_KEY,
-      {expiresIn:"365d"});
+      {expiresIn:"1h"});
 
       await db.promise().query(
       "UPDATE users SET password=?, is_verified=1, current_token=? WHERE email=?",

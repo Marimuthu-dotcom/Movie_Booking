@@ -6,6 +6,8 @@ exports.verifyToken = (req, res, next) => {
     return res.status(401).json({ msg: "No token" });
 
   const token = authHeader.split(" ")[1]; 
+  
+  console.log("Auth header received:", req.headers.authorization);
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY); 
     console.log("Decoded token:", decoded);
