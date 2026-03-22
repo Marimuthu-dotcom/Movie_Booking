@@ -225,10 +225,10 @@ exports.postBooking = async(req,res) => {
 
 exports.Orders = async(req,res) =>{
   try{
-    const [res]= await db.promise().query(
+    const [row]= await db.promise().query(
       `SELECT movie_name, seats, timing, total_amount, payment_mode FROM bookings`
     );
-    res.status(200).json(res);
+    res.json(row);
   }
   catch(err){
     console.error("Orders error:", err);
