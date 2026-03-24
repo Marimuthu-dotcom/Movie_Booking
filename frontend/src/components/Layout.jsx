@@ -17,8 +17,8 @@ function Layout() {
 
   useEffect(() => {
   const token = sessionStorage.getItem("token");
-if(!token)
-  return;
+    if(!token)
+      return;
 
   if (token) {
     setIsLogged(true);

@@ -173,7 +173,6 @@ function SeatSelection() {
             <div className={styles.movieDescription}>
               <div className={styles.MovieName}>
                 <h3 style={{ color: "rgb(237, 192, 31)" ,fontWeight:"800"}}>{movieData.movie_name}</h3>
-                <p>Time: {timing}</p>
                 <p style={{backgroundColor: "rgb(237, 192, 31)"}}>2D</p>
               </div>
               <div className={styles.story} style={{ color: "white" }}>{movieData.story}</div>
@@ -206,8 +205,8 @@ function SeatSelection() {
                   title={seatId}
                   className={styles.seat}
                   onClick={() => toggleSeat(seatId)}>
-                    <RiArmchairFill className={styles.seatIcon} style={{ color: bookedSeats.includes(seatId) ? "red" : selectedSeats.includes(seatId) ? "rgb(20, 208, 20)" : "" ,
-                    cursor: bookedSeats.includes(seatId) ? "not-allowed" : selectedSeats.includes(seatId) ? "cursor" : ""}}/>
+                    <RiArmchairFill className={styles.seatIcon} style={{ color: bookedSeats.includes(seatId) ? "rgb(155, 42, 42)" : selectedSeats.includes(seatId) ? "rgb(20, 208, 20)" : "" ,
+                    cursor: bookedSeats.includes(seatId) ? "not-allowed" : selectedSeats.includes(seatId) ? "pointer" : ""}}/>
                   </span>
               );
             })}
@@ -223,7 +222,7 @@ function SeatSelection() {
                   title={seatId}
                   className={styles.seat}
                   onClick={() => toggleSeat(seatId)}>
-                    <RiArmchairFill className={styles.seatIcon} style={{ color: bookedSeats.includes(seatId) ? "red" : selectedSeats.includes(seatId) ? "rgb(20, 208, 20)" : "" }}/>
+                    <RiArmchairFill className={styles.seatIcon} style={{ color: bookedSeats.includes(seatId) ? "rgb(255, 2, 2)" : selectedSeats.includes(seatId) ? "rgb(20, 208, 20)" : "" ,cursor: bookedSeats.includes(seatId) ? "not-allowed" : selectedSeats.includes(seatId) ? "pointer" : ""}} />
                   </span>
               );
             })}
@@ -239,7 +238,7 @@ function SeatSelection() {
                   title={seatId}
                   className={styles.seat}
                   onClick={() => toggleSeat(seatId)}>
-                    <RiArmchairFill className={styles.seatIcon} style={{ color: bookedSeats.includes(seatId) ? "red" : selectedSeats.includes(seatId) ? "rgb(20, 208, 20)" : "" }}/>
+                    <RiArmchairFill className={styles.seatIcon} style={{ color: bookedSeats.includes(seatId) ? "rgb(135, 76, 76)" : selectedSeats.includes(seatId) ? "rgb(20, 208, 20)" : "" ,cursor: bookedSeats.includes(seatId) ? "not-allowed" : selectedSeats.includes(seatId) ? "pointer" : ""}} />
                   </span>
               );
             })}
