@@ -39,30 +39,36 @@ function SeatSelection() {
       const newId = Math.floor(100000 + Math.random() * 900000);
       setOrderId(newId);
 
-      let movie = movies.find(m => m.movie_name === decodedMovieName);
-      if (movie) 
-        setMovieData(movie);
-      else 
-        setError(true);
+      // 🔥 Wait until movies is loaded
+      if (movies.length > 0) {
+        const movie = movies.find(m => m.movie_name === decodedMovieName);
 
-      if (selectedDate && selectedTime)
-         {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/booked-seats`, {
-          params: {
-            movie: decodedMovieName,
-            date: selectedDate,
-            showTime: `${selectedTime.start} - ${selectedTime.end}`
+        if (movie) {
+          setMovieData(movie);
+        } else {
+          setError(true);
+        }
+      }
+
+      // Fetch booked seats
+      if (selectedDate && selectedTime) {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/auth/booked-seats`,
+          {
+            params: {
+              movie: decodedMovieName,
+              date: selectedDate,
+              showTime: `${selectedTime.start} - ${selectedTime.end}`
+            }
           }
-        });
+        );
 
-        setBookedSeats(res.data.bookedSeats);
+        setBookedSeats(res.data.bookedSeats || []);
       }
 
       setLoading(false);
-    } 
-    catch (err) {
-      console.error("Error fetching booked seats:", err);
-      setError(true);
+    } catch (err) {
+      console.error("Error:", err);
       setLoading(false);
     }
   };
@@ -201,7 +207,7 @@ function SeatSelection() {
                   className={styles.seat}
                   onClick={() => toggleSeat(seatId)}>
                     <RiArmchairFill className={styles.seatIcon} style={{ color: bookedSeats.includes(seatId) ? "red" : selectedSeats.includes(seatId) ? "rgb(20, 208, 20)" : "" ,
-                    cursor: bookedSeats.includes(seatId) ? "disabled" : selectedSeats.includes(seatId) ? "cursor" : ""}}/>
+                    cursor: bookedSeats.includes(seatId) ? "not-allowed" : selectedSeats.includes(seatId) ? "cursor" : ""}}/>
                   </span>
               );
             })}
