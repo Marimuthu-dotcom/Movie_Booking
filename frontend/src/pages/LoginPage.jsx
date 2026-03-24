@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "../styles/LoginPage.module.css";
 import axios from "axios";
 
-function LoginPage({ onClose, switchToSignUp ,closing,setIsLogged}) {
+function LoginPage({ onClose, switchToSignUp ,closing, setIsLogged,setIsAdmin}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
    const [icon, setIcon] = useState(true);
@@ -21,6 +21,16 @@ function LoginPage({ onClose, switchToSignUp ,closing,setIsLogged}) {
           password
       });
       sessionStorage.setItem("token", res.data.token);
+
+      const payload = JSON.parse(atob(res.data.token.split(".")[1]));
+      const userEmail = payload.email;
+
+      // 👇 CHECK
+      if (userEmail === "maripavin7@gmail.com") {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
       setIsLogged(true);
      }
      catch(err){

@@ -13,26 +13,37 @@ function Layout() {
   const [closing, setClosing] = useState(false);
   const [userEmail,setUserEmail] = useState("");
   const [isLogged, setIsLogged] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
   const token = sessionStorage.getItem("token");
+if(!token)
+  return;
+
   if (token) {
     setIsLogged(true);
   }
+
+  const payload = JSON.parse(atob(token.split(".")[1]));
+    const userEmail = payload.email;
+
+    if (userEmail === "maripavin7@gmail.com") {
+      setIsAdmin(true);
+    }
 }, []);
 
   return (
     <div className={styles.app}>
       <div className={styles.appLayout}>
         <div className={styles.sideBar}>
-          <SideBar openLogin={()=>setModal("login")} isLogged={isLogged} setIsLogged={setIsLogged}/>
+          <SideBar openLogin={()=>setModal("login")} isLogged={isLogged} setIsLogged={setIsLogged} isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
         </div>
         <div
           className={styles.contentPage}
           onScroll={(e) => setScrolled(e.target.scrollTop > 1)}
          >
           {/* Outlet receives context */}
-          <Outlet context={{ scrolled }} />
+          <Outlet context={{ scrolled ,isAdmin}} />
         </div>
         {modal && (
          <div className={`${styles.overlay} ${closing ? styles.fadeOut : styles.fadeIn}`}>
@@ -46,6 +57,7 @@ function Layout() {
             closing={closing}
             switchToSignUp={() => setModal("signup")}
             setIsLogged={setIsLogged}
+            setIsAdmin={setIsAdmin}
           />
         )}
         {modal === "signup" && (

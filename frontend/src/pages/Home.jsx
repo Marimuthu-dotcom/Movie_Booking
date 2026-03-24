@@ -93,7 +93,7 @@ function generateDates(start, end){
 };
 
 function Home() {
-  const { scrolled } = useOutletContext();
+  const { scrolled, isAdmin } = useOutletContext();
   const { currentMovies,loading } = useContext(MoviesContext);
   const [searchText, setSearchText] = useState("");
   const [selectedType, setSelectedType] = useState("all");
@@ -111,6 +111,10 @@ function Home() {
   });
 
   useEffect(()=>{
+
+    if(!isAdmin)
+      return;
+
     const fetchDashboard=async()=>{
   try {
       const res = await axios.get(
@@ -123,7 +127,7 @@ function Home() {
   };
 
   fetchDashboard();
-}, []);
+}, [isAdmin]);
 
   const types = [
     {value:"all",label:"All"}, {value:"adventure",label:"Adventure"}, {value:"comedy",label:"Comedy"},
@@ -200,10 +204,10 @@ function Home() {
                     <nav className={styles.top}>
                         <NavLink className={`${styles.date} ${
                               activeCategory === "today" ? styles.activeNow : ""
-                            }`} onClick={()=>handleCategoryClick("today")}>Today</NavLink>
-                        <NavLink  className={`${styles.date} ${
+                            }`} onClick={()=>handleCategoryClick("today")}>Today Running Show</NavLink>
+                        {isAdmin && (<NavLink  className={`${styles.date} ${
                               activeCategory === "previous" ? styles.activeNow : ""
-                            }`} onClick={()=>handleCategoryClick("previous")}>View Previous Data</NavLink>
+                            }`} onClick={()=>handleCategoryClick("previous")}>View Previous Data</NavLink>)}
                     </nav>
                     </div>
                     <div className={styles.div2}>
@@ -212,7 +216,7 @@ function Home() {
                     </div>
                 </div>
                 <div className={styles.home2}>
-                <div className={styles.home2child1}>
+                {isAdmin && (<div className={styles.home2child1}>
                     <div className={styles.mainDetails}>
                         <h3 className={styles.count1}>{totalShows}</h3>
                         <h3>Today's Total Show</h3>
@@ -229,7 +233,7 @@ function Home() {
                         <h3 className={styles.count4}>${Number(dashboard.totalRevenue).toLocaleString("en-IN")}</h3>
                         <h3>Total Revenue</h3>
                     </div>
-                </div>
+                </div>)}
                 <div className={styles.home2child2}>
                     <div className={styles.leftHome2}>
                         <div className={styles.child1}>

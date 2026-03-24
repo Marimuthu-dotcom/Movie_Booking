@@ -4,7 +4,7 @@ import styles from "../styles/SideBar.module.css"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function SideBar({openLogin,isLogged,setIsLogged}){
+function SideBar({openLogin,isLogged,setIsLogged,isAdmin,setIsAdmin}){
 
   const navigate = useNavigate();
    return(
@@ -24,7 +24,7 @@ function SideBar({openLogin,isLogged,setIsLogged}){
                <NavLink to="/booking" className={({ isActive }) =>
       `${styles.link} ${isActive ? styles.active : ""}`
     }><i className="bi bi-plus-circle-fill"></i>Book a Show</NavLink>
-               <NavLink to="/history"
+              {isAdmin && (<NavLink to="/history"
                onClick={async (e) => {
               e.preventDefault(); 
               const token = sessionStorage.getItem("token");
@@ -62,7 +62,7 @@ function SideBar({openLogin,isLogged,setIsLogged}){
             }}
                className={({ isActive }) =>
       `${styles.link} ${isActive ? styles.active : ""}`
-    }><i className="bi bi-stack"></i>Ticket History</NavLink>
+    }><i className="bi bi-stack"></i>Ticket History</NavLink>)}
                <NavLink to="/movie" className={({ isActive }) =>
       `${styles.link} ${isActive ? styles.active : ""}`
     }><i className="bi bi-camera-reels-fill"></i>Movie</NavLink>
@@ -70,9 +70,11 @@ function SideBar({openLogin,isLogged,setIsLogged}){
            </span>
         </div>
         <div className={styles.second}>
-           {isLogged?(<button type="button" style={{backgroundColor:"red"}} onClick={()=>{setIsLogged(false);
-           sessionStorage.removeItem("token");
-           }}>LOG OUT</button>):(<button type="button" onClick={openLogin}>LOG IN</button>)}
+           {isLogged?(<button type="button" style={{backgroundColor:"red"}} onClick={() => {
+            setIsLogged(false);
+            setIsAdmin(false);
+            sessionStorage.removeItem("token");
+  }}>LOG OUT</button>):(<button type="button" onClick={openLogin}>LOG IN</button>)}
         </div>
     </div>
    );
