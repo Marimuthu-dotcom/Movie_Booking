@@ -274,8 +274,9 @@ exports.getBookedSeats =async (req,res)=>{
     );
 
     const bookedSeats = rows.flatMap(row => row.seats.split(",")); 
+    const totalBookedSeats = bookedSeats.length;
 
-    res.json({ bookedSeats });
+    res.json({ bookedSeats ,totalBookedSeats});
   } 
   catch (err) {
     console.error("Error fetching booked seats:", err);

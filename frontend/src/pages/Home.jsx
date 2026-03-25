@@ -93,7 +93,7 @@ function generateDates(start, end){
 };
 
 function Home() {
-  const { scrolled, isAdmin } = useOutletContext();
+  const { scrolled, isAdmin ,isLogged} = useOutletContext();
   const { currentMovies,loading } = useContext(MoviesContext);
   const [searchText, setSearchText] = useState("");
   const [selectedType, setSelectedType] = useState("all");
@@ -204,7 +204,7 @@ function Home() {
                     <nav className={styles.top}>
                         <NavLink className={`${styles.date} ${
                               activeCategory === "today" ? styles.activeNow : ""
-                            }`} onClick={()=>handleCategoryClick("today")}>Today Running Show</NavLink>
+                            }`} style={{color:"rgb(255, 255, 4)"}} onClick={()=>handleCategoryClick("today")}>Today Running Show</NavLink>
                         {isAdmin && (<NavLink  className={`${styles.date} ${
                               activeCategory === "previous" ? styles.activeNow : ""
                             }`} onClick={()=>handleCategoryClick("previous")}>View Previous Data</NavLink>)}
@@ -247,7 +247,7 @@ function Home() {
                                     <div key={index} className={styles.barRow} >
                                     <div
                                         className={styles.barFill}
-                                        style={{ width: show.percent ,background:show.gradient,color:show.text ,borderRadius: "8px"}}
+                                        style={{ width: "70%" ,background:show.gradient,color:show.text ,borderRadius: "8px"}}
                                     >{show.percent}
                                     </div>
                                     <span className={styles.tooltip}>{show.movie_name}</span>
@@ -278,7 +278,12 @@ function Home() {
                                <span><h4 className={styles.screenTitle} style={{fontWeight:"500",letterSpacing:"1px"}}>Screen {index+1}</h4></span>
                                 <span>
                                         <p className={styles.movieName}>{movie.movie_name}</p>
-                                        <button className={styles.bookBtn} onClick={()=>setSelectedMovie(movie)}>Booking</button>
+                                        <button className={styles.bookBtn} onClick={()=>{
+                                          if(isLogged)
+                                           setSelectedMovie(movie);
+                                          else
+                                            alert("Please login to book tickets");
+                                          }}>Booking</button>
                                 </span>
                             </div>
                             )))}

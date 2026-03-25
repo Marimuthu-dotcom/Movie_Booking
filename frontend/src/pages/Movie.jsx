@@ -94,7 +94,7 @@ function generateDates(start, end){
 
 function Movie() {
   const { movies, loading,currentMovies } = useContext(MoviesContext); 
-  const { scrolled } = useOutletContext();
+  const { scrolled ,isLogged} = useOutletContext();
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
@@ -168,7 +168,12 @@ function Movie() {
     </>
   ) : (
     filteredMovies.map((m,index) => (
-      <div key={index} className={styles.moviesListBox} style={{animationDelay:`${index*0.2}s`}} onClick={()=>setSelectedMovie(m)}>
+      <div key={index} className={styles.moviesListBox} style={{animationDelay:`${index*0.2}s`}} onClick={()=>{
+                            if(isLogged)
+                             setSelectedMovie(m);
+                            else
+                             alert("Please login to book tickets");
+                            }}>
         <div className={styles.poster}>
           <img src={m.img} alt="" />
           <div

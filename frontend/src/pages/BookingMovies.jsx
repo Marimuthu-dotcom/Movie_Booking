@@ -1,7 +1,8 @@
 import styles from "../styles/Booking.module.css";
 import { useOutletContext } from "react-router-dom";
 import DateBooking from "./DateBooking";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
+import axios from "axios";
 
 function convertToMinutes(duration) {
   const parts = duration.match(/\d+/g); //It split the hour and min ["2","30"]
@@ -90,13 +91,36 @@ function generateDates(start, end){
 };
 
 function BookingMovies() {
-  const { filteredMovies, isFav, toggleFav,loading } =
+  const { filteredMovies, isFav, toggleFav,loading ,isLogged} =
     useOutletContext();
 
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState(null);
+  const [bookedSeats, setBookedSeats] = useState(240);
 
+  useEffect(()=>{
+    const fetchBookedSeats = async () => {
+   if(selectedMovie && selectedDate && selectedTime){
+     try{
+       const res=await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/booked-seats`,{
+        params:{
+          movie_name:selectedMovie.movie_name,
+          date:selectedDate,
+          showtime:selectedTime
+        }
+       })
+       setBookedSeats(res.data.totalBookedSeats);
+     }
+     catch(error){
+      console.error("Error fetching booked seats:", error);
+     }
+   }
+  }
+  fetchBookedSeats();
+  },[selectedMovie,selectedDate,selectedTime]);
+
+  const remainingSeats = selectedMovie ? selectedMovie.total_seats - bookedSeats : 240;
   return (
     <>
      <div className={styles.title}><h2>Movies of the Day</h2></div>
@@ -148,10 +172,15 @@ function BookingMovies() {
                             </span>
                             <span className={styles.remaining}>
                               <h4>Available Seats</h4>
-                              <p style={{ color: "rgb(237, 192, 31)", fontWeight: "600" }}>{m.remaining_seats}</p>
+                              <p style={{ color: "rgb(237, 192, 31)", fontWeight: "600" }}>{remainingSeats}</p>
                             </span>
                           </span>
-                          <button type="button" onClick={() => setSelectedMovie(m)} className={styles.bookBtn}>Book Now!</button>
+                          <button type="button" onClick={() =>
+                          {if(isLogged)
+                            setSelectedMovie(m);
+                          else
+                            alert("Please login to book tickets");
+                          }} className={styles.bookBtn}>Book Now!</button>
                         </div>
                       </div>
                     </div>

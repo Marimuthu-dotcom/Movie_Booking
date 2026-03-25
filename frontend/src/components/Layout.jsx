@@ -43,7 +43,7 @@ function Layout() {
           onScroll={(e) => setScrolled(e.target.scrollTop > 1)}
          >
           {/* Outlet receives context */}
-          <Outlet context={{ scrolled ,isAdmin}} />
+          <Outlet context={{ scrolled ,isAdmin,isLogged}} />
         </div>
         {modal && (
          <div className={`${styles.overlay} ${closing ? styles.fadeOut : styles.fadeIn}`}>

@@ -12,7 +12,7 @@ function Booking() {
   const [category, setCategory] = useState("All");
   const [activeCategory, setActiveCategory] = useState("All");
   const [isFav, setIsFav] = useState({});
-  const { scrolled } = useOutletContext();
+  const { scrolled ,isLogged} = useOutletContext();
   const navigate = useNavigate();
 
   const favCount = Object.values(isFav).filter(Boolean).length;
@@ -106,7 +106,7 @@ function Booking() {
         </div>
       </div>
       <div className={styles.movieHome2}>
-        <Outlet context={{ filteredMovies, isFav, toggleFav, handleBookNow, loading }} />
+        <Outlet context={{ filteredMovies, isFav, toggleFav, handleBookNow, loading ,isLogged}} />
       </div>
     </div>
   );
