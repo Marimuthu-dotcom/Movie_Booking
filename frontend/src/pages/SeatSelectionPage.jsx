@@ -4,13 +4,14 @@ import { useState, useEffect, useContext } from "react";
 import { RiArmchairFill } from "react-icons/ri";
 import { MoviesContext } from "../context/MoviesContent";
 import axios from "axios";
+import { useOutletContext } from "react-router-dom";
 
 function SeatSelection() {
   const navigate = useNavigate();
   const { movieName } = useParams();
   const decodedMovieName = decodeURIComponent(movieName);
   const location = useLocation();
-  
+  const { isAdmin } = useOutletContext();
   const { movies } = useContext(MoviesContext);
   const [movieData, setMovieData] = useState(location.state?.movieData || null);
   const { selectedDate, selectedTime } = location.state;
@@ -97,7 +98,7 @@ function SeatSelection() {
   const [customerNumber, setCustomerNumber] = useState("");
   const paymentOptions = ["Cash", "UPI", "Card"];
   const isValidNumber = customerNumber.length >= 10;
-  const canProceed = customerName.trim() !== "" && isValidNumber && selectedSeats.length > 0 && payment !== "";
+  const canProceed = customerName.trim() !== "" && isValidNumber && selectedSeats.length > 0 && payment !== "" && !isAdmin;
 
   const handleProceed = async() => {
     if (!canProceed) 
@@ -125,7 +126,7 @@ function SeatSelection() {
 
 
     if (res.status === 200) {
-      navigate("/history");
+      navigate("/booking");
     } 
     else {
       alert("Booking failed. Please try again.");

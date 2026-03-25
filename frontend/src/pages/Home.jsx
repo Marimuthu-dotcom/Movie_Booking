@@ -248,7 +248,7 @@ function Home() {
                                     <div
                                         className={styles.barFill}
                                         style={{ width: "70%" ,background:show.gradient,color:show.text ,borderRadius: "8px"}}
-                                    >{show.percent}
+                                    >{"70%"}
                                     </div>
                                     <span className={styles.tooltip}>{show.movie_name}</span>
                                     </div>

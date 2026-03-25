@@ -97,30 +97,7 @@ function BookingMovies() {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState(null);
-  const [bookedSeats, setBookedSeats] = useState(240);
-
-  useEffect(()=>{
-    const fetchBookedSeats = async () => {
-   if(selectedMovie && selectedDate && selectedTime){
-     try{
-       const res=await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/booked-seats`,{
-        params:{
-          movie_name:selectedMovie.movie_name,
-          date:selectedDate,
-          showtime:selectedTime
-        }
-       })
-       setBookedSeats(res.data.totalBookedSeats);
-     }
-     catch(error){
-      console.error("Error fetching booked seats:", error);
-     }
-   }
-  }
-  fetchBookedSeats();
-  },[selectedMovie,selectedDate,selectedTime]);
-
-  const remainingSeats = selectedMovie ? selectedMovie.total_seats - bookedSeats : 240;
+ 
   return (
     <>
      <div className={styles.title}><h2>Movies of the Day</h2></div>
@@ -150,10 +127,10 @@ function BookingMovies() {
                         </div>
                         <div className={styles.story}>
                           <h4 style={{ color: "rgb(237, 192, 31)" }}>Description</h4>
-                          <p>{m.movie_description}</p>
+                          <p style={{  fontWeight: "500" }}>{m.movie_description}</p>
                           <span className={styles.movieType}>
                             <h4 style={{ color: "rgb(237, 192, 31)" }}>Genre</h4>
-                            <p>{m.genre}</p>
+                            <p style={{  fontWeight: "500" }}>{m.genre}</p>
                           </span>
                         </div>
                         <div className={styles.bookShow}>
@@ -167,12 +144,12 @@ function BookingMovies() {
                           </span>
                           <span className={styles.seatsInfo}>
                             <span className={styles.total}>
-                              <h4>Total Seats</h4>
-                              <p style={{ color: "rgb(237, 192, 31)", fontWeight: "600" }}>{m.total_seats}</p>
+                              <h4>Industry</h4>
+                              <p style={{ color: "rgb(237, 192, 31)", fontWeight: "600" }}>{m.industry}</p>
                             </span>
                             <span className={styles.remaining}>
-                              <h4>Available Seats</h4>
-                              <p style={{ color: "rgb(237, 192, 31)", fontWeight: "600" }}>{remainingSeats}</p>
+                              <h4>Total Seats</h4>
+                              <p style={{ color: "rgb(237, 192, 31)", fontWeight: "600" }}>{240}</p>
                             </span>
                           </span>
                           <button type="button" onClick={() =>

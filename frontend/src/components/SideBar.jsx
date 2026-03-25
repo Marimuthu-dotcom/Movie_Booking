@@ -21,9 +21,12 @@ function SideBar({openLogin,isLogged,setIsLogged,isAdmin,setIsAdmin}){
                <NavLink to="/" className={({ isActive }) =>
       `${styles.link} ${isActive ? styles.active : ""}`
     }><i className="bi bi-house-fill"></i>Home</NavLink>
-               <NavLink to="/booking" className={({ isActive }) =>
+               {!isAdmin && (<NavLink to="/booking" className={({ isActive }) =>
       `${styles.link} ${isActive ? styles.active : ""}`
-    }><i className="bi bi-plus-circle-fill"></i>Book a Show</NavLink>
+    }><i className="bi bi-plus-circle-fill"></i>Book a Show</NavLink>)}
+    {isAdmin && (<NavLink to="/booking" className={({ isActive }) =>
+      `${styles.link} ${isActive ? styles.active : ""}`
+    }><i className="bi bi-plus-circle-fill"></i>Add a Show</NavLink>)}
               {isAdmin && (<NavLink to="/history"
                onClick={async (e) => {
               e.preventDefault(); 
