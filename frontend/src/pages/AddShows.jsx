@@ -69,7 +69,7 @@ const isFormValid = () => {
   return (
     movie.movie_index &&
     movie.movie_name &&
-    movie.img &&
+    imageFile &&
     movie.per_day &&
     movie.screen.length > 0 &&
     movie.lang.length > 0 &&
@@ -129,12 +129,12 @@ const isValidDates = () => {
     end_day, end_month, end_year
   } = movie;
 
-  if(!isValidDateFormat(start_year,start_month,start_day)){
+  if(!isValidDateFormat(start_day,start_month,start_year)){
     alert("Invalid Start date Format");
     return false;
   }
 
-  if(!isValidDateFormat(end_year,end_month,end_day)){
+  if(!isValidDateFormat(end_day,end_month,end_year)){
     alert("Invalid End date Format");
     return false;
   }

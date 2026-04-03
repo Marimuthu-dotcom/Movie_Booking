@@ -288,10 +288,11 @@ exports.getBookedSeats =async (req,res)=>{
     console.log("Error fetching booked seats:", err);
     res.status(500).json({ message: "Server error" });
   }
-}
+};
+
 exports.uploadImage = (req, res) => {
   try {
-    const imagePath = `/data/images/${req.file.filename}`;
+    const imagePath = `/data/images/${req.file.originalname}`;
     console.log(req.file);
 
     res.status(200).json({
