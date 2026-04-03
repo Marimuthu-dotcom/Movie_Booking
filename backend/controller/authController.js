@@ -97,18 +97,13 @@ exports.setPassword = async (req, res) => {
       return res.status(400).json({ error: "Password must contain at least one special character" });
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const token=jwt.sign(
-      {email},
-      process.env.JWT_SECRET_KEY,
-      {expiresIn:"1h"});
 
       await db.promise().query(
-      "UPDATE users SET password=?, is_verified=1, current_token=? WHERE email=?",
-      [hashedPassword,token,email]
+      "UPDATE users SET password=?, is_verified=1WHERE email=?",
+      [hashedPassword,email]
     );
-
-  console.log("Token set for:", token);
-    res.json({ message: "Password set successfully", token:token });
+;
+    res.json({ message: "Password set successfully" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
@@ -145,9 +140,19 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: "Invalid password" });
     }
 
+    const token=jwt.sign(
+      {email},
+      process.env.JWT_SECRET_KEY,
+      {expiresIn:"1h"});
+
+      await db.promise().query(
+      "UPDATE users SET current_token=? WHERE email=?",
+      [token, user.email]
+    );
+
     res.json({
       message: "Login successful",
-      token: user.current_token,
+      token: token,
       user: {
         id: user.id,
         name: user.name,

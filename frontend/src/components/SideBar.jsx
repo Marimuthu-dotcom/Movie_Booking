@@ -24,7 +24,7 @@ function SideBar({openLogin,isLogged,setIsLogged,isAdmin,setIsAdmin}){
                {!isAdmin && (<NavLink to="/booking" className={({ isActive }) =>
       `${styles.link} ${isActive ? styles.active : ""}`
     }><i className="bi bi-plus-circle-fill"></i>Book a Show</NavLink>)}
-    {isAdmin && (<NavLink to="/booking" className={({ isActive }) =>
+    {isAdmin && (<NavLink to="/addshows" className={({ isActive }) =>
       `${styles.link} ${isActive ? styles.active : ""}`
     }><i className="bi bi-plus-circle-fill"></i>Add a Show</NavLink>)}
               {isAdmin && (<NavLink to="/history"

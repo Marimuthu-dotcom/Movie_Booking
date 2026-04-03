@@ -38,7 +38,7 @@ function PasswordPage({ userEmail,onClose ,setIsLogged }) {
         email:userEmail,
         password
     });
-    sessionStorage.setItem("token",res.data.token);
+    
     setIsLogged(true);
    }catch(err){
     alert(err.response?.data.error || "Error setting password");

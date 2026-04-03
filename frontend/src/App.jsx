@@ -7,6 +7,7 @@ import BookingMovies from "./pages/BookingMovies";
 import SeatSelection from "./pages/SeatSelectionPage";
 import TicketHistory from "./pages/TicketHistory";
 import Watchlist from "./pages/Watchlist";
+import AddShows from "./pages/AddShows";
 function App() {
 
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route index element={<BookingMovies />} />  {/* default content for movieHome2 */}
             <Route path="seat/:movieName" element={<SeatSelection />} />
         </Route>
+        <Route path="addshows" element={<AddShows />} />
          <Route path="watchlist" element={<Watchlist />} />
          </Route>
     </Routes>
