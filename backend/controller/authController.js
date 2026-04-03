@@ -143,7 +143,7 @@ exports.login = async (req, res) => {
     const token=jwt.sign(
       {email},
       process.env.JWT_SECRET_KEY,
-      {expiresIn:"1h"});
+      {expiresIn:"7d"});
 
       await db.promise().query(
       "UPDATE users SET current_token=? WHERE email=?",
@@ -289,3 +289,79 @@ exports.getBookedSeats =async (req,res)=>{
     res.status(500).json({ message: "Server error" });
   }
 }
+exports.uploadImage = (req, res) => {
+  try {
+    const imagePath = `/data/images/${req.file.filename}`;
+    console.log(req.file);
+
+    res.status(200).json({
+      success: true,
+      path: imagePath
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Upload failed"
+    });
+  }
+};
+exports.addMovie = async (req, res) => {
+  try {
+    const {
+      movie_index,
+      movie_name,
+      img,
+      per_day,
+      screen,
+      lang,
+      movie_type,
+      industry,
+      based,
+      duration,
+      total_seats,
+      movie_description,
+      story,
+      genre,
+      start_date,
+      end_date
+    } = req.body;
+
+    await db.promise().query(
+      `INSERT INTO movies 
+      (movie_index, movie_name, img, per_day, screen, lang, movie_type, industry, based, duration, total_seats, movie_description, story, genre, start_date, end_date)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        movie_index,
+        movie_name,
+        img,
+        per_day,
+        screen,
+        lang,
+        movie_type,
+        industry,
+        based,
+        duration,
+        total_seats,
+        movie_description,
+        story,
+        genre,
+        start_date,
+        end_date
+      ]
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Movie stored successfully"
+    });
+
+  } 
+  catch (err) {
+    console.error("DB Error:", err);
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
+  }
+};

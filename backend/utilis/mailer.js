@@ -6,7 +6,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 async function sendOtpMail(email, otp) {
   const msg = {
     to: email,
-    from: process.env.FROM_EMAIL, // verified sender
+    from: process.env.FROM_EMAIL, 
     subject: "Your OTP Code",
     text: `Your OTP is ${otp}. It is valid for 5 minutes.`,
   };

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles1 from "../styles/Movie.module.css"
 import styles from "../styles/AddShows.module.css";
+import axios from "axios";
 
 function AddShows() {
   const initialState ={
@@ -32,6 +33,7 @@ function AddShows() {
   };
 
   const [movie,setMovie]=useState(initialState);
+  const [imageFile,setImageFile]=useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -88,20 +90,119 @@ const isFormValid = () => {
     movie.end_year
   );
 };
- 
 
-  const handleSubmit = (e) => {
+const isValidDateFormat = (day, month, year) => {
+  day = Number(day);
+  month = Number(month);
+  year = Number(year);
+
+  if (month < 1 || month > 12) 
+    return false;
+
+  if (day < 1) 
+    return false;
+
+  const isLeap =
+    (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+
+  const daysInMonth = {
+    1: 31,
+    2: isLeap ? 29 : 28,
+    3: 31,
+    4: 30,
+    5: 31,
+    6: 30,
+    7: 31,
+    8: 31,
+    9: 30,
+    10: 31,
+    11: 30,
+    12: 31
+  };
+
+  return day <= daysInMonth[month];
+};
+ 
+const isValidDates = () => {
+  const {
+    start_day, start_month, start_year,
+    end_day, end_month, end_year
+  } = movie;
+
+  if(!isValidDateFormat(start_year,start_month,start_day)){
+    alert("Invalid Start date Format");
+    return false;
+  }
+
+  if(!isValidDateFormat(end_year,end_month,end_day)){
+    alert("Invalid End date Format");
+    return false;
+  }
+
+  const startDate = new Date(start_year, start_month - 1, start_day);
+  const endDate = new Date(end_year, end_month - 1, end_day);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); 
+
+  // conditions
+  if (startDate < today) {
+    alert("Start date must be today or future");
+    return false;
+  }
+
+  if (endDate < today) {
+    alert("End date must be today or future");
+    return false;
+  }
+
+  if (endDate < startDate) {
+    alert("End date must be greater than Start date");
+    return false;
+  }
+
+  return true;
+};
+
+    const formatDate = (day, month, year) => {
+      const d = String(day).padStart(2, "0");
+      const m = String(month).padStart(2, "0");
+      return `${year}-${m}-${d}`;
+    };
+
+    const uploadImage = async () => {
+    const formData = new FormData(); 
+    formData.append("image", imageFile);
+
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/auth/upload`,
+      formData
+    );
+
+   return res.data.path;
+};
+
+  const handleSubmit =async (e) => {
     e.preventDefault();
+
+    if (!isValidDates()) 
+      return;
 
     const finalDuration = `${movie.durationHours}h ${movie.durationMinutes}m`;
 
-    const start_date = `${movie.start_year}-${movie.start_month}-${movie.start_day}`;
-    const end_date = `${movie.end_year}-${movie.end_month}-${movie.end_day}`; 
+    const start_date =formatDate(movie.start_day,movie.start_month,movie.start_year);
+    const end_date = formatDate(movie.end_day,movie.end_month,movie.end_year);
+
+    let imagePath = "";
+
+    if (imageFile) {
+      imagePath = await uploadImage();
+    }
 
     const finalData = {
       movie_index: movie.movie_index,
       movie_name: movie.movie_name,
-      img: movie.img,
+      img: imagePath,
       per_day: `${movie.per_day} shows per day`,
       screen: JSON.stringify(movie.screen),
       lang: JSON.stringify(movie.lang),
@@ -116,6 +217,20 @@ const isFormValid = () => {
       start_date,
       end_date
     };
+
+    try {
+  const res = await axios.post(
+    `${import.meta.env.VITE_API_URL}/api/auth/add-movie`,
+    finalData
+  );
+
+  if (res.status === 200) {
+    alert("Movie added successfully");
+  }
+} catch (err) {
+  console.error(err);
+  alert("Error adding movie");
+}
 
 
     console.log(finalData);
@@ -168,14 +283,7 @@ const isFormValid = () => {
         <label><input
         type="file"
         accept="image/*"
-        onChange={(e) => {
-          const file = e.target.files[0];
-
-          setMovie({
-            ...movie,
-            img: URL.createObjectURL(file) // temporary preview URL
-          });
-        }}
+        onChange={(e) => setImageFile(e.target.files[0])}
         required
       /></label></span>
       </div>
