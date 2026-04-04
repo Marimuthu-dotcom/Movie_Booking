@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles1 from "../styles/Movie.module.css"
 import styles from "../styles/AddShows.module.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function AddShows() {
   const initialState ={
@@ -25,7 +26,7 @@ function AddShows() {
     start_day: "",
     start_month: "",
     start_year: "",
-    end_day: "",
+    end_day:"",
     end_month: "",
     end_year: "",
     start_date: "",
@@ -34,6 +35,7 @@ function AddShows() {
 
   const [movie,setMovie]=useState(initialState);
   const [imageFile,setImageFile]=useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -226,6 +228,7 @@ const isValidDates = () => {
 
   if (res.status === 200) {
     alert("Movie added successfully");
+    navigate("/");
   }
 }catch (err) {
   console.error(err);

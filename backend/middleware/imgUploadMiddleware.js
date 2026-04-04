@@ -5,7 +5,8 @@ const { v4: uuidv4 } = require("uuid");
 
 // Ensure folder exists
 const dir = path.join(__dirname, "../public/data/images");
-if (!fs.existsSync(dir)) {
+if (!fs.existsSync(dir))
+  {
   fs.mkdirSync(dir, { recursive: true }); // recursive ensures all parent folders create aagum
 }
 
