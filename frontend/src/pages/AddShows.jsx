@@ -227,14 +227,15 @@ const isValidDates = () => {
   if (res.status === 200) {
     alert("Movie added successfully");
   }
-} catch (err) {
+}catch (err) {
   console.error(err);
-  alert("Error adding movie");
+  if (err.response) {
+    console.log(err.response.data); // contains backend message
+    alert(err.response.data.message || "Server error");
+  } else {
+    alert("Network error");
+  }
 }
-
-
-    console.log(finalData);
-    console.log(movie.movie_type);
   };
 
   const industryOption=["Hollywood","Kollywood","Bollywood","Tollywood","Sandalwood","Mollywood"];
