@@ -178,7 +178,12 @@ const isValidDates = () => {
 
     const res = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/auth/upload`,
-      formData
+      formData,
+      {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  }
     );
 
    return res.data.path;
@@ -199,6 +204,7 @@ const isValidDates = () => {
 
     if (imageFile) {
       imagePath = await uploadImage();
+      console.log("Uploaded path:", imagePath);
     }
 
     const finalData = {
@@ -286,7 +292,6 @@ const isValidDates = () => {
       <span className={styles.input}>
         <label><input
         type="file"
-        accept="image/*"
         onChange={(e) => setImageFile(e.target.files[0])}
         required
       /></label></span>

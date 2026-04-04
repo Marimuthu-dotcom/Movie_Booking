@@ -292,8 +292,8 @@ exports.getBookedSeats =async (req,res)=>{
 
 exports.uploadImage = (req, res) => {
   try {
+    console.log("FILE:", req.file);
     const imagePath = `/data/images/${req.file.filename}`;
-    console.log(req.file);
 
     res.status(200).json({
       success: true,
