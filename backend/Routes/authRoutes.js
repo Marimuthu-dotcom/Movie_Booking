@@ -16,4 +16,5 @@ router.get("/booked-seats",getBookedSeats);
 router.post("/upload", upload.single("image"), uploadImage);
 router.post("/add-movie", addMovie);
 
+
 module.exports = router;
