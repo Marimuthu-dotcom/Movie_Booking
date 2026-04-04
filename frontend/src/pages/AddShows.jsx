@@ -173,6 +173,7 @@ const isValidDates = () => {
     };
 
     const uploadImage = async () => {
+      
     const formData = new FormData(); 
     formData.append("image", imageFile);
 
