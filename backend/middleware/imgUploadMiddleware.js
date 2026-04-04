@@ -1,15 +1,21 @@
-const multer = require("multer");
+const fs = require("fs");
 const path = require("path");
+const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
+
+// Ensure folder exists
+const dir = path.join(__dirname, "../public/data/images");
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir, { recursive: true }); // recursive ensures all parent folders create aagum
+}
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null,path.join(__dirname, "../public/data/images"));
+    cb(null, dir);
   },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
-    const uniqueName = uuidv4() + ext;
-    cb(null, uniqueName);
+    cb(null, uuidv4() + ext);
   }
 });
 

@@ -230,7 +230,7 @@ const isValidDates = () => {
 }catch (err) {
   console.error(err);
   if (err.response) {
-    console.log(err.response.data); // contains backend message
+    console.log(err.response.data); 
     alert(err.response.data.message || "Server error");
   } else {
     alert("Network error");
