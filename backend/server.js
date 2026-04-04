@@ -14,7 +14,7 @@ app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api", userRoutes);
 app.use("/api", favRoutes);
-app.use("/data", express.static(path.join(__dirname, "public/data")));
+app.use("/data", express.static(path.resolve(process.cwd(), "public/data")));
 
 app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
