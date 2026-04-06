@@ -368,3 +368,25 @@ exports.addMovie = async (req, res) => {
     });
   }
 };
+
+exports.getSeatsPercentage = async (req, res) => {
+  try {
+    await db.promise().query(`
+      UPDATE movies m
+      JOIN (
+        SELECT 
+          b.movie_name,
+          SUM(LENGTH(b.seats) - LENGTH(REPLACE(b.seats, ',', '')) + 1) AS booked_seats
+        FROM bookings b
+        WHERE DATE(b.date) = CURDATE()
+        GROUP BY b.movie_name
+      ) data 
+      ON m.movie_name = data.movie_name
+      SET m.percent = (data.booked_seats / m.total_seats) * 100
+    `);
+
+    res.json({ message: "Percentage updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error updating percentage" });
+  }};

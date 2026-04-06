@@ -95,7 +95,7 @@ function generateDates(start, end){
 function Movie() {
   const { movies, loading,currentMovies } = useContext(MoviesContext); 
   const { scrolled ,isLogged} = useOutletContext();
-  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState(movies);
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -183,8 +183,8 @@ function Movie() {
                   }}
           >
             {m.status}
-          </div>
-          </div>
+          </div>                                  
+           </div>
         <div className={styles.detail}>
           <span>
             <h4 style={{fontWeight:"500",letterSpacing:"1px"}}>{m.movie_name}</h4>
