@@ -127,11 +127,16 @@ function SeatSelection() {
 
     if (res.status === 200) {
       navigate("/booking");
+      alert(res.data.message);
     } 
     else {
       alert("Booking failed. Please try again.");
     }
-    alert(res.data.message);
+    
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/auth/seatsPercentage`
+      );
+      console.log(response.data.message);
   } 
   catch (err) {
     console.error("Full error:", err);

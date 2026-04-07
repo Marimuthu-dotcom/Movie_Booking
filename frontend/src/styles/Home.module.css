@@ -534,7 +534,15 @@
   position: relative;
   overflow: visible;
 }
-
+.barRow .Percentage {
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%);
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  font-family: "Roboto", serif;
+}
 .tooltip {
   position: absolute;
   top: -30px;

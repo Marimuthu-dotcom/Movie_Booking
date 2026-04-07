@@ -126,18 +126,8 @@ function Home() {
     }
   };
 
-  const fetchSeats = async () => {
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/auth/seatsPercentage`
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+  
   fetchDashboard();
-  fetchSeats();
 }, [isAdmin]);
 
   const types = [
@@ -258,9 +248,9 @@ function Home() {
                                     <div key={index} className={styles.barRow} >
                                     <div
                                         className={styles.barFill}
-                                        style={{ width: "70%" ,background:show.gradient,color:show.text ,borderRadius: "8px"}}
-                                    >{"70%"}
-                                    </div>
+                                        style={{ width: `${parseFloat(show.percent)}%` ,background:show.gradient,color:show.text ,borderRadius: "8px"}}
+                                    >
+                                    </div><span className={styles.Percentage} style={{ left: `${parseFloat(show.percent)+1}%` }}>{show.percent ? `${show.percent}%` : ""}</span>
                                     <span className={styles.tooltip}>{show.movie_name}</span>
                                     </div>
                                 )))
