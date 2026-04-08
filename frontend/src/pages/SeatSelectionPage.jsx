@@ -1,4 +1,5 @@
 import styles from "../styles/SeatSelectionPage.module.css";
+import styles1 from "../styles/Movie.module.css";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { RiArmchairFill } from "react-icons/ri";
@@ -12,7 +13,7 @@ function SeatSelection() {
   const decodedMovieName = decodeURIComponent(movieName);
   const location = useLocation();
   const { isAdmin } = useOutletContext();
-  const { movies } = useContext(MoviesContext);
+  const { movies ,loading} = useContext(MoviesContext);
   const [movieData, setMovieData] = useState(location.state?.movieData || null);
   const { selectedDate, selectedTime } = location.state;
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -29,8 +30,8 @@ function SeatSelection() {
   const total = (totalPrice - discount) + tax1 + tax2;
   const [orderId, setOrderId] = useState("");
   const [bookedSeats, setBookedSeats] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [booked,setBooked] = useState(false);
 
   const date = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 
@@ -67,10 +68,8 @@ function SeatSelection() {
         setBookedSeats(res.data.bookedSeats || []);
       }
 
-      setLoading(false);
     } catch (err) {
       console.error("Error:", err);
-      setLoading(false);
     }
   };
 
@@ -103,6 +102,8 @@ function SeatSelection() {
   const handleProceed = async() => {
     if (!canProceed) 
       return;
+
+    setBooked(true);
 
     const order = {
     orderId,
@@ -155,13 +156,22 @@ function SeatSelection() {
   }
   };
 
-  if (loading) return <h2 style={{ textAlign: "center", marginTop: "120px", color: "white" ,fontFamily:"Roboto,sans-serif"}}>Loading… please wait</h2>;
   if (error) return <h2 style={{ textAlign: "center", marginTop: "120px", color: "red" }}>Movie not found</h2>;
 
  
   return (
-    <div className={styles.bookPage}>
-      <div className={styles.seatInfo}>
+     
+       <div className={styles.bookPage}> 
+       {loading ? ( 
+            <>
+            <div className={styles1.loadingWrapper}>
+               <div className={styles1.SpinSkeleton}></div>
+             </div>
+            </>
+        ) :
+      (
+        <>
+        <div className={styles.seatInfo}>
         <div className={styles.movieDetails}>
           <div className={styles.firstDiv}>
             <h2 style={{fontWeight:"600"}}>
@@ -279,6 +289,14 @@ function SeatSelection() {
 </div>
 
       <div className={styles.paymentInfo}>
+      {booked && (
+      <div className={styles.loadingOverlay}>
+        <div className={styles.loader}></div>
+        <p style={{ color: "white", fontFamily: "Roboto, serif" }}>
+          Processing payment...
+        </p>
+      </div>
+       )}
         <div className={styles.Div1}>
           <h3>Incomplete Order</h3>
           <p>In Progress</p>
@@ -357,6 +375,7 @@ function SeatSelection() {
           </div>
         </div>
       </div>
+      </>)}
     </div>
   );
 }

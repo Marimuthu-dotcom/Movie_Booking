@@ -6,6 +6,7 @@ function LoginPage({ onClose, switchToSignUp ,closing, setIsLogged,setIsAdmin}) 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
    const [icon, setIcon] = useState(true);
+   const [loading, setLoading] = useState(false);
 
  const handleSubmit = async (e) => {
   e.preventDefault();
@@ -14,6 +15,8 @@ function LoginPage({ onClose, switchToSignUp ,closing, setIsLogged,setIsAdmin}) 
     alert("All fields are required");
     return;
   }
+
+  setLoading(true);
 
   try{
       const res=await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`,{
@@ -32,17 +35,30 @@ function LoginPage({ onClose, switchToSignUp ,closing, setIsLogged,setIsAdmin}) 
         setIsAdmin(false);
       }
       setIsLogged(true);
+      alert("Login successful ✅");
+      onClose();
      }
      catch(err){
       alert(err.response?.data.message || "Login failed");
       return;
      }
-      alert("Login successful ✅");
-      onClose();
+     finally{
+      setLoading(false);
+     }
 };
 
   return (
       <div className={`${styles.modal} ${closing?styles.closeModel:""}`}>
+      {loading && (
+    <div className={styles.loadingOverlay}>
+      <div className={styles.loader}></div>
+      <p style={{color:"white",fontFamily: "Roboto, serif" ,position: "absolute",
+  top: "63%",
+  left: "52%",
+  transform: "translate(-50%, -50%)"
+}}>Logging in...</p>
+    </div>
+  )}
         <div className={styles.login} style={{ textAlign: "center" }}>
           <button className={styles.closeBtn} onClick={onClose} style={{ color: "white" }}>×</button>
           <h2 style={{ color: "white", fontFamily: "Roboto, serif" }}>Welcome</h2>

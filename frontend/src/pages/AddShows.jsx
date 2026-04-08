@@ -227,6 +227,7 @@ const isValidDates = () => {
       end_date
     };
 
+
     try {
   const res = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/auth/add-movie`,
@@ -237,7 +238,8 @@ const isValidDates = () => {
     alert("Movie added successfully");
     navigate("/");
   }
-}catch (err) {
+}
+catch (err) {
   console.error(err);
   if (err.response) {
     console.log(err.response.data); 
@@ -245,7 +247,8 @@ const isValidDates = () => {
   } else {
     alert("Network error");
   }
-}
+} 
+
   };
 
   const industryOption=["Hollywood","Kollywood","Bollywood","Tollywood","Sandalwood","Mollywood"];
