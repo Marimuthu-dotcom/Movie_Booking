@@ -4,6 +4,7 @@ import { useOutletContext } from "react-router-dom";
 import { useContext } from "react";
 import { MoviesContext } from "../context/MoviesContent";
 
+
 function TicketHistory() {
   const {orders}=useContext(MoviesContext);
 
@@ -20,7 +21,6 @@ function TicketHistory() {
             <div className={styles1.div1}>
                 <nav className={styles2.top}>
                 <button type="button" className={styles2.date}>Recent Orders</button>
-                <button type="button" className={styles2.date}>View Previous Orders</button>
                 </nav>
             </div>
         </div>
@@ -41,6 +41,7 @@ function TicketHistory() {
           <th>Order ID</th>
           <th>Movie</th>
           <th>Seats</th>
+          <th>Date</th>
           <th>Show Time</th>
           <th>Payment</th>
           <th>Payment Mode</th>
@@ -61,6 +62,7 @@ function TicketHistory() {
         <td>#{order.orderNo}</td>
         <td>{order.movie_name}</td>
         <td>{order.seats}</td>
+        <td>{order.date}</td>
         <td>{order.timing}</td>
         <td>${order.total_amount}</td>
         <td>{order.payment_mode}</td>

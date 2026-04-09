@@ -94,7 +94,7 @@ function generateDates(start, end){
 
 function Movie() {
   const { movies, loading,currentMovies } = useContext(MoviesContext); 
-  const { scrolled ,isLogged} = useOutletContext();
+  const { scrolled ,isLogged,isAdmin} = useOutletContext();
   const [filteredMovies, setFilteredMovies] = useState(movies);
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
@@ -212,6 +212,7 @@ function Movie() {
            formatTime={formatTime}
            isSlotAvailable={isSlotAvailable}
            checkStatus={true} 
+           isAdmin={isAdmin}
            />
           )}
 

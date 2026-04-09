@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles1 from "../styles/Movie.module.css"
 import styles from "../styles/AddShows.module.css";
+import styles2 from "../styles/Booking.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -35,6 +36,7 @@ function AddShows() {
 
   const [movie,setMovie]=useState(initialState);
   const [imageFile,setImageFile]=useState(null);
+  const [loading,setLoading]=useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -227,6 +229,7 @@ const isValidDates = () => {
       end_date
     };
 
+    setLoading(true);
 
     try {
   const res = await axios.post(
@@ -248,6 +251,9 @@ catch (err) {
     alert("Network error");
   }
 } 
+finally {
+  setLoading(false);
+}
 
   };
 
@@ -261,6 +267,14 @@ catch (err) {
     <div style={{padding:"11px"}} className={styles1.movieHome1}>
     </div>
     <div className={styles.detailsContainer}>
+      {loading ? ( 
+                  <>
+                  <div className={styles2.loadingWrapper}>
+                     <div className={styles2.SpinSkeleton}></div>
+                   </div>
+                  </>
+              ) : (
+                <>
     <div className={styles.mainContainer}>
     <div>
         <h2 style={{fontFamily:"Roboto, serif",color:"white",letterSpacing:"1px",fontSize:"25px",textTransform:"uppercase"}}>Add Movie</h2>
@@ -649,6 +663,7 @@ catch (err) {
     </form>
     </div>
     </div>
+    </>)}
     </div>
     </div>
   );

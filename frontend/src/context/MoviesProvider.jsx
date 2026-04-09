@@ -30,7 +30,7 @@ export function MoviesProvider({ children }) {
   }, []);
 
   return (
-    <MoviesContext.Provider value={{ movies, currentMovies, loading ,orders}}>
+    <MoviesContext.Provider value={{ movies, currentMovies, loading ,orders ,setOrders}}>
       {children}
     </MoviesContext.Provider>
   );

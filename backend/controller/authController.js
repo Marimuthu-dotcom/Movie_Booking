@@ -232,7 +232,7 @@ exports.postBooking = async(req,res) => {
 exports.Orders = async(req,res) =>{
   try{
     const [row]= await db.promise().query(
-      `SELECT orderNo, movie_name, seats, timing, total_amount, payment_mode FROM bookings`
+      `SELECT orderNo, movie_name, date, seats, timing, total_amount, payment_mode FROM bookings`
     );
     res.json(row);
   }

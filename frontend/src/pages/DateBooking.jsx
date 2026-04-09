@@ -2,7 +2,7 @@ import styles from "../styles/Movie.module.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-function DateBooking({selectedMovie,selectedDate,setSelectedDate,selectedTime,setSelectedTime,setSelectedMovie,generateDates,generateShowSlots,formatTime,isSlotAvailable,checkStatus}){
+function DateBooking({selectedMovie,selectedDate,setSelectedDate,selectedTime,setSelectedTime,setSelectedMovie,generateDates,generateShowSlots,formatTime,isSlotAvailable,checkStatus,isAdmin}){
 
 const navigate = useNavigate();
 const[closing,setClosing]=useState(false);
@@ -96,7 +96,8 @@ return (
           </div>
 
                 <div className={styles.bottomSection}>
-                  <button
+                  {!isAdmin &&
+                  (<button
                     className={styles.bookBtn}
                   onClick={() => {
                     if (checkStatus && selectedMovie.status !== "OnGoing") {
@@ -118,7 +119,8 @@ return (
                   }}
                   >
                     Book Show
-                  </button>
+                  </button>)
+                  }
                 </div>
 
               </div>

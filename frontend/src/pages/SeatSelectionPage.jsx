@@ -1,5 +1,5 @@
 import styles from "../styles/SeatSelectionPage.module.css";
-import styles1 from "../styles/Movie.module.css";
+import styles1 from "../styles/Booking.module.css";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { RiArmchairFill } from "react-icons/ri";

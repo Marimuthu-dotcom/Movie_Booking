@@ -364,6 +364,7 @@ function Home() {
                     formatTime={formatTime}
                     isSlotAvailable={isSlotAvailable}
                     checkStatus={false} 
+                    isAdmin={isAdmin}
                     />
                           )}
                 
