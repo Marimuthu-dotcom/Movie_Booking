@@ -3,18 +3,22 @@ import styles2 from "../styles/TicketHistory.module.css"
 import { useOutletContext } from "react-router-dom";
 import { useContext } from "react";
 import { MoviesContext } from "../context/MoviesContent";
+import {useRef,useState} from "react";
 
 
 function TicketHistory() {
   const {orders}=useContext(MoviesContext);
+  const dateRef = useRef();
+  const [selectedDate, setSelectedDate] = useState(null);
 
-  
-  const date = new Date().toLocaleDateString("en-IN", {
-  day: "2-digit",
-  month: "short",
-  year: "numeric",
-});
+const filteredOrders = selectedDate
+  ? orders.filter((order) => {
+      return order.date === selectedDate;
+    })
+  : orders;
+
     const {scrolled}=useOutletContext();
+    
   return (
     <div className={styles1.movieHome}>
         <div className={`${styles2.movieHome1} ${scrolled ? styles1.scrolled : ""}`}>
@@ -31,7 +35,15 @@ function TicketHistory() {
       <div className={styles2.orderHead}><h2>Recent Orders</h2></div>
       <div className={styles2.filterDate}>
         <div className={styles2.filter}><span><i className="bi bi-filter"></i></span><span>Filter</span></div>
-        <div className={styles2.date}><span></span>{date}<span><i className="bi bi-calendar-check"></i></span></div>
+        <div className={styles2.date} onClick={() => dateRef.current.showPicker()}><span></span>{selectedDate ?selectedDate: "Select Date"}<span><i className="bi bi-calendar-check"></i></span></div>
+     <input
+      type="date"
+      ref={dateRef}
+      style={{ display: "none" }}
+      onChange={(e) => {
+        setSelectedDate(e.target.value);
+      }}
+    />
      </div>
     </div>
 
@@ -50,14 +62,14 @@ function TicketHistory() {
       </thead>
 
       <tbody>
-  {orders.length === 0 ? (
+  {filteredOrders.length === 0 ? (
     <tr>
       <td colSpan="7" style={{ textAlign: "center", color: "#aaa" }}>
         No Orders Found
       </td>
     </tr>
   ) : (
-    orders.map((order, index) => (
+    filteredOrders.map((order, index) => (
       <tr key={index}>
         <td>#{order.orderNo}</td>
         <td>{order.movie_name}</td>
