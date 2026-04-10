@@ -244,7 +244,7 @@ exports.Orders = async(req,res) =>{
 
 exports.getDashboardData = async (req, res) => {
   try {
-    const [rows] = await db.promise().query("SELECT seats, total_amount FROM bookings");
+    const [rows] = await db.promise().query("SELECT seats, total_amount FROM bookings WHERE DATE(date) = CURDATE()");
 
     let totalOrders = rows.length;
     let totalSeats = 0;

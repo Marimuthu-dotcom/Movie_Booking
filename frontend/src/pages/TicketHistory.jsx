@@ -7,15 +7,27 @@ import {useRef,useState} from "react";
 
 
 function TicketHistory() {
-  const {orders}=useContext(MoviesContext);
+  const {orders,currentMovies}=useContext(MoviesContext);
   const dateRef = useRef();
   const [selectedDate, setSelectedDate] = useState(null);
+  const [showFilterPopup, setShowFilterPopup] = useState(false);
+  const [activeMovie, setActiveMovie] = useState(null);
 
-const filteredOrders = selectedDate
-  ? orders.filter((order) => {
-      return order.date === selectedDate;
-    })
-  : orders;
+const filteredOrders = orders.filter((order) => {
+  if (selectedDate && !activeMovie) {
+    return order.date === selectedDate;
+  }
+  if (!selectedDate && activeMovie) {
+    return order.movie_name === activeMovie;
+  }
+  if (selectedDate && activeMovie) {
+    return (
+      order.date === selectedDate &&
+      order.movie_name === activeMovie
+    );
+  }
+  return true;
+});
 
     const {scrolled}=useOutletContext();
     
@@ -34,7 +46,40 @@ const filteredOrders = selectedDate
     <div className={styles2.historyHeader}>
       <div className={styles2.orderHead}><h2>Recent Orders</h2></div>
       <div className={styles2.filterDate}>
-        <div className={styles2.filter}><span><i className="bi bi-filter"></i></span><span>Filter</span></div>
+        <div className={styles2.filter} onClick={()=>setShowFilterPopup(true)}><span><i className="bi bi-filter"></i></span><span>{activeMovie ? activeMovie : "Filter"}</span></div>
+       {showFilterPopup && (
+  <div className={styles2.popupOverlay}>
+    <div className={styles2.popupBox}>
+      <div><h3>Select Movie</h3></div>
+
+      <div className={styles2.movieList}>
+        {currentMovies.map((movie, index) => (
+          <button
+            key={index}
+            className={`${styles2.movieItem} ${
+    activeMovie === movie.movie_name ? styles2.active : ""
+  }`}
+            onClick={() => {
+              setActiveMovie(
+    activeMovie === movie.movie_name ? null : movie.movie_name
+  );
+            }}
+          >
+            
+          {movie.movie_name}
+          </button>
+        ))}
+      </div>
+
+      <div className={styles2.buttons}>
+        <button className={styles2.cancel} style={{color:"white",backgroundColor:"red",fontFamily:"Roboto,serif",border:"none"}} onClick={() => {setShowFilterPopup(false)
+setActiveMovie(null);
+        }}>Close</button>
+        <button className={styles2.submit} style={{color:"white",backgroundColor:"Green",fontFamily:"Roboto,serif",border:"none"}} onClick={() => setShowFilterPopup(false)}>Submit</button>
+        </div>
+    </div>
+  </div>
+)}
         <div className={styles2.date} onClick={() => dateRef.current.showPicker()}><span></span>{selectedDate ?selectedDate: "Select Date"}<span><i className="bi bi-calendar-check"></i></span></div>
      <input
       type="date"
