@@ -419,7 +419,7 @@ exports.getSeatsPercentage = async (req, res) => {
     const [row]=await db.promise().query(`
       SELECT movie_name, timing, start_time, end_time
       FROM bookings
-      WHERE date = CURDATE() AND CURTIME() BETWEEN start_time AND end_time
+      WHERE date = CURDATE()
     `);
 
     console.log(row);
