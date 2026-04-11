@@ -15,14 +15,14 @@ function TicketHistory() {
 
 const filteredOrders = orders.filter((order) => {
   if (selectedDate && !activeMovie) {
-    return order.date === selectedDate;
+    return new Date(order.date).toISOString().split("T")[0] === selectedDate;
   }
   if (!selectedDate && activeMovie) {
     return order.movie_name === activeMovie;
   }
   if (selectedDate && activeMovie) {
     return (
-      order.date === selectedDate &&
+      new Date(order.date).toISOString().split("T")[0] === selectedDate &&
       order.movie_name === activeMovie
     );
   }
@@ -119,7 +119,7 @@ setActiveMovie(null);
         <td>#{order.orderNo}</td>
         <td>{order.movie_name}</td>
         <td>{order.seats}</td>
-        <td>{order.date}</td>
+        <td>{new Date(order.date).toISOString().split("T")[0]}</td>
         <td>{order.timing}</td>
         <td>${order.total_amount}</td>
         <td>{order.payment_mode}</td>

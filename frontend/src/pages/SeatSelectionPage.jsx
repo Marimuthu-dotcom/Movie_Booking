@@ -99,7 +99,9 @@ function SeatSelection() {
   const isValidNumber = customerNumber.length >= 10;
   const canProceed = customerName.trim() !== "" && isValidNumber && selectedSeats.length > 0 && payment !== "" && !isAdmin;
 
-  const handleProceed = async() => {
+  const handleProceed = async(e) => {
+    e.preventDefault();
+
     if (!canProceed) 
       return;
 
@@ -363,7 +365,6 @@ function SeatSelection() {
           }
         }} required/>
               <div className={styles.buttonContainer}>
-                <button type="button">Cancel</button>
                 <button type="button" disabled={!canProceed} onClick={handleProceed}
   className={!canProceed ? styles.btnDisabled : styles.btnActive}>Proceed</button>
               </div>
