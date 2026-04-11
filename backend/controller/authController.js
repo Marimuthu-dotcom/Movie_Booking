@@ -438,7 +438,9 @@ exports.getSeatsPercentage = async (req, res) => {
   try {
     const { type } = req.params;
 
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toLocaleDateString("en-CA", {
+  timeZone: "Asia/Kolkata"
+});
 
     let query = "";
 
@@ -490,7 +492,8 @@ exports.getSeatsPercentage = async (req, res) => {
 
     res.json(rows);
     console.log(rows);
-  } catch (err) {
+  } 
+  catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error fetching dashboard details" });
   }
