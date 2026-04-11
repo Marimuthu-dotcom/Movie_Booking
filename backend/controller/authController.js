@@ -386,22 +386,28 @@ exports.getSeatsPercentage = async (req, res) => {
       WHERE start_time IS NULL OR end_time IS NULL
     `);
 
-    await db.promise().query(`
-      UPDATE movies m
-      LEFT JOIN (
-        SELECT 
-          b.movie_name,
-          SUM(
-            LENGTH(b.seats) - LENGTH(REPLACE(b.seats, ',', '')) + 1
-          ) AS booked_seats
-        FROM bookings b
-        WHERE DATE(b.date) = CURDATE()
-          AND CURTIME() BETWEEN b.start_time AND b.end_time
-        GROUP BY b.movie_name
-      ) data
-      ON TRIM(LOWER(m.movie_name)) = TRIM(LOWER(data.movie_name))
-      SET m.percent = COALESCE((data.booked_seats / m.total_seats) * 100, 0)
-    `);
+   await db.promise().query(`
+  UPDATE movies m
+  LEFT JOIN (
+    SELECT 
+      b.movie_name,
+      SUM(
+        CASE
+          WHEN b.seats IS NULL OR b.seats = '' THEN 0
+          ELSE LENGTH(b.seats) - LENGTH(REPLACE(b.seats, ',', '')) + 1
+        END
+      ) AS booked_seats
+    FROM bookings b
+    WHERE b.\`date\` = CURDATE()
+      AND CURTIME() BETWEEN b.start_time AND b.end_time
+    GROUP BY b.movie_name
+  ) data
+  ON TRIM(LOWER(m.movie_name)) = TRIM(LOWER(data.movie_name))
+  SET m.percent = COALESCE(
+    (data.booked_seats / NULLIF(m.total_seats, 0)) * 100,
+    0
+  )
+`);
 
      const [rows] = await db.promise().query(`
       SELECT movie_name, percent, total_seats
@@ -413,7 +419,7 @@ exports.getSeatsPercentage = async (req, res) => {
     const [row]=await db.promise().query(`
       SELECT movie_name, timing, start_time, end_time
       FROM bookings
-      WHERE date = CURDATE() AND CURTIME() BETWEEN start_time AND end_time
+      WHERE \`date\` = CURDATE() AND CURTIME() BETWEEN start_time AND end_time
     `);
 
     console.log(row);
