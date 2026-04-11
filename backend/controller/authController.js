@@ -386,6 +386,11 @@ exports.getSeatsPercentage = async (req, res) => {
       WHERE start_time IS NULL OR end_time IS NULL
     `);
 
+    const indiaTime = new Date().toLocaleTimeString("en-GB", {
+      timeZone: "Asia/Kolkata",
+      hour12: false
+    });
+
    await db.promise().query(`
   UPDATE movies m
   LEFT JOIN (
@@ -399,12 +404,15 @@ exports.getSeatsPercentage = async (req, res) => {
       ) AS booked_seats
     FROM bookings b
     WHERE b.date = CURDATE()
-      AND '17:03:00' BETWEEN b.start_time AND b.end_time
+      AND ? BETWEEN b.start_time AND b.end_time 
     GROUP BY b.movie_name
   ) data
   ON TRIM(LOWER(m.movie_name)) = TRIM(LOWER(data.movie_name))
-  SET m.percent =  (data.booked_seats / m.total_seats) * 100
-`);
+  SET COALESCE(
+ (data.booked_seats / NULLIF(m.total_seats,0)) * 100,
+ 0
+);
+`, [indiaTime]);
 
      const [rows] = await db.promise().query(`
       SELECT movie_name, percent, total_seats
@@ -412,12 +420,13 @@ exports.getSeatsPercentage = async (req, res) => {
     `);
 
     console.log(rows);
+    console.log(indiaTime);
     
-    const [row]=await db.promise().query(`
+     const [row]=await db.promise().query(`
       SELECT movie_name, timing, start_time, end_time
       FROM bookings
-      WHERE date = CURDATE() AND '17:03:00' BETWEEN start_time AND end_time
-    `);
+      WHERE date = CURDATE() AND ? BETWEEN start_time AND end_time
+    `, [indiaTime]);
 
     console.log(row);
     res.json({ message: "Percentage updated successfully" });
