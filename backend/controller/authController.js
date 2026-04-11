@@ -408,7 +408,7 @@ exports.getSeatsPercentage = async (req, res) => {
     GROUP BY b.movie_name
   ) data
   ON TRIM(LOWER(m.movie_name)) = TRIM(LOWER(data.movie_name))
-  SET COALESCE(
+  SET m.percen t= COALESCE(
  (data.booked_seats / NULLIF(m.total_seats,0)) * 100,
  0
 );
