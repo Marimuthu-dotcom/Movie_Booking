@@ -489,7 +489,7 @@ exports.getSeatsPercentage = async (req, res) => {
     const [rows] = await db.promise().query(query, [today]);
 
     res.json(rows);
-
+    console.log(rows);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error fetching dashboard details" });
