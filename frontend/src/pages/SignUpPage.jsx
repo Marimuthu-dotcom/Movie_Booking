@@ -45,7 +45,7 @@ function SignUpPage({ switchToLogin, OpenOtp }) {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <button type="submit">Sign Up</button>
+            <button type="submit">SIGN UP</button>
           </form>
         </div>
         <div className={styles.sign}>

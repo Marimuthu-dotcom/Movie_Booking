@@ -130,6 +130,23 @@ function Home() {
   fetchDashboard();
 }, [isAdmin]);
 
+useEffect(() => {
+  const fetchSeatsPercentage = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/auth/seatsPercentage`
+      );
+
+      console.log(response.data.message);
+
+    } catch (err) {
+      console.error("Error fetching seats %:", err);
+    }
+  };
+
+  fetchSeatsPercentage();
+}, []);
+
   const types = [
     {value:"all",label:"All"}, {value:"adventure",label:"Adventure"}, {value:"comedy",label:"Comedy"},
     {value:"action",label:"Action"}, {value:"drama",label:"Drama"}, {value:"romance",label:"Romance"},

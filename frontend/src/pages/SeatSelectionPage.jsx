@@ -134,16 +134,12 @@ function SeatSelection() {
       alert("Booking failed. Please try again.");
     }
     
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/auth/seatsPercentage`
-      );
-      console.log(response.data.message);
-  } 
+   }
   catch (err) {
     console.error("Full error:", err);
     if (err.response) {
-      console.error("Response data:", err.response.data);  // Backend error message
-      console.error("Response status:", err.response.status); // HTTP status
+      console.error("Response data:", err.response.data); 
+      console.error("Response status:", err.response.status);
       console.error("Response headers:", err.response.headers);
     } 
     else if (err.request) {

@@ -67,6 +67,7 @@ function LoginPage({ onClose, switchToSignUp ,closing, setIsLogged,setIsAdmin}) 
             <span
               style={{ color: "orange", textDecoration: "underline", cursor: "pointer" }}
               onClick={switchToSignUp}
+              className={styles.signUpLink}
             >
               Sign Up
             </span>
