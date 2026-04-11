@@ -438,9 +438,6 @@ exports.getSeatsPercentage = async (req, res) => {
   try {
     const { type } = req.params;
 
-    const today = new Date().toLocaleDateString("en-CA", {
-  timeZone: "Asia/Kolkata"
-});
 
     let query = "";
 
@@ -452,7 +449,7 @@ exports.getSeatsPercentage = async (req, res) => {
         FROM movies m
         LEFT JOIN bookings b 
           ON m.movie_name = b.movie_name
-          AND b.date = ?
+          AND b.date = CURDATE()
         GROUP BY m.movie_name
       `;
     }
@@ -470,7 +467,7 @@ exports.getSeatsPercentage = async (req, res) => {
         FROM movies m
         LEFT JOIN bookings b 
           ON m.movie_name = b.movie_name
-          AND b.date = ?
+          AND b.date = CURDATE()
         GROUP BY m.movie_name
       `;
     }
@@ -483,12 +480,12 @@ exports.getSeatsPercentage = async (req, res) => {
         FROM movies m
         LEFT JOIN bookings b 
           ON m.movie_name = b.movie_name
-          AND b.date = ?
+          AND b.date = CURDATE()
         GROUP BY m.movie_name
       `;
     }
 
-    const [rows] = await db.promise().query(query, [today]);
+    const [rows] = await db.promise().query(query);
 
     res.json(rows);
     console.log(rows);

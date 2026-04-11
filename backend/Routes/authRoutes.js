@@ -16,7 +16,7 @@ router.get("/booked-seats",getBookedSeats);
 router.post("/upload", upload.single("image"), uploadImage);
 router.post("/add-movie", addMovie);
 router.get("/seatsPercentage", getSeatsPercentage);
-router.get("/dashboard-details", dashboardDetails);
+router.get("/dashboard-details/:type", dashboardDetails);
 
 
 module.exports = router;
