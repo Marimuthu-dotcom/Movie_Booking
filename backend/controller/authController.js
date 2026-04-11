@@ -404,7 +404,6 @@ exports.getSeatsPercentage = async (req, res) => {
   ) data
   ON TRIM(LOWER(m.movie_name)) = TRIM(LOWER(data.movie_name))
   SET m.percent =  (data.booked_seats / m.total_seats) * 100
-  )
 `);
 
      const [rows] = await db.promise().query(`
