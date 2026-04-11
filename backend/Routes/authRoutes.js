@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { signup,verifyOtp,setPassword,login,getPreviousData,postBooking,Orders,getDashboardData,getBookedSeats,uploadImage,addMovie,getSeatsPercentage,getDashboardDetails} = require("../controller/authController");
+const { signup,verifyOtp,setPassword,login,getPreviousData,postBooking,Orders,getDashboardData,getBookedSeats,uploadImage,addMovie,getSeatsPercentage,dashboardDetails} = require("../controller/authController");
 const { verifyToken } = require("../middleware/verifyMiddleware");
 const upload  = require("../middleware/imgUploadMiddleware");
 
@@ -16,7 +16,7 @@ router.get("/booked-seats",getBookedSeats);
 router.post("/upload", upload.single("image"), uploadImage);
 router.post("/add-movie", addMovie);
 router.get("/seatsPercentage", getSeatsPercentage);
-router.get("/dashboard-details", getDashboardDetails);
+router.get("/dashboard-details", dashboardDetails);
 
 
 module.exports = router;
