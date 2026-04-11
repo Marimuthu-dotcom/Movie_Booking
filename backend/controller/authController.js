@@ -408,9 +408,15 @@ exports.getSeatsPercentage = async (req, res) => {
       FROM movies
     `);
 
-console.log(rows);
     console.log(rows);
+    
+    const [row]=await db.promise().query(`
+      SELECT movie_name, timing, start_time, end_time
+      FROM bookings
+      WHERE date = CURDATE() AND CURTIME() BETWEEN start_time AND end_time
+    `);
 
+    console.log(row);
     res.json({ message: "Percentage updated successfully" });
   } catch (err) {
     console.error(err);
