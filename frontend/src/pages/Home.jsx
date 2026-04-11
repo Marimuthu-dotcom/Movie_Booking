@@ -109,6 +109,10 @@ function Home() {
     totalSeats: 0,
     totalRevenue: 0
   });
+  const [popupType,setPopupType] = useState(null);
+  const [popupData,setPopupData] = useState([]);
+  const [popupOpen,setPopupOpen] = useState(false);
+  const [popupLoading,setPopupLoading] = useState(false);
 
   useEffect(()=>{
 
@@ -208,12 +212,33 @@ useEffect(() => {
 
   useEffect(() => {
   if (currentMovies.length > 0) {
-    setScreenMovies(currentMovies); // Use all current movies from context
+    setScreenMovies(currentMovies); 
   }
   if (filteredShows.length > 0) {
     setLastCount(filteredShows.length);
   }
 }, [currentMovies,filteredShows]);
+
+const handleDashboardClick = async(type)=>{
+  try{
+    setPopupOpen(true);
+    setPopupType(type);
+    setPopupLoading(true);
+
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/auth/dashboard-details/${type}`
+    );
+
+    setPopupData(res.data);
+  }
+  catch(err){
+    console.log(err);
+  }
+  finally{
+    setPopupLoading(false);
+  }
+}
+
 
     return(
         <div className={styles.home} style={{overflowX:"hidden"}}>
@@ -233,21 +258,43 @@ useEffect(() => {
                         <button type="button" onClick={()=>setSelectedType("all")} className={styles.searchbtn}><i className="bi bi-search"></i></button>
                     </div>
                 </div>
+                {popupOpen && (
+                <div className={styles.popup}>
+                  <div className={styles.popupBox}>
+                      <button onClick={()=>setPopupOpen(false)}>X</button>
+
+                      {popupLoading ? (
+                        <p>Loading...</p>
+                      ):(
+                        popupData.map((item,index)=>(
+                          <div key={index}>
+                            <h4>{item.movie_name}</h4>
+
+                            {popupType==="orders" && <p>{item.total_orders}</p>}
+                            {popupType==="seats" && <p>{item.total_seats}</p>}
+                            {popupType==="revenue" && <p>₹{item.total_revenue}</p>}
+                          </div>
+                        ))
+                      )}
+
+                  </div>
+                </div>
+                )}
                 <div className={styles.home2}>
                 {isAdmin && (<div className={styles.home2child1}>
                     <div className={styles.mainDetails}>
                         <h3 className={styles.count1}>{totalShows}</h3>
                         <h3>Today's Total Show</h3>
                     </div>
-                    <div className={styles.mainDetails}>
+                    <div className={styles.mainDetails} onClick={()=>handleDashboardClick("orders")}>
                         <h3 className={styles.count2}>{dashboard.totalOrders}</h3>
                         <h3>Total Orders</h3>
                     </div>
-                    <div className={styles.mainDetails}>
+                    <div className={styles.mainDetails} onClick={()=>handleDashboardClick("seats")}>
                         <h3 className={styles.count3}>{dashboard.totalSeats}</h3>
                         <h3>Total Seats Booked</h3>
                     </div>
-                    <div className={styles.mainDetails}>
+                    <div className={styles.mainDetails} onClick={()=>handleDashboardClick("revenue")}>
                         <h3 className={styles.count4}>${Number(dashboard.totalRevenue).toLocaleString("en-IN")}</h3>
                         <h3>Total Revenue</h3>
                     </div>

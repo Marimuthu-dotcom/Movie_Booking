@@ -564,3 +564,106 @@
 .barRow:hover .tooltip {
   opacity: 1;
 }
+
+.popup{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.25s ease;
+}
+
+.popupBox{
+  width: min(92%, 650px);
+  max-height: 85vh;
+  overflow-y: auto;
+  background: rgba(20,20,20,0.92);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 22px;
+  color: white;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  animation: scaleIn 0.25s ease;
+}
+
+
+.closeBtn{
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.popupTitle{
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 10px;
+}
+.popupRow{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: 0.2s;
+}
+
+.popupRow:hover{
+  background: rgba(255,255,255,0.04);
+  border-radius: 8px;
+}
+
+/* Left movie name */
+.movieTitle{
+  font-size: 16px;
+  font-weight: 500;
+  max-width: 70%;
+}
+
+/* Right value */
+.movieValue{
+  font-size: 16px;
+  font-weight: 700;
+  color: gold;
+}
+
+.loadingText{
+  text-align: center;
+  padding: 30px 0;
+  font-size: 18px;
+}
+.popupBox::-webkit-scrollbar{
+  width: 6px;
+}
+.popupBox::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+@keyframes scaleIn{
+  from{
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to{
+    transform: scale(1);
+    opacity: 1;
+  }
+}

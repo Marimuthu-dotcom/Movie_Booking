@@ -434,3 +434,64 @@ exports.getSeatsPercentage = async (req, res) => {
     console.error(err);
     res.status(500).json({ message: "Error updating percentage" });
   }};
+  exports.dashboardDetails = async (req, res) => {
+  try {
+    const { type } = req.params;
+
+    const today = new Date().toISOString().split("T")[0];
+
+    let query = "";
+
+    if (type === "orders") {
+      query = `
+        SELECT 
+          m.movie_name,
+          COALESCE(COUNT(b.id), 0) AS total_orders
+        FROM movies m
+        LEFT JOIN bookings b 
+          ON m.movie_name = b.movie_name
+          AND b.date = ?
+        GROUP BY m.movie_name
+      `;
+    }
+
+    if (type === "seats") {
+      query = `
+        SELECT 
+          m.movie_name,
+          COALESCE(SUM(
+            CASE 
+              WHEN b.seats IS NULL OR b.seats = '' THEN 0
+              ELSE LENGTH(b.seats) - LENGTH(REPLACE(b.seats, ',', '')) + 1
+            END
+          ), 0) AS total_seats
+        FROM movies m
+        LEFT JOIN bookings b 
+          ON m.movie_name = b.movie_name
+          AND b.date = ?
+        GROUP BY m.movie_name
+      `;
+    }
+
+    if (type === "revenue") {
+      query = `
+        SELECT 
+          m.movie_name,
+          COALESCE(SUM(b.total_amount), 0) AS total_revenue
+        FROM movies m
+        LEFT JOIN bookings b 
+          ON m.movie_name = b.movie_name
+          AND b.date = ?
+        GROUP BY m.movie_name
+      `;
+    }
+
+    const [rows] = await db.promise().query(query, [today]);
+
+    res.json(rows);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error fetching dashboard details" });
+  }
+};
