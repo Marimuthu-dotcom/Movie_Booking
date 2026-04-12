@@ -229,7 +229,11 @@ const handleDashboardClick = async(type)=>{
       `${import.meta.env.VITE_API_URL}/api/auth/dashboard-details/${type}`
     );
 
-    setPopupData(res.data);
+    const filteredData = res.data.filter(item =>
+      screenMovies.some(movie => movie.movie_name === item.movie_name)
+    );
+
+    setPopupData(filteredData);
   }
   catch(err){
     console.log(err);
@@ -259,23 +263,31 @@ const handleDashboardClick = async(type)=>{
                     </div>
                 </div>
                 {popupOpen && (
-                <div className={styles.popup}>
+                <div className={styles.popup} onClick={()=>setPopupOpen(false)}>
                   <div className={styles.popupBox}>
-                      <button onClick={()=>setPopupOpen(false)}>X</button>
+                      <div className={styles.header}>
+                        {popupType==="orders" && <h3>Total Orders by Movie</h3>}
+                        {popupType==="seats" && <h3>Total Seats by Movie</h3>}
+                        {popupType==="revenue" && <h3>Total Revenue by Movie</h3>}
+                      </div>
 
-                      {popupLoading ? (
-                        <p>Loading...</p>
+                      <div>{popupLoading ? (
+                       <div className={styles.loadingWrapper}>
+                                <div className={styles.SpinSkeleton}></div>
+                            </div>
                       ):(
-                        popupData.map((item,index)=>(
-                          <div key={index}>
-                            <h4>{item.movie_name}</h4>
+                        <div className={styles.moviesList}>
+                        {popupData.map((item,index)=>(
+                          <div className={styles.movies} key={index}>
+                            <span><h4>{item.movie_name}</h4></span>
 
-                            {popupType==="orders" && <p>{item.total_orders}</p>}
-                            {popupType==="seats" && <p>{item.total_seats}</p>}
-                            {popupType==="revenue" && <p>₹{item.total_revenue}</p>}
+                            <span>{popupType==="orders" && <p>{item.total_orders > 0?item.total_orders:"-"}</p>}
+                            {popupType==="seats" && <p>{item.total_seats > 0?item.total_seats:"-"}</p>}
+                            {popupType==="revenue" && <p>{item.total_revenue > 0?`₹${item.total_revenue}`:"N/A"}</p>}</span>
                           </div>
-                        ))
-                      )}
+                        ))}
+                        </div>
+                      )}</div>
 
                   </div>
                 </div>
