@@ -12,7 +12,7 @@
    min-height:100vh;
    background-color: rgb(77, 73, 73);
 }
-/* contentPage animation */
+
 .contentPage {
   height: 100vh;
   overflow-y: auto;

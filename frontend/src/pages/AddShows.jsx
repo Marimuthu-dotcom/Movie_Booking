@@ -238,8 +238,8 @@ const isValidDates = () => {
   );
 
   if (res.status === 200) {
-    alert("Movie added successfully");
     navigate("/");
+    alert("Movie added successfully");
   }
 }
 catch (err) {
